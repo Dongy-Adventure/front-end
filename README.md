@@ -12,8 +12,6 @@ Please install the following.
 
 This project use [Nextjs](https://nextjs.org/) and [TailwindCSS](https://tailwindcss.com/) as CSS Framework.
 
-For front-end design you can see in [ISD67 X CU first date's Figma](https://www.figma.com/design/lgQLGJqDatchM94rOcPl1i/ISD67-X-CU-first-date-2024?node-id=70-2425). You can download all resources in figma too.
-
 
 ## Getting Started
 
