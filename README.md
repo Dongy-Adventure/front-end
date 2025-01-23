@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# rpkm x CU first date
+
+Frontend interface for the RubPuenKaoMai 2024 and CU first date website.
+
+## Prerequisites
+
+Please install the following.
+
+- [Node.js](https://nodejs.org/en/)
+- [pnpm](https://pnpm.io/)
+- [Git](https://git-scm.com/)
+
+This project use [Nextjs](https://nextjs.org/) and [TailwindCSS](https://tailwindcss.com/) as CSS Framework.
+
+For front-end design you can see in [ISD67 X CU first date's Figma](https://www.figma.com/design/lgQLGJqDatchM94rOcPl1i/ISD67-X-CU-first-date-2024?node-id=70-2425). You can download all resources in figma too.
+
 
 ## Getting Started
 
-First, run the development server:
+1. Clone this repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Using SSH (recommended)
+git clone https://github.com/Dongy-Adventure/front-end.git
+
+# Using Https (not recommended)
+https://github.com/Dongy-Adventure/front-end.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Go to project folder
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd front-end
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Install all dependencies
 
-## Learn More
+```bash
+pnpm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Run
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Go to [http://localhost:3000](http://localhost:3000) in your fav browser.
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+We will seperate a branch for each features and each person then, create pull request for combine code together.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Go to `main` branch and pull updated code
+
+```bash
+git checkout main
+
+git pull
+```
+
+2. Create branch and go to your branch
+
+```bash
+git branch {your_branch_name}
+
+git checkout {your_branch_name}
+```
+
+> Note : exmaple of {your_branch_name} is boom/feat/pet-card, aungpao/refactor/main-page
+
+3. Push your branch upstream
+
+```bash
+git push --set-upstream origin {your_branch_name}
+```
+
+4. Working with your code
+
+5. Stage and commit your changes
+
+```bash
+git add .
+
+git commit -m {commit_message}
+```
+
+6. Push your code in to your branch
+
+```bash
+git push
+```
+
+7. Create pull request to `main` branch in github
+8. Wait for the code to be reviewed and merged
+
+### Conventional Commit Format
+
+In short, the commit message should look like this:
+
+```bash
+git commit -m "feat: <what-you-did>"
+
+# or
+
+git commit -m "fix: <what-you-fixed>"
+
+# or
+
+git commit -m "refactor: <what-you-refactored>"
+```
+
+The commit message should start with one of the following types:
+
+- feat: A new feature
+- fix: A bug fix
+- refactor: A code change that neither fixes a bug nor adds a feature
+- style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+
+For more information, please read the [conventional commit format](https://www.conventionalcommits.org/en/v1.0.0/) documentation.
