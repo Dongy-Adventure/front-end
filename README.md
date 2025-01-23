@@ -1,6 +1,6 @@
-# SEII Tar's Maketplace Frontend
+# SEII Tar's Maketplace
 
-Frontend interface for the RubPuenKaoMai 2024 and CU first date website.
+Frontend interface for the SEII Tar's Maketplace which is the part of Software Engineering 2 (2110336) 
 
 ## Prerequisites
 
