@@ -1,4 +1,4 @@
-# rpkm x CU first date
+# SEII Tar's Maketplace Frontend
 
 Frontend interface for the RubPuenKaoMai 2024 and CU first date website.
 
