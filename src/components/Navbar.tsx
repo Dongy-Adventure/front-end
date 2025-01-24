@@ -5,34 +5,53 @@ import { cn } from '@/lib/utils';
 
 type Page = 'Home' | 'Order' | 'Profile';
 
+interface NavComponent {
+  icons: string;
+  text: string;
+  iconsText: Page;
+  link?: string;
+}
+
+const navs: NavComponent[] = [
+  {
+    icons: 'mdi-light:format-list-checks',
+    text: 'รายการคำสั่งซื้อ',
+    iconsText: 'Order',
+  },
+  {
+    icons: 'mdi-light:home',
+    text: 'หน้าหลัก',
+    iconsText: 'Home',
+  },
+  {
+    icons: 'mdi-light:account',
+    text: 'โปรไฟล์',
+    iconsText: 'Profile',
+  },
+];
+
 export default function Navbar() {
   const [active, setActive] = useState<Page | null>(null);
+
   return (
-    <nav className="bg-project-blue w-80 grid grid-cols-3 place-items-center rounded-lg p-1">
-      <Icon
-        icon="mdi-light:format-list-checks"
-        onClick={() => setActive('Order')}
-        className={cn(
-          'w-8 h-8 rounded-md',
-          active === 'Order' && 'bg-white text-project-blue'
-        )}
-      />
-      <Icon
-        icon="mdi-light:home"
-        onClick={() => setActive('Home')}
-        className={cn(
-          'w-8 h-8 rounded-md',
-          active === 'Home' && 'bg-white text-project-blue'
-        )}
-      />
-      <Icon
-        icon="mdi-light:account"
-        onClick={() => setActive('Profile')}
-        className={cn(
-          'w-8 h-8 rounded-md',
-          active === 'Profile' && 'bg-white text-project-blue'
-        )}
-      />
+    <nav className="bg-project-blue w-4/5 grid grid-cols-3 place-items-center rounded-xl p-1">
+      {navs.map((nav: NavComponent, index: number) => (
+        <div
+          key={index}
+          className="flex items-center gap-x-1"
+        >
+          <Icon
+            icon={nav.icons}
+            onClick={() => setActive(nav.iconsText)}
+            className={cn(
+              'w-8 h-8 rounded-md',
+              active === nav.iconsText &&
+                'max-md:bg-white max-md:text-project-blue'
+            )}
+          />
+          <p className="max-md:hidden">{nav.text}</p>
+        </div>
+      ))}
     </nav>
   );
 }
