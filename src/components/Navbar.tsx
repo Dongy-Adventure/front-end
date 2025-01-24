@@ -7,7 +7,6 @@ type Page = 'Home' | 'Order' | 'Profile';
 
 export default function Navbar() {
   const [active, setActive] = useState<Page | null>(null);
-
   return (
     <nav className="bg-project-blue w-80 grid grid-cols-3 place-items-center rounded-lg p-1">
       <Icon
