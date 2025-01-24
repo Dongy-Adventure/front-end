@@ -38,7 +38,7 @@ export default function Navbar() {
       {navs.map((nav: NavComponent, index: number) => (
         <div
           key={index}
-          className="flex items-center gap-x-1"
+          className="flex items-center gap-x-1 font-semibold"
         >
           <Icon
             icon={nav.icons}
