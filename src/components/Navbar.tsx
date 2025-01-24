@@ -34,7 +34,7 @@ export default function Navbar() {
   const [active, setActive] = useState<Page | null>(null);
 
   return (
-    <nav className="bg-project-blue w-4/5 grid grid-cols-3 place-items-center rounded-xl p-1">
+    <nav className="bg-project-blue w-4/5 grid grid-cols-3 place-items-center rounded-xl p-1 font-athiti">
       {navs.map((nav: NavComponent, index: number) => (
         <div
           key={index}

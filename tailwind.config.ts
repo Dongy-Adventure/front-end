@@ -15,6 +15,9 @@ export default {
           blue: '#001F54',
         },
       },
+      fontFamily: {
+        athiti: ['var(--athiti)', 'system-ui'],
+      },
     },
   },
   plugins: [],
