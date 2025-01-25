@@ -57,7 +57,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
       const userObj: Buyer | Seller = JSON.parse(userStr ?? '');
       setUser(userObj);
 
-      const isBuyer = userObj.userType === 'Buyer';
+      //   const isBuyer = userObj.userType === 'Buyer';
       //   const currentTime = (await getCurrentTime()).currentTime;
 
       // Other protections: to be implemented
