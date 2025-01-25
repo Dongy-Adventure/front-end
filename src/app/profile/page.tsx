@@ -3,7 +3,6 @@
 import Navbar from '@/components/Navbar';
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
-import Link from 'next/link';
 
 export default function Profile() {
   const [language, setLanguage] = useState('TH');
