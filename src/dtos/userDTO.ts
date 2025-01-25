@@ -19,6 +19,7 @@ export const convertBuyerDTOToBuyer = (buyerDTO: BuyerDTO): Buyer => {
     buyerId: buyerDTO.buyer_id,
     name: buyerDTO.name,
     surname: buyerDTO.surname,
+    userType: 'Buyer',
   };
 };
 
@@ -29,5 +30,6 @@ export const convertSellerDTOToSeller = (sellerDTO: SellerDTO): Seller => {
     surname: sellerDTO.surname,
     paymentInfo: sellerDTO.payment_info,
     role: sellerDTO.role,
+    userType: 'Seller',
   };
 };

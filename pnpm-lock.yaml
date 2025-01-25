@@ -17,6 +17,9 @@ importers:
       next:
         specifier: 15.1.6
         version: 15.1.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      ntp-time:
+        specifier: ^2.0.6
+        version: 2.0.6
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -1301,6 +1304,9 @@ packages:
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
+
+  ntp-time@2.0.6:
+    resolution: {integrity: sha512-8SlYNOdAev7bj21ZXAiLwf5GQusHlMo8mQiO3sp8YUy4ug5kTwuw2UQKkDpcS/sZTVsLUPTxeBisGhPgjHoZyw==}
 
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
@@ -3169,6 +3175,8 @@ snapshots:
       - babel-plugin-macros
 
   normalize-path@3.0.0: {}
+
+  ntp-time@2.0.6: {}
 
   object-assign@4.1.1: {}
 
