@@ -7,6 +7,7 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
@@ -43,10 +44,34 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
     window.location.href = '/';
   }, []);
 
+  useEffect(() => {
+    const protectRoute = async () => {
+      setIsReady(false);
+
+      const userStr = localStorage.getItem('user');
+      if (!userStr) {
+        setIsReady(true);
+        router.push('/');
+      }
+
+      const userObj: Buyer | Seller = JSON.parse(userStr ?? '');
+      setUser(userObj);
+
+      const isBuyer = userObj.userType === 'Buyer';
+      //   const currentTime = (await getCurrentTime()).currentTime;
+
+      // Other protections: to be implemented
+
+      setIsReady(true);
+    };
+
+    protectRoute();
+  }, [router, path]);
+
   return (
-    <AuthContext.Provider
-      value={{ user, resetContext, logout }}
-    ></AuthContext.Provider>
+    <AuthContext.Provider value={{ user, resetContext, logout }}>
+      {isReady ? children : <></>}
+    </AuthContext.Provider>
   );
 };
 
