@@ -1,7 +1,6 @@
 'use client';
 import { Buyer, Seller } from '@/types/user';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { usePathname, useRouter } from 'next/navigation';
 import React, {
   createContext,
   ReactNode,
