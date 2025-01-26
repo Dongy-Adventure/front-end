@@ -1,5 +1,4 @@
 import ProfileForm from '@/components/ProfileForm';
-import { userInfo } from 'os';
 interface UserInfo {
   name: string;
   address: string;

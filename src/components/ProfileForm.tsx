@@ -158,7 +158,7 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
       <div className="flex items-center gap-6">
         <button
           className="w-20 h-12 bg-gray-200 text-project-blue border rounded-xl hover:bg-gray-300"
-          onClick={(e) => {
+          onClick={() => {
             setImage(userInfo.image);
             setAddress(userInfo.address);
             setCity(userInfo.city);
