@@ -39,9 +39,9 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
     }
   };
   return (
-    <div className="flex flex-col items-center bg-gray-100 pb-20 gap-16">
+    <div className="flex flex-col items-center bg-gray-100 pb-20 gap-12">
       <Navbar />
-      <div className="flex flex-col items-center justify-center gap-8 bg-gray-100">
+      <div className="flex flex-col items-center justify-center gap-8 pt-8 bg-gray-100">
         {/* <Link
           href="./"
           className="bg-gray-200 rounded-2xl p-3"
@@ -74,7 +74,7 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
           />
           <p className="text-project-blue font-bold text-xl">{userInfo.name}</p>
         </div>
-        <div className="flex flex-col items-start gap-2">
+        <div className="flex flex-col items-start gap-2 pt-4">
           <p className="text-project-blue text-left pb-2">ที่อยู่</p>
           <input
             className="w-80 p-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
