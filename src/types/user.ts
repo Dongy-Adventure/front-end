@@ -11,5 +11,6 @@ export type Seller = {
   surname: string;
   paymentInfo: string;
   role: string;
+  score: number;
   userType: 'Seller';
 };

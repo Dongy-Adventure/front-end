@@ -12,6 +12,7 @@ export type SellerDTO = {
   surname: string;
   payment_info: string;
   role: string;
+  score: number;
 };
 
 export const convertBuyerDTOToBuyer = (buyerDTO: BuyerDTO): Buyer => {
@@ -30,6 +31,7 @@ export const convertSellerDTOToSeller = (sellerDTO: SellerDTO): Seller => {
     surname: sellerDTO.surname,
     paymentInfo: sellerDTO.payment_info,
     role: sellerDTO.role,
+    score: sellerDTO.score,
     userType: 'Seller',
   };
 };

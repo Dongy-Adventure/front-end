@@ -55,6 +55,11 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
             height="24"
           />
         </button>
+        {user?.userType === 'Seller' && (
+          <div className="text-black absolute right-4 top-8">
+            Score: {user.score}
+          </div>
+        )}
         <div className="flex flex-col gap-4 items-center">
           <label
             htmlFor="fileInput"
