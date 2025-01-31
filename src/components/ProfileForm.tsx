@@ -1,10 +1,9 @@
 'use client';
 
-import Navbar from '@/components/Navbar';
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
-import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 interface UserInfo {
   name: string;
@@ -18,6 +17,7 @@ interface UserInfo {
 
 export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
   const { user } = useAuth();
+  const router = useRouter();
   const [address, setAddress] = useState(userInfo.address);
   const [city, setCity] = useState(userInfo.city);
   const [province, setProvince] = useState(userInfo.province);
@@ -43,11 +43,10 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
   };
   return (
     <div className="flex flex-col items-center bg-gray-100 pb-20 gap-12">
-      <Navbar />
       <div className="flex flex-col items-center justify-center gap-8 pt-8 bg-gray-100">
-        <Link
-          href="./"
-          className="bg-gray-200 rounded-2xl p-3"
+        <button
+          className="bg-gray-200 rounded-2xl p-3 absolute left-8 top-8 md:hidden"
+          onClick={() => router.back()}
         >
           <Icon
             icon="ion:chevron-back"
@@ -55,7 +54,7 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
             width="24"
             height="24"
           />
-        </Link>
+        </button>
         <div className="flex flex-col gap-4 items-center">
           <label
             htmlFor="fileInput"
