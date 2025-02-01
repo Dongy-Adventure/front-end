@@ -47,14 +47,14 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const protectRoute = async () => {
       setIsReady(false);
 
-      const userStr = localStorage.getItem('user');
-      if (!userStr) {
-        setIsReady(true);
-        router.push('/');
-      }
+      //   const userStr = localStorage.getItem('user');
+      //   if (!userStr) {
+      //     setIsReady(true);
+      //     router.push('/');
+      //   }
 
-      const userObj: Buyer | Seller = JSON.parse(userStr ?? '');
-      setUser(userObj);
+      //   const userObj: Buyer | Seller = JSON.parse(userStr ?? '');
+      //   setUser(userObj);
 
       //   const isBuyer = userObj.userType === 'Buyer';
       //   const currentTime = (await getCurrentTime()).currentTime;
