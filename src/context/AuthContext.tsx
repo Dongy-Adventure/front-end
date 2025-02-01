@@ -1,4 +1,5 @@
 'use client';
+import Spinner from '@/components/Spinner';
 import { Buyer, Seller } from '@/types/user';
 import { usePathname, useRouter } from 'next/navigation';
 import React, {
@@ -69,7 +70,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <AuthContext.Provider value={{ user, resetContext, logout }}>
-      {isReady ? children : <></>}
+      {isReady ? children : <Spinner />}
     </AuthContext.Provider>
   );
 };
