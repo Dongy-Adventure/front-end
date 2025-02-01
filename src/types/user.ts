@@ -1,16 +1,16 @@
 export type Buyer = {
-  buyerId: string;
+  buyerID: string;
   name: string;
   surname: string;
+  username: string;
   userType: 'Buyer';
 };
 
 export type Seller = {
-  sellerId: string;
   name: string;
+  payment: string;
+  sellerID: string;
   surname: string;
-  paymentInfo: string;
-  role: string;
-  score: number;
+  username: string;
   userType: 'Seller';
 };
