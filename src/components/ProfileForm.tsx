@@ -42,10 +42,10 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
     }
   };
   return (
-    <div className="flex flex-col items-center bg-gray-100 pb-20 gap-12">
-      <div className="flex flex-col items-center justify-center gap-8 pt-8 bg-gray-100">
+    <div className="flex flex-col items-center pb-20 gap-12">
+      <div className="flex flex-col items-center justify-center gap-8 pt-8">
         <button
-          className="bg-gray-200 rounded-2xl p-3 absolute left-8 top-8 md:hidden"
+          className="bg-gray-200 rounded-2xl p-3 absolute left-8 top-16 md:hidden"
           onClick={() => router.back()}
         >
           <Icon
