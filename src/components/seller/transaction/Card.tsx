@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 interface CardProps {
   children: ReactNode;
@@ -14,5 +14,5 @@ export function Card({ children, className }: CardProps) {
 }
 
 export function CardContent({ children }: { children: ReactNode }) {
-  return <div className="p-2">{children}</div>;
+  return <div className="p-2 flex flex-col">{children}</div>;
 }

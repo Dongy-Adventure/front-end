@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Icon } from '@iconify/react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import { Icon } from '@iconify/react';
+import Return from './Return';
 
 interface UserInfo {
   name: string;
@@ -44,17 +45,7 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
   return (
     <div className="flex flex-col items-center pb-20 gap-12">
       <div className="flex flex-col items-center justify-center gap-8 pt-8">
-        <button
-          className="bg-gray-200 rounded-2xl p-3 absolute left-8 top-16 md:hidden"
-          onClick={() => router.back()}
-        >
-          <Icon
-            icon="ion:chevron-back"
-            color="black"
-            width="24"
-            height="24"
-          />
-        </button>
+        <Return />
         {user?.userType === 'Seller' && (
           <div className="text-black absolute right-4 top-8">Score: 10</div>
         )}
