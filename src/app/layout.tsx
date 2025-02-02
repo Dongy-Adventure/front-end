@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import AuthProvider from '@/context/AuthContext';
-import Navbar from '@/components/Navbar';
+import Layout from '@/components/Layout';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -38,10 +38,9 @@ export default function RootLayout({
         className={`${athiti.variable} ${geistSans.variable} ${geistMono.variable} bg-gray-100 antialiased font-athiti`}
       >
         <Toaster />
-        <Navbar />
-        <main className="my-8">
-          <AuthProvider>{children}</AuthProvider>
-        </main>
+        <AuthProvider>
+          <Layout>{children}</Layout>
+        </AuthProvider>
       </body>
     </html>
   );
