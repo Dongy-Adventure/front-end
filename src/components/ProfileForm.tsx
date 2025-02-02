@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/navigation';
 import { Icon } from '@iconify/react';
 import Return from './Return';
 
@@ -18,7 +17,6 @@ interface UserInfo {
 
 export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
   const { user } = useAuth();
-  const router = useRouter();
   const [address, setAddress] = useState(userInfo.address);
   const [city, setCity] = useState(userInfo.city);
   const [province, setProvince] = useState(userInfo.province);
