@@ -17,9 +17,9 @@ export default function WithdrawPanel({ balance }: { balance: number }) {
   };
 
   return (
-    <div className="flex flex-col items-center p-20">
+    <div className="text-project-blue flex flex-col items-center p-20">
       <div className="text-xl pb-2">ยอดเงินคงเหลือ</div>
-      <div className="text-4xl text-project-blue font-bold mb-4">
+      <div className="text-4xl font-bold mb-4">
         {balance.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
@@ -31,9 +31,7 @@ export default function WithdrawPanel({ balance }: { balance: number }) {
         <>
           {selectedMethod === 'PromptPay' && (
             <div className="flex flex-col py-8">
-              <p className="text-project-blue text-center pb-2 text-xl font-bold pb-10">
-                PromptPay
-              </p>
+              <p className="text-center text-xl font-bold pb-10">PromptPay</p>
               <div className="flex text-left gap-8">
                 <div className="flex flex-col">
                   <p className="text-project-blue text-left pb-2">

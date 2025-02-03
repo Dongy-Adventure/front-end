@@ -1,4 +1,4 @@
-import WithdrawPanel from '@/components/WithdrawPanel';
+import WithdrawPanel from '@/components/seller/wallet/WithdrawPanel';
 
 const balance = 62003.48; //รอดึง balance จาก user
 

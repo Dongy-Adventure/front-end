@@ -1,5 +1,5 @@
 import ProfileForm from '@/components/ProfileForm';
-import Wallet from '@/components/Wallet';
+import Wallet from '@/components/seller/wallet/Wallet';
 interface UserInfo {
   name: string;
   surname: string;
