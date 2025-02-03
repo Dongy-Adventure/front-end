@@ -48,7 +48,7 @@ export default function WithdrawPanel({ balance }: { balance: number }) {
                   <p className="text-project-blue text-left pb-2">จำนวนเงิน</p>
                   <div>
                     <input
-                      className="w-32 p-1 pt-0 border-0 border-b-[1px] border-project-blue bg-transparent text-basefocus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
+                      className="w-28 p-1 pt-0 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
                       placeholder=""
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
@@ -65,10 +65,10 @@ export default function WithdrawPanel({ balance }: { balance: number }) {
                 บัญชีธนาคาร
               </p>
               <div className="flex text-left gap-8">
-                <div className="flex flex-col">
+                <div className="flex flex-col pb-4">
                   <p className="text-project-blue text-left pb-2">ธนาคาร</p>
                   <select
-                    className="p-0 w-36 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
+                    className="p-0 w-80 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
                     value={bankName}
                     onChange={(e) => setBankName(e.target.value)}
                   >
@@ -96,8 +96,12 @@ export default function WithdrawPanel({ balance }: { balance: number }) {
                     <option value="LH Bank">LH Bank</option>
                   </select>
                 </div>
+              </div>
+              <div className="flex text-left gap-8">
                 <div className="flex flex-col">
-                  <p className="text-project-blue text-left pb-2">เลขบัญชี</p>
+                  <p className="text-project-blue text-left pb-2">
+                    เบอร์โทรศัพท์
+                  </p>
                   <input
                     className="w-36 p-1 pt-0 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
                     placeholder=""
@@ -105,17 +109,17 @@ export default function WithdrawPanel({ balance }: { balance: number }) {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   ></input>
                 </div>
-              </div>
-              <div>
-                <p className="text-project-blue text-left pb-2">จำนวนเงิน</p>
-                <div>
-                  <input
-                    className="w-32 p-1 pt-0 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
-                    placeholder=""
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                  ></input>
-                  THB
+                <div className="flex flex-col">
+                  <p className="text-project-blue text-left pb-2">จำนวนเงิน</p>
+                  <div>
+                    <input
+                      className="w-28 p-1 pt-0 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
+                      placeholder=""
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                    ></input>
+                    THB
+                  </div>
                 </div>
               </div>
             </div>
@@ -157,11 +161,11 @@ export default function WithdrawPanel({ balance }: { balance: number }) {
                 onChange={() => setSelectedMethod('AccountNumber')}
                 className="form-radio text-project-blue"
               />
-              <span className="text-lg">เลขบัญชี</span>
+              <span className="text-lg">บัญชีธนาคาร</span>
             </label>
           </div>
           <button
-            className="mt-6 bg-project-blue text-white px-6 py-2 rounded-lg text-lg font-medium"
+            className="mt-12 bg-project-blue text-white px-6 py-2 rounded-lg text-lg font-medium"
             onClick={handleProceed}
           >
             ดำเนินการต่อ
