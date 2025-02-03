@@ -7,6 +7,8 @@ import Return from './Return';
 
 interface UserInfo {
   name: string;
+  surname: string;
+  tel: string;
   address: string;
   city: string;
   province: string;
@@ -17,6 +19,7 @@ interface UserInfo {
 
 export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
   const { user } = useAuth();
+  const [tel, setTel] = useState(userInfo.tel);
   const [address, setAddress] = useState(userInfo.address);
   const [city, setCity] = useState(userInfo.city);
   const [province, setProvince] = useState(userInfo.province);
@@ -32,6 +35,7 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target?.result) {
+          console.log(e.target.result as string);
           setImage(e.target.result as string);
         }
       };
@@ -66,7 +70,18 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
             className="hidden"
             onChange={handleFileChange}
           />
-          <p className="text-project-blue font-bold text-xl">{userInfo.name}</p>
+          <p className="text-project-blue font-bold text-xl">
+            {userInfo.name} {userInfo.surname}
+          </p>
+        </div>
+        <div className="flex flex-col items-start gap-2 pt-4 w-full">
+          <p className="text-project-blue text-left pb-2">เบอร์โทรศัพท์</p>
+          <input
+            className="w-80 p-1 pt-0 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
+            placeholder=""
+            value={tel}
+            onChange={(e) => setTel(e.target.value)}
+          ></input>
         </div>
         <div className="flex flex-col items-start gap-2 pt-4">
           <p className="text-project-blue text-left pb-2">ที่อยู่</p>
