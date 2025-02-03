@@ -17,7 +17,7 @@ export default function Wallet({ balance }: { balance: number }) {
           </div>
           <Link href="/topup">
             <button className="bg-project-blue text-white px-4 py-1 rounded-lg text-sm font-medium">
-              เติมเงิน
+              ถอนเงิน
             </button>
           </Link>
         </div>
