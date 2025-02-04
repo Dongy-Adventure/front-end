@@ -61,7 +61,7 @@ export default function WithdrawPanel({ balance }: { balance: number }) {
           )}
           {selectedMethod === 'AccountNumber' && (
             <div className="flex flex-col py-8 gap-4">
-              <p className="text-project-blue text-center pb-2 text-xl font-bold pb-10">
+              <p className="text-project-blue text-center text-xl font-bold pb-10">
                 บัญชีธนาคาร
               </p>
               <div className="flex text-left gap-8">
