@@ -43,14 +43,14 @@ export default function Navbar() {
       {navs.map((nav: NavComponent, index: number) => (
         <div
           key={index}
-          className="flex items-center gap-x-1 font-semibold"
+          className="flex items-center gap-x-1 rounded-lg font-semibold hover:bg-slate-500"
+          onClick={() => {
+            setActive(nav.iconsText);
+            router.push(nav.link);
+          }}
         >
           <Icon
             icon={nav.icons}
-            onClick={() => {
-              setActive(nav.iconsText);
-              router.push(nav.link);
-            }}
             className={cn(
               'w-8 h-8 rounded-md',
               active === nav.iconsText &&
