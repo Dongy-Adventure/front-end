@@ -44,7 +44,7 @@ const reviewDummy = [
     id: '10112',
     image: NEXT,
     username: 'FU4',
-    message: 'Gooafdsdafajsfdjasfasdflhadflhadsufahsdfilasdhud',
+    message: 'Gooafdsdafajsfdjasfasdflhad flhadsufahsdfilasdhud',
     score: 6,
     date: '2025-02-02T00:00:00Z',
   },

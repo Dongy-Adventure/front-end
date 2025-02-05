@@ -13,15 +13,18 @@ export default function Card(props: ReviewCard) {
   const { image, username, message, score, date } = props;
   return (
     <section className="bg-white rounded-2xl p-2 shadow-lg text-black">
-      <div className="flex gap-2 p-2">
-        <Image
-          src={image ?? PLACEHOLDER}
-          alt={username}
-          width={30}
-          height={30}
-        />
-        <h1>{username}</h1>
-        <h1>{score}</h1>
+      <div className="flex justify-between gap-2 p-2">
+        <div className="flex gap-2">
+          <Image
+            src={image ?? PLACEHOLDER}
+            alt={username}
+            width={30}
+            height={30}
+          />
+          <h1>{username}</h1>
+        </div>
+
+        <h1>{score} / 10</h1>
       </div>
       <hr />
       <h1>{message}</h1>
