@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Icon } from '@iconify/react';
 import Return from './Return';
+import Link from 'next/link';
 
 interface UserInfo {
   name: string;
@@ -75,7 +76,9 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
           </p>
         </div>
         <div className="flex flex-col items-start gap-2 pt-4 w-full">
-          <p className="text-project-blue text-left pb-2">เบอร์โทรศัพท์</p>
+          <p className="text-project-blue text-left pb-2 font-semibold">
+            เบอร์โทรศัพท์
+          </p>
           <input
             className="w-80 p-1 pt-0 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
             placeholder=""
@@ -84,7 +87,9 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
           ></input>
         </div>
         <div className="flex flex-col items-start gap-2 pt-4">
-          <p className="text-project-blue text-left pb-2">ที่อยู่</p>
+          <p className="text-project-blue text-left pb-2 font-semibold">
+            ที่อยู่
+          </p>
           <input
             className="w-80 p-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
             placeholder="1600 Pennsylvania Avenue NW"
@@ -93,7 +98,7 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
           ></input>
           <div className="flex gap-8">
             <select
-              className="w-36 p-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
+              className="w-36 p-0 pb-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
               value={city}
               onChange={(e) => setCity(e.target.value)}
             >
@@ -108,7 +113,7 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
               <option value="Phayathai">Phayathai</option>
             </select>
             <select
-              className="w-36 p-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
+              className="w-36 p-0 pb-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
               value={province}
               onChange={(e) => setProvince(e.target.value)}
             >
@@ -132,12 +137,17 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
         </div>
       </div>
       <div className="flex flex-col items-start gap-4">
-        <p className="text-project-blue text-left">ภาษา / Language</p>
+        <p className="text-project-blue text-left font-semibold">
+          ภาษา / Language
+        </p>
         <div className="flex flex-col gap-3">
           <label className="flex items-center justify-between w-80 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue">
             <div className="flex gap-2">
-              <Icon icon="twemoji:flag-thailand" />
-              <span>ไทย / Thai</span>
+              <Icon
+                icon="twemoji:flag-thailand"
+                className="self-center"
+              />
+              <span className="p-1">ไทย / Thai</span>
             </div>
             <input
               type="radio"
@@ -145,13 +155,16 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
               value="TH"
               checked={language === 'TH'}
               onChange={handleLanguageChange}
-              className="form-radio"
+              className="form-radio accent-project-blue"
             />
           </label>
           <label className="flex items-center justify-between w-80 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue">
             <div className="flex gap-2">
-              <Icon icon="twemoji:flag-us-outlying-islands" />
-              <span>English (US)</span>
+              <Icon
+                icon="twemoji:flag-us-outlying-islands"
+                className="self-center"
+              />
+              <span className="p-1">English (US)</span>
             </div>
             <input
               type="radio"
@@ -159,7 +172,7 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
               value="EN"
               checked={language === 'EN'}
               onChange={handleLanguageChange}
-              className="form-radio"
+              className="form-radio accent-project-blue"
             />
           </label>
         </div>
@@ -178,9 +191,11 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
         >
           รีเซ็ต
         </button>
-        <button className="w-20 h-12 bg-project-blue text-white border rounded-xl hover:bg-blue-950">
-          บันทึก
-        </button>
+        <Link href="../profile">
+          <button className="w-20 h-12 bg-project-blue text-white border rounded-xl hover:bg-blue-950">
+            บันทึก
+          </button>
+        </Link>
       </div>
     </div>
   );
