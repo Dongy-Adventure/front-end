@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/seller/transaction/Card';
 import Return from '@/components/Return';
 
@@ -10,33 +10,35 @@ interface Transaction {
   date: string;
 }
 
+const transactonDummy = [
+  {
+    id: '1',
+    productName: 'แว่นไอ่ดอง',
+    amount: 20000.0,
+    date: '2025-02-02T00:00:00Z',
+  },
+  {
+    id: '2',
+    productName: 'นาฬิกาไอ่ดอง',
+    amount: 100000.0,
+    date: '2025-02-01T00:00:00Z',
+  },
+  {
+    id: '3',
+    productName: 'โทรศัพท์ไอ่ดอง',
+    amount: 50000.0,
+    date: '2025-01-31T00:00:00Z',
+  },
+  {
+    id: '4',
+    productName: 'Test',
+    amount: 100.0,
+    date: '2025-01-31T00:00:00Z',
+  },
+];
+
 export default function TransactionHistory() {
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
-      id: '1',
-      productName: 'แว่นไอ่ดอง',
-      amount: 20000.0,
-      date: '2025-02-02T00:00:00Z',
-    },
-    {
-      id: '2',
-      productName: 'นาฬิกาไอ่ดอง',
-      amount: 100000.0,
-      date: '2025-02-01T00:00:00Z',
-    },
-    {
-      id: '3',
-      productName: 'โทรศัพท์ไอ่ดอง',
-      amount: 50000.0,
-      date: '2025-01-31T00:00:00Z',
-    },
-    {
-      id: '4',
-      productName: 'Test',
-      amount: 100.0,
-      date: '2025-01-31T00:00:00Z',
-    },
-  ]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   // useEffect(() => {
   //   // Fetch transaction data (replace with actual API endpoint)
@@ -44,6 +46,10 @@ export default function TransactionHistory() {
   //     .then(response => setTransactions(response.data))
   //     .catch(error => console.error("Error fetching transactions:", error));
   // }, []);
+
+  useEffect(() => {
+    setTransactions(transactonDummy);
+  }, []);
 
   return (
     <section className="p-12 text-black">

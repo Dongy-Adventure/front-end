@@ -1,20 +1,9 @@
 import type { Metadata } from 'next';
 import { Athiti } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import AuthProvider from '@/context/AuthContext';
 import Layout from '@/components/Layout';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 const athiti = Athiti({
   subsets: ['latin', 'thai'],
@@ -35,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${athiti.variable} ${geistSans.variable} ${geistMono.variable} bg-gray-100 antialiased font-athiti`}
+        className={`${athiti.variable} bg-gray-100 antialiased font-athiti`}
       >
         <Toaster />
         <AuthProvider>
