@@ -32,11 +32,16 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isReady, setIsReady] = useState<boolean>(false);
 
   const resetContext = useCallback(async () => {
-    const userData = null; // implement API
-    if (userData) {
-      localStorage.setItem('user', JSON.stringify(userData));
-      setUser(userData);
-    }
+    const userType = localStorage.getItem('userType');
+    // if (userType === 'Buyer') {
+    //   const userData =
+    // } else {
+
+    // }
+    // if (userData) {
+    //   localStorage.setItem('user', JSON.stringify(userData));
+    //   setUser(userData);
+    // }
   }, []);
 
   const logout = useCallback(() => {

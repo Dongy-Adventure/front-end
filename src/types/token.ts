@@ -1,6 +1,5 @@
 export type Token = {
   accessToken: string;
-  message: string;
-  status: number;
-  success: boolean;
+  expiresIn: string;
+  refreshToken: string;
 };

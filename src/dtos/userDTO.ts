@@ -11,9 +11,11 @@ export type BuyerDTO = {
 
 export type SellerDTO = {
   accessToken: string;
+  accessTokenExpiredIn: number;
   data: Seller;
   message: string;
   refreshToken: string;
+  refreshTokenExpiredin: number;
   status: number;
   success: boolean;
 };
