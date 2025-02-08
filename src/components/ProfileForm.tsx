@@ -49,7 +49,7 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
     <div className="flex flex-col items-center pb-20 gap-12">
       <div className="flex flex-col items-center justify-center gap-8 pt-8">
         <Return />
-        {user?.userType === 'Seller' && (
+        {user?.userType === 'seller' && (
           <div className="text-black absolute right-4 top-8">Score: 10</div>
         )}
         <div className="flex flex-col gap-4 items-center">

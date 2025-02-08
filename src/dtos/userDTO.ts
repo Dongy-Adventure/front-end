@@ -23,13 +23,13 @@ export type SellerDTO = {
 export const convertBuyerDTOToBuyer = (buyerDTO: BuyerDTO): Buyer => {
   return {
     ...buyerDTO.data,
-    userType: 'Buyer',
+    userType: 'buyer',
   };
 };
 
 export const convertSellerDTOToSeller = (sellerDTO: SellerDTO): Seller => {
   return {
     ...sellerDTO.data,
-    userType: 'Seller',
+    userType: 'seller',
   };
 };

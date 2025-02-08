@@ -5,7 +5,7 @@ export type Buyer = {
   name: string;
   surname: string;
   username: string;
-  userType: 'Buyer';
+  userType: 'buyer';
 };
 
 export type Seller = {
@@ -18,5 +18,5 @@ export type Seller = {
   surname: string;
   transaction: Transaction;
   username: string;
-  userType: 'Seller';
+  userType: 'seller';
 };
