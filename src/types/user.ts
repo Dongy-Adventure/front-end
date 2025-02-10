@@ -1,15 +1,22 @@
+import { Transaction } from './wallet';
+
 export type Buyer = {
-  buyerId: string;
+  buyerID: string;
   name: string;
   surname: string;
-  userType: 'Buyer';
+  username: string;
+  userType: 'buyer';
 };
 
 export type Seller = {
-  sellerId: string;
+  address: string;
   name: string;
+  payment: string;
+  phoneNumber: string;
+  score: number;
+  sellerID: string;
   surname: string;
-  paymentInfo: string;
-  role: string;
-  userType: 'Seller';
+  transaction: Transaction;
+  username: string;
+  userType: 'seller';
 };

@@ -1,5 +1,7 @@
 'use client';
+import Spinner from '@/components/Spinner';
 import { Buyer, Seller } from '@/types/user';
+import { getUser } from '@/utils/auth';
 import { usePathname, useRouter } from 'next/navigation';
 import React, {
   createContext,
@@ -31,7 +33,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isReady, setIsReady] = useState<boolean>(false);
 
   const resetContext = useCallback(async () => {
-    const userData = null; // implement API
+    const userData = await getUser();
     if (userData) {
       localStorage.setItem('user', JSON.stringify(userData));
       setUser(userData);
@@ -50,16 +52,23 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
       const userStr = localStorage.getItem('user');
       if (!userStr) {
         setIsReady(true);
-        router.push('/');
+        return router.push('/');
       }
 
-      const userObj: Buyer | Seller = JSON.parse(userStr ?? '');
+      const userObj: Buyer | Seller = JSON.parse(userStr);
       setUser(userObj);
 
-      //   const isBuyer = userObj.userType === 'Buyer';
-      //   const currentTime = (await getCurrentTime()).currentTime;
+      const userType: 'buyer' | 'seller' = userObj.userType;
 
-      // Other protections: to be implemented
+      if (userType === 'buyer') {
+        if (path.includes('seller') && !path.includes('review')) {
+          router.push('/');
+        }
+      } else {
+        if (path.includes('buyer')) {
+          router.push('/');
+        }
+      }
 
       setIsReady(true);
     };
@@ -69,7 +78,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <AuthContext.Provider value={{ user, resetContext, logout }}>
-      {isReady ? children : <></>}
+      {isReady ? children : <Spinner />}
     </AuthContext.Provider>
   );
 };
