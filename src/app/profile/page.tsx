@@ -4,6 +4,7 @@ import Return from '@/components/Return';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import Wallet from '@/components/seller/wallet/Wallet';
+
 import Pakichu from '@/../public/placeholder2.jpg';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
