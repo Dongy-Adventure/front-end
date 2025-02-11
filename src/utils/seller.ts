@@ -1,3 +1,4 @@
+import { getAccessToken, getUserId } from './auth';
 import { apiClient } from './axios';
 
 export const createSeller = async (
@@ -5,7 +6,8 @@ export const createSeller = async (
   surname: string,
   payment: string,
   password: string,
-  username: string
+  username: string,
+  phoneNumber: string,
 ): Promise<boolean | null> => {
   try {
     const res = await apiClient.post('/seller', {
@@ -14,6 +16,39 @@ export const createSeller = async (
       payment: payment,
       password: password,
       username: username,
+      phoneNumber: phoneNumber,
+    });
+    if (!res.data.success) return false;
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+export const updateSeller = async (
+  name: string,
+  surname: string,
+  phoneNumber: string,
+  address: string,
+): Promise<boolean | null> => {
+  try {
+
+    const accessToken = await getAccessToken();
+
+    console.log("Received tel:", phoneNumber);
+    console.log("Received address:", address);
+    const id = await getUserId();
+    const res = await apiClient.put(`/seller/${id}`, {
+      name: name,
+      surname: surname,
+      phoneNumber: phoneNumber,
+      address: address,
+    }, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
     if (!res.data.success) return false;
 
