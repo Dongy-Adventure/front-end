@@ -8,6 +8,7 @@ import Pakichu from '@/../public/placeholder2.jpg';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { getSellerBalance } from '@/utils/seller';
+import Logout from '@/components/Logout';
 
 interface UserInfo {
   name: string;
@@ -23,7 +24,7 @@ interface UserInfo {
 }
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
 
   useEffect(() => {
@@ -41,6 +42,7 @@ export default function Profile() {
     <div className="flex flex-col items-center pb-20 gap-12">
       <div className="flex flex-col items-center justify-center gap-8 pt-8">
         <Return />
+        <Logout />
         {user?.userType === 'seller' && (
           <div className="text-black absolute right-4 top-8">
             Score: {user?.score}
@@ -95,6 +97,12 @@ export default function Profile() {
         </button>
       </Link>
       {user?.userType === 'seller' && <Wallet balance={sellerBalance ?? 0} />}
+      <button
+        className="w-48 h-12 bg-red-700 text-white border rounded-xl hover:bg-blue-950"
+        onClick={logout}
+      >
+        ออกจากระบบ
+      </button>
     </div>
   );
 }
