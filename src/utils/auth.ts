@@ -57,8 +57,13 @@ export const getAccessToken = async (): Promise<string | null> => {
   return token.accessToken;
 };
 
-export const getUserId = async (): Promise<string | null> => {
-  const userId = localStorage.getItem('userId');
+export const getUserId = async (id?: string): Promise<string | null> => {
+  let userId: string | null;
+  if (!id) {
+    userId = localStorage.getItem('userId');
+  } else {
+    userId = id;
+  }
   if (!userId) {
     return null;
   }

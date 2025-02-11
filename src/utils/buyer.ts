@@ -1,7 +1,10 @@
+import { Buyer } from '@/types/user';
 import { getAccessToken, getUserId } from './auth';
 import { apiClient } from './axios';
+import { BuyerDTO } from '@/dtos/userDTO';
+import { AxiosResponse } from 'axios';
 
-export const createSeller = async (
+export const createBuyer = async (
   name: string,
   surname: string,
   payment: string,
@@ -10,7 +13,7 @@ export const createSeller = async (
   phoneNumber: string
 ): Promise<boolean | null> => {
   try {
-    const res = await apiClient.post('/seller', {
+    const res = await apiClient.post('/buyer', {
       name: name,
       surname: surname,
       payment: payment,
@@ -27,7 +30,20 @@ export const createSeller = async (
   }
 };
 
-export const updateSeller = async (
+export const getBuyerById = async (id: string): Promise<Buyer | null> => {
+  try {
+    const res: AxiosResponse<BuyerDTO> = await apiClient.get(`/buyer/${id}`);
+    if (!res.data.success) {
+      return null;
+    }
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const updateBuyer = async (
   name: string,
   surname: string,
   phoneNumber: string,
@@ -38,9 +54,8 @@ export const updateSeller = async (
     const id = await getUserId();
 
     const res = await apiClient.put(
-      `/seller/${id}`,
+      `/buyer/${id}`,
       {
-        sellerID: id,
         name: name,
         surname: surname,
         phoneNumber: phoneNumber,
@@ -58,32 +73,5 @@ export const updateSeller = async (
   } catch (err) {
     console.error(err);
     return false;
-  }
-};
-
-export const getSellerBalance = async (): Promise<number | null> => {
-  const accessToken = await getAccessToken();
-  const userId = await getUserId();
-
-  try {
-    if (!accessToken || !userId) {
-      return null;
-    }
-
-    const res = await apiClient.get(`/seller/${userId}/balance`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (!res.data.success) {
-      console.error(res.data.message);
-      return null;
-    }
-
-    return res.data.data;
-  } catch (err) {
-    console.error(err);
-    return null;
   }
 };

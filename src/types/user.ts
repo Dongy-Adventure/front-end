@@ -5,6 +5,8 @@ export type Buyer = {
   name: string;
   surname: string;
   username: string;
+  phoneNumber: string;
+  address: string;
   userType: 'buyer';
 };
 

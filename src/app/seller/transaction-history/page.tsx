@@ -10,7 +10,7 @@ interface Transaction {
   date: string;
 }
 
-const transactonDummy = [
+const transactionDummy = [
   {
     id: '1',
     productName: 'แว่นไอ่ดอง',
@@ -48,7 +48,7 @@ export default function TransactionHistory() {
   // }, []);
 
   useEffect(() => {
-    setTransactions(transactonDummy);
+    setTransactions(transactionDummy);
   }, []);
 
   return (

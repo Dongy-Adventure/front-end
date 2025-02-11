@@ -72,8 +72,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       setIsReady(true);
     };
-
-    protectRoute();
+    setIsReady(true);
   }, [router, path]);
 
   return (
