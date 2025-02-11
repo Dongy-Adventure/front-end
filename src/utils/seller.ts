@@ -1,4 +1,4 @@
-import { getUserId } from './auth';
+import { getAccessToken, getUserId } from './auth';
 import { apiClient } from './axios';
 
 export const createSeller = async (
@@ -34,6 +34,9 @@ export const updateSeller = async (
   address: string,
 ): Promise<boolean | null> => {
   try {
+
+    const accessToken = await getAccessToken();
+
     console.log("Received tel:", phoneNumber);
     console.log("Received address:", address);
     const id = await getUserId();
@@ -44,7 +47,7 @@ export const updateSeller = async (
       address: address,
     }, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkxMjI1OTV9.NS2qzjsUO9iTPa-M1NZnJlco_DAOhJCvUKsojAF3KHs`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
     if (!res.data.success) return false;
