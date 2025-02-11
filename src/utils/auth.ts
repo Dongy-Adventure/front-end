@@ -2,7 +2,9 @@ import { Token } from '@/types/token';
 import { AxiosResponse } from 'axios';
 import { apiClient } from './axios';
 import { Seller } from '@/types/user';
+import { Buyer } from '@/types/user';
 import { SellerDTO } from '@/dtos/userDTO';
+import { BuyerDTO } from '@/dtos/userDTO';
 
 export const refreshAccessToken = async (): Promise<string | null> => {
   try {
@@ -45,6 +47,31 @@ export const sellerAuth = async (
     localStorage.setItem('token', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('user', sellerStr);
+    return data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const buyerAuth = async (
+  username: string,
+  password: string
+): Promise<Buyer | null> => {
+  try {
+    const res: AxiosResponse<BuyerDTO> = await apiClient.post('/auth/Buyer', {
+      username: username,
+      password: password,
+    });
+
+    if (!res.data.success) return null;
+    const { data, accessToken, refreshToken } = res.data;
+
+    const buyerStr = JSON.stringify(data);
+
+    localStorage.setItem('token', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('user', buyerStr);
     return data;
   } catch (err) {
     console.error(err);
