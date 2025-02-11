@@ -1,106 +1,132 @@
 'use client'
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-// import { Axios } from "axios";
+import { createBuyer } from "@/utils/buyer";
+import { createSeller } from "@/utils/seller";
 
 function RegisterPage() {
-    const router = useRouter();
-
     const [userType, setUserType] = useState("Buyer");
-    const [name, setName] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [confrimPassword, setConfrimPassword] = useState("");
     const [error, setError] = useState("");
 
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        
+    };
+
+    const handleSubmit = async (e: any) => {
+        e.defaultPrevented();
+
+        if (password != confrimPassword) {
+            setError("Password do not match!");
+            return;
+        }
+
+        if (!username || !password || !confrimPassword) {
+            setError("Please complete all inputs")
+        }
+
+
+    }
+    
+        
+
     return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
-            
-        <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
+        <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
+            <main className="flex flex-col items-center justify-center w-full flex-1 px-4 sm:px-10 text-center">
+                <div className="bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row w-full max-w-4xl">
+                    {/* Left Section */}
+                    <div className="w-full md:w-3/5 p-6 md:p-10">
+                        <div className="py-10 md:py-20">
+                            <h2 className="text-2xl md:text-3xl font-bold text-blue-900 mb-4">
+                                Sign Up Your Account
+                            </h2>
 
-            <div className="bg-white rounded-3xl shadow-2xl flex w-2/3 max-w-4xl">
-
-                <div className="w-3/5 p-5 rounded-tl-3xl rounded-bl-3xl">   
-
-                    <div className="py-20">
-
-                        <h2 className="text-3xl font-bold text-blue-900 mb-4">
-                            Sigh Up Your Account
-                        </h2>
-                        <button
-                            type="button"
-                            onClick={() => setUserType("Buyer")}
-                            className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
-                                userType === "Buyer"
-                                ? "border-blue-900 text-blue-900"
-                                : "border-transparent text-black"
-                            }`}
-                        > Buyer </button>
-                        
-                        <button
-                            type="button"
-                            onClick={() => setUserType("Seller")}
-                            className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
-                                userType === "Seller"
-                                ? "border-blue-900 text-blue-900"
-                                : "border-transparent text-black"
-                            }`}
-                        > Seller </button>
-
-                        <div className="flex flex-col items-center">
-
-                            <div className="bg-gray-100 w-64 p-2 flex items-center mb-4 mt-4">
-                                {/* <FaRegEnvelope className="text-gray-400 m-2"/> */}
-                                <input onChange={(e) => setName(e.target.value)} 
-                                type="name" 
-                                name="name" 
-                                placeholder="Name"
-                                className="bg-gray-100 outline-none text-sm text-black flex-1"/>
+                            {/* User Type Buttons */}
+                            <div className="flex justify-center mb-6">
+                                <button
+                                    type="button"
+                                    onClick={() => setUserType("Buyer")}
+                                    className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
+                                        userType === "Buyer"
+                                            ? "border-blue-900 text-blue-900"
+                                            : "border-transparent text-black"
+                                    }`}
+                                >
+                                    Buyer
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setUserType("Seller")}
+                                    className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
+                                        userType === "Seller"
+                                            ? "border-blue-900 text-blue-900"
+                                            : "border-transparent text-black"
+                                    }`}
+                                >
+                                    Seller
+                                </button>
                             </div>
-                            <div className="bg-gray-100 w-64 p-2 flex items-center mb-4">
-                                {/* <MdLockOutline className="text-gray-400 m-2"/> */}
-                                <input onChange={(e) => setPassword(e.target.value)} 
-                                type="password" 
-                                name="password" 
-                                placeholder="Password"
-                                className="bg-gray-100 outline-none text-sm text-black flex-1"/>
-                            </div> 
-                            <div className="bg-gray-100 w-64 p-2 flex items-center mb-6">
-                                {/* <MdLockOutline className="text-gray-400 m-2"/> */}
-                                <input onChange={(e) => setConfirmPassword(e.target.value)} 
-                                type="confirmPassword" 
-                                name="confirmPassword" 
-                                placeholder="ConfirmPassword"
-                                className="bg-gray-100 outline-none text-sm text-black flex-1"/>
-                            </div> 
-                            <a 
-                            href="#"
-                            className="border-2 border-blue-900 text-blue-900 rounded-full px-12 py-2 inline-block font-semibold hover:bg-blue-900 hover:text-white">
-                                Sign In
-                            </a>   
-                        
+
+                            {/* Form Fields */}
+                            <form onSubmit={handleSubmit} className="flex flex-col items-center">
+                                {error && (
+                                    <div className="bg-red-500 w-fit text-sm text-white py-1 px-3 round-md mt-2">
+                                        {error}
+                                    </div>
+                                ) }
+                            
+                                <input
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    type="text"
+                                    name="username"
+                                    placeholder="Username"
+                                    className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black"
+                                />
+                                <input
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    type="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black"
+                                />
+                                <input
+                                    onChange={(e) => setConfrimPassword(e.target.value)}
+                                    type="password"
+                                    name="confirmPassword"
+                                    placeholder="Confirm Password"
+                                    className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black" 
+                                />
+                                <button
+                                    type = "submit"
+                                    className="border-2 border-blue-900 text-blue-900 rounded-full px-12 py-2 inline-block font-semibold hover:bg-blue-900 hover:text-white"
+                                >
+                                    Sign In
+                                </button>
+                            </form>
                         </div>
-                        
-                        
                     </div>
 
+                    {/* Right Section */}
+                    <div className="w-full md:w-2/5 bg-blue-900 text-white py-10 px-6 md:py-36 md:px-12 rounded-b-3xl md:rounded-bl-none md:rounded-r-3xl">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-6">Create an Account!</h2>
+                        <p className="mb-8 text-sm md:text-base">
+                            If you already have an account, please go to the login page...
+                        </p>
+                        <a
+                            href="\login"
+                            className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-blue-900"
+                        >
+                            Login
+                        </a>
+                    </div>
                 </div>
-                <div className="w-2/5 bg-project-blue text-white rounded-tr-2xl rounded-br-2xl py-36 px-12">
-                    <h2 className="text-3xl font-bold mb-6">Create, Account!</h2>                  
-                    <p className="mb-8">
-                        If you already have an account, Please go to login page...
-                    </p>
-                    <a
-                    href="\login"
-                    className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-blue-900">
-                        Login
-                    </a>
-                </div>
-            </div>
-        </main>
-    </div>
-  )
+            </main>
+        </div>
+    );
 }
 
-export default RegisterPage
+export default RegisterPage;
