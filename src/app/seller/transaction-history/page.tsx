@@ -1,5 +1,8 @@
 'use client';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 463bd1741975b5e3d45ca11c0d06c4ee1c3edca0
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/seller/transaction/Card';
 import Return from '@/components/Return';
@@ -11,7 +14,11 @@ interface Transaction {
   date: string;
 }
 
+<<<<<<< HEAD
 const transactionDummy = [
+=======
+const transactonDummy = [
+>>>>>>> 463bd1741975b5e3d45ca11c0d06c4ee1c3edca0
   {
     id: '1',
     productName: 'แว่นไอ่ดอง',
