@@ -4,9 +4,10 @@ import Return from '@/components/Return';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import Wallet from '@/components/seller/wallet/Wallet';
-import { Seller } from '@/types/user';
 import Pakichu from '@/../public/placeholder2.jpg';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { getSellerBalance } from '@/utils/seller';
 
 interface UserInfo {
   name: string;
@@ -23,23 +24,30 @@ interface UserInfo {
 
 export default function Profile() {
   const { user } = useAuth();
+  const [sellerBalance, setSellerBalance] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (user?.userType === 'seller') {
+      const getBalance = async () => {
+        const balance = await getSellerBalance();
+        setSellerBalance(balance ?? 0);
+      };
+
+      getBalance();
+    }
+  }, []);
 
   return (
     <div className="flex flex-col items-center pb-20 gap-12">
       <div className="flex flex-col items-center justify-center gap-8 pt-8">
         <Return />
         {user?.userType === 'seller' && (
-          <div className="text-black absolute right-4 top-8">Score: 10</div>
+          <div className="text-black absolute right-4 top-8">
+            Score: {user?.score}
+          </div>
         )}
         <div className="flex flex-col gap-4 items-center">
-          <div
-            className="flex items-center justify-center w-48 h-48 border-[1px] border-project-blue rounded-lg bg-gray-100"
-            // style={{
-            //   backgroundImage: Pakichu ? `url(${Pakichu})` : 'none',
-            //   backgroundSize: 'cover',
-            //   backgroundPosition: 'center',
-            // }}
-          >
+          <div className="flex items-center justify-center w-48 h-48 border-[1px] border-project-blue rounded-lg bg-gray-100">
             <Image
               src={Pakichu}
               alt="Pakichu"
@@ -86,7 +94,7 @@ export default function Profile() {
           แก้ไขข้อมูล
         </button>
       </Link>
-      {(user?.userType === 'seller' || 1) && <Wallet balance={872319} />}
+      {user?.userType === 'seller' && <Wallet balance={sellerBalance ?? 0} />}
     </div>
   );
 }

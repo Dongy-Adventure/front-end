@@ -1,61 +1,23 @@
 'use client';
 import NEXT from '@/../public/placeholder.png';
 import { useEffect, useState } from 'react';
-import { StaticImageData } from 'next/image';
 import Card from '@/components/seller/review/Card';
 import Return from '@/components/Return';
 import { useAuth } from '@/context/AuthContext';
+import { getReviews } from '@/utils/review';
+import { Review } from '@/types/review';
 
-export interface Review {
-  id: string;
-  image?: StaticImageData;
-  username: string;
-  message: string;
-  score: number;
-  date: string;
-}
-
-const reviewDummy = [
-  {
-    id: '123',
-    image: NEXT,
-    username: 'FU',
-    message: 'Good',
-    score: 2,
-    date: '2025-02-02T00:00:00Z',
-  },
-  {
-    id: '456',
-    image: NEXT,
-    username: 'FU2',
-    message: 'Good2',
-    score: 2,
-    date: '2025-02-02T00:00:00Z',
-  },
-  {
-    id: '789',
-    image: NEXT,
-    username: 'FU3',
-    message: 'Good3',
-    score: 4,
-    date: '2025-02-02T00:00:00Z',
-  },
-  {
-    id: '10112',
-    image: NEXT,
-    username: 'FU4',
-    message: 'Gooafdsdafajsfdjasfasdflhad flhadsufahsdfilasdhud',
-    score: 6,
-    date: '2025-02-02T00:00:00Z',
-  },
-];
-
-export default function Review() {
+export default function Reviews() {
   const { user } = useAuth();
   const [reviews, setReview] = useState<Review[]>([]);
 
   useEffect(() => {
-    setReview(reviewDummy);
+    const getAllReview = async () => {
+      const reviews = await getReviews();
+      setReview(reviews ?? []);
+    };
+
+    getAllReview();
   }, []);
 
   return (
@@ -70,8 +32,8 @@ export default function Review() {
         <div className="grid md:grid-cols-3 gap-4 overflow-scroll">
           {reviews?.map((review: Review) => (
             <Card
-              key={review.id}
-              image={review.image}
+              key={review.reviewId}
+              image={NEXT}
               username={review.username}
               message={review.message}
               score={review.score}

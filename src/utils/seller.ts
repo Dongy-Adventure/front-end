@@ -40,6 +40,7 @@ export const updateSeller = async (
     const res = await apiClient.put(
       `/seller/${id}`,
       {
+        sellerID: id,
         name: name,
         surname: surname,
         phoneNumber: phoneNumber,
@@ -57,5 +58,32 @@ export const updateSeller = async (
   } catch (err) {
     console.error(err);
     return false;
+  }
+};
+
+export const getSellerBalance = async (): Promise<number | null> => {
+  const accessToken = await getAccessToken();
+  const userId = await getUserId();
+
+  try {
+    if (!accessToken || !userId) {
+      return null;
+    }
+
+    const res = await apiClient.get(`/seller/${userId}/balance`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return null;
+    }
+
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+    return null;
   }
 };
