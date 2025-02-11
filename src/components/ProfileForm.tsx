@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { Icon } from '@iconify/react';
 import Return from './Return';
 import Link from 'next/link';
 import { updateSeller } from '@/utils/seller';
@@ -29,7 +28,7 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
   const [city, setCity] = useState(userInfo.city);
   const [province, setProvince] = useState(userInfo.province);
   const [zip, setZip] = useState(userInfo.zip);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState('');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

@@ -3,9 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Return from '@/components/Return';
-import { Icon } from '@iconify/react';
 import Link from 'next/link';
-import { TextareaHTMLAttributes } from 'react';
 
 interface productInfo {
   sellerName: string;
@@ -17,15 +15,21 @@ interface productInfo {
   productImage: string;
 }
 
-export default function PostProduct({productInfo}: {productInfo: productInfo}) {
-  const {user} = useAuth();
+export default function PostProduct({
+  productInfo,
+}: {
+  productInfo: productInfo;
+}) {
+  const { user } = useAuth();
   const [productName, setProductName] = useState(productInfo.productName);
   const [price, setPrice] = useState(productInfo.price);
   const [amount, setAmount] = useState(productInfo.amount);
   const [description, setDescription] = useState(productInfo.description);
   const [productImage, setProductImage] = useState(productInfo.productImage);
-  
-  const handleProductImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleProductImageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
@@ -43,7 +47,7 @@ export default function PostProduct({productInfo}: {productInfo: productInfo}) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Product posted");
+    console.log('Product posted');
     // Implement API call to post product
   };
 
@@ -52,7 +56,6 @@ export default function PostProduct({productInfo}: {productInfo: productInfo}) {
       <Return />
       {user?.userType === 'seller' || 'buyer' /*can delete buyer*/ ? (
         <div className="flex flex-col items-center justify-center gap-8 pt-8">
-
           <div className="flex flex-col gap-4 items-center">
             <p className="text-project-blue font-bold text-xl">
               {productInfo.sellerName} {productInfo.sellerSurname}
@@ -69,7 +72,9 @@ export default function PostProduct({productInfo}: {productInfo: productInfo}) {
                 backgroundPosition: 'center',
               }}
             >
-              {!productImage && <span className="text-gray-400">Click to upload</span>}
+              {!productImage && (
+                <span className="text-gray-400">Click to upload</span>
+              )}
             </label>
             <input
               id="fileInput"
@@ -146,11 +151,12 @@ export default function PostProduct({productInfo}: {productInfo: productInfo}) {
               </button>
             </Link>
           </div>
-
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-8 pt-8">
-          <div className="text-black absolute top-8">Sorry, but you are not a seller.</div>
+          <div className="text-black absolute top-8">
+            Sorry, but you are not a seller.
+          </div>
         </div>
       )}
     </div>
