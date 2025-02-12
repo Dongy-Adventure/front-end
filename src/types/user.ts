@@ -18,7 +18,7 @@ export type Seller = {
   score: number;
   sellerID: string;
   surname: string;
-  transaction: Transaction;
+  transaction: Transaction[];
   username: string;
   userType: 'seller';
 };
