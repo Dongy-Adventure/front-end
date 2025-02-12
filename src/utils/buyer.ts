@@ -12,10 +12,8 @@ export const createBuyer = async (
     const res = await apiClient.post('/buyer', {
       name: 'John',
       surname: 'Doe',
-      payment: '',
       password: password,
       username: username,
-      phoneNumber: '',
     });
     if (!res.data.success) return false;
 
