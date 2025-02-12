@@ -49,30 +49,31 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const protectRoute = async () => {
       setIsReady(false);
 
-      const userStr = localStorage.getItem('user');
-      if (!userStr) {
-        setIsReady(true);
-        return router.push('/');
-      }
+      // const userStr = localStorage.getItem('user');
+      // if (!userStr) {
+      //   setIsReady(true);
+      //   return router.push('/');
+      // }
 
-      const userObj: Buyer | Seller = JSON.parse(userStr);
+      const userObj: Buyer | Seller | null = await getUser();
       setUser(userObj);
 
-      const userType: 'buyer' | 'seller' = userObj.userType;
+      // const userType: 'buyer' | 'seller' = userObj.userType;
 
-      if (userType === 'buyer') {
-        if (path.includes('seller') && !path.includes('review')) {
-          router.push('/');
-        }
-      } else {
-        if (path.includes('buyer')) {
-          router.push('/');
-        }
-      }
+      // if (userType === 'buyer') {
+      //   if (path.includes('seller') && !path.includes('review')) {
+      //     router.push('/');
+      //   }
+      // } else {
+      //   if (path.includes('buyer')) {
+      //     router.push('/');
+      //   }
+      // }
 
       setIsReady(true);
     };
-    setIsReady(true);
+
+    protectRoute();
   }, [router, path]);
 
   return (

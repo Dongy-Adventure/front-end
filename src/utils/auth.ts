@@ -11,7 +11,6 @@ import { convertTokenDTOToToken, TokenDTO } from '@/dtos/tokenDTO';
 import { Token } from '@/types/token';
 import { getExpireTime } from './time';
 
-
 export const refreshAccessToken = async (
   refToken: string
 ): Promise<string | null> => {
@@ -41,6 +40,7 @@ export const refreshAccessToken = async (
 };
 
 export const getAccessToken = async (): Promise<string | null> => {
+  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkzNDM0OTV9.UokaWvb2Ahn-KRmmGUFsepPDVDXqURCoUlHt8eY5nDI";
   const tokenStr = localStorage.getItem('token');
 
   if (!tokenStr) return null;
@@ -59,6 +59,7 @@ export const getAccessToken = async (): Promise<string | null> => {
 };
 
 export const getUserId = async (id?: string): Promise<string | null> => {
+  return "67ac2d6f3e42396efa42dd82";
   let userId: string | null;
   if (!id) {
     userId = localStorage.getItem('userId');
@@ -80,7 +81,7 @@ export const getUser = async (): Promise<Buyer | Seller | null> => {
   }
 
   try {
-    const userType = localStorage.getItem('userType');
+    const userType = 'seller';
 
     if (userType === 'seller') {
       const res: AxiosResponse<SellerDTO> = await apiClient.get(
@@ -146,31 +147,6 @@ export const sellerAuth = async (
     localStorage.setItem('token', tokenStr);
     localStorage.setItem('userType', 'seller');
 
-    return data;
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
-};
-
-export const buyerAuth = async (
-  username: string,
-  password: string
-): Promise<Buyer | null> => {
-  try {
-    const res: AxiosResponse<BuyerDTO> = await apiClient.post('/auth/buyer', {
-      username: username,
-      password: password,
-    });
-
-    if (!res.data.success) return null;
-    const { data, accessToken, refreshToken } = res.data;
-
-    const buyerStr = JSON.stringify(data);
-
-    localStorage.setItem('token', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-    localStorage.setItem('user', buyerStr);
     return data;
   } catch (err) {
     console.error(err);
