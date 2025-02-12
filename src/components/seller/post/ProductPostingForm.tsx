@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Return from '@/components/Return';
 import Link from 'next/link';
+import { createProduct } from '@/utils/product';
+import { useToast } from '@/context/ToastContext';
+import { useRouter } from 'next/router';
 
 interface productInfo {
   sellerName: string;
@@ -26,6 +29,20 @@ export default function PostProduct({
   const [amount, setAmount] = useState(productInfo.amount);
   const [description, setDescription] = useState(productInfo.description);
   const [productImage, setProductImage] = useState(productInfo.productImage);
+
+  const toast = useToast();
+  const router = useRouter();
+
+  const handleSubmit = async () => {
+    const status = await createProduct(form.name, form.price,...);
+    if (status) {
+      toast?.setToast('success', "Post product succeeded")
+      router.push("/profile");
+    } else {
+      toast?.setToast('error', "Post product failed")
+      router.push("/home")
+    }
+  };
 
   const handleProductImageChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -146,7 +163,8 @@ export default function PostProduct({
               Reset
             </button>
             <Link href="../profile">
-              <button className="w-20 h-12 bg-project-blue text-white border rounded-xl hover:bg-blue-950">
+              <button className="w-20 h-12 bg-project-blue text-white border rounded-xl hover:bg-blue-950"
+              onClick={() => handleSubmit(...)}>
                 Post
               </button>
             </Link>
