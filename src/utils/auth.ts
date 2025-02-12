@@ -152,7 +152,6 @@ export const sellerAuth = async (
     localStorage.setItem('token', tokenStr);
     localStorage.setItem('userType', 'seller');
     localStorage.setItem('user', sellerStr);
-
     return data;
   } catch (err) {
     console.error(err);
