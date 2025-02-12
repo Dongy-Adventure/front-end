@@ -49,8 +49,6 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const protectRoute = async () => {
       setIsReady(false);
 
-      if (path.includes('login') || path === '/') return;
-
       const userObj: Buyer | Seller | null = await getUser();
 
       setUser(userObj);
