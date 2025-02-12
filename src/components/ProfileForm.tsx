@@ -1,7 +1,7 @@
 'use client';
 
-import provinces from '@/const/provinces.json';
-import districts from '@/const/districts.json';
+import provinces from '@/constants/provinces.json';
+import districts from '@/constants/districts.json';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { profileSchema, ProfileFormData } from '@/lib/validations/profile';
