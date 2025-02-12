@@ -26,11 +26,15 @@ export const updateSeller = async (
   name: string,
   surname: string,
   phoneNumber: string,
-  address: string
+  address: string,
+  province: string,
+  city: string,
+  zip: string,
 ): Promise<boolean | null> => {
   try {
     const accessToken = await getAccessToken();
     const id = await getUserId();
+    console.log(zip);
 
     const res = await apiClient.put(
       `/seller/${id}`,
@@ -40,6 +44,9 @@ export const updateSeller = async (
         surname: surname,
         phoneNumber: phoneNumber,
         address: address,
+        province: province,
+        city: city,
+        zip: zip
       },
       {
         headers: {

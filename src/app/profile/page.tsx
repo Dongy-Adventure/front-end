@@ -13,6 +13,7 @@ import Logout from '@/components/Logout';
 
 export default function Profile() {
   const { user, logout } = useAuth();
+  console.log(user);
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export default function Profile() {
               {user?.province ?? 'Rayong'}
             </p>
           </div>
-          <p className="w-14 p-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue">
+          <p className="w-80 p-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue">
             {user?.zip ?? '21877'}
           </p>
         </div>

@@ -12,6 +12,9 @@ export type Buyer = {
 
 export type Seller = {
   address: string;
+  city: string;
+  province: string;
+  zip: string;
   name: string;
   payment: string;
   phoneNumber: string;

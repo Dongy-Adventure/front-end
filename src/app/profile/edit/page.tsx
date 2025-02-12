@@ -25,7 +25,7 @@ export default function Profile() {
     name: user?.name ?? 'John',
     surname: user?.surname ?? 'Dong',
     tel: (user as Seller)?.phoneNumber ?? '0960000000',
-    address: (user as Seller)?.address ?? '999 Moo 1 Payupnai',
+    address: user?.address ?? '999 Moo 1 Payupnai',
     city: (user as Seller)?.city ?? 'Wangchan',
     province: (user as Seller)?.province ?? 'Rayong',
     zip: (user as Seller)?.zip ?? '21877',

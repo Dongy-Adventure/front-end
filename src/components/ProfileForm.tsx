@@ -45,9 +45,30 @@ export default function ProfileForm({
 
   const image = watch('image');
 
+  const getProvinceNameTh = (provinceCode: number) => {
+    const province = provinces.find((p) => p.provinceCode === provinceCode);
+    return province ? province.provinceNameTh : 'Province not found';
+  };
+
+  const getDistrictNameTh = (districtCode: number) => {
+    const district = districts.find((p) => p.districtCode === districtCode);
+    return district ? district.districtNameTh : 'District not found';
+  };
+
   const onSubmit = async (data: ProfileFormData) => {
     try {
-      await updateSeller(data.name, data.surname, data.tel, data.address);
+      console.log(data.address);
+      await updateSeller(
+        data.name,
+        data.surname,
+        data.tel,
+        data.address,
+        getProvinceNameTh(parseInt(data.province)),
+        getDistrictNameTh(parseInt(data.city)),
+        data.zip
+      );
+      console.log(data.province);
+      console.log(data.zip);
       router.push('/profile');
     } catch (error) {
       console.error('Update failed', error);
@@ -147,36 +168,6 @@ export default function ProfileForm({
           <p className="text-red-500 text-sm">{errors.address?.message}</p>
 
           <div className="flex gap-8">
-            {/* City Dropdown */}
-            <select
-              {...register('city')}
-              onChange={(e) => {
-                const selectedDistrict = districts.find(
-                  (district) => district.districtCode === Number(e.target.value)
-                );
-                setValue(
-                  'zip',
-                  selectedDistrict ? selectedDistrict.postalCode.toString() : ''
-                );
-              }}
-              className="w-36 p-0 pb-1 border-0 border-b border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
-            >
-              <option value="">- City -</option>
-              {filteredDistricts
-                .slice()
-                .sort((a, b) =>
-                  a.districtNameTh.localeCompare(b.districtNameTh, 'th')
-                )
-                .map((district: District) => (
-                  <option
-                    key={district.districtCode}
-                    value={district.districtCode}
-                  >
-                    {district.districtNameTh}
-                  </option>
-                ))}
-            </select>
-
             {/* Province Dropdown */}
             <select
               {...register('province')}
@@ -203,6 +194,36 @@ export default function ProfileForm({
                     value={province.provinceCode}
                   >
                     {province.provinceNameTh}
+                  </option>
+                ))}
+            </select>
+
+            {/* City Dropdown */}
+            <select
+              {...register('city')}
+              onChange={(e) => {
+                const selectedDistrict = districts.find(
+                  (district) => district.districtCode === Number(e.target.value)
+                );
+                setValue(
+                  'zip',
+                  selectedDistrict ? selectedDistrict.postalCode.toString() : ''
+                );
+              }}
+              className="w-36 p-0 pb-1 border-0 border-b border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
+            >
+              <option value="">- City -</option>
+              {filteredDistricts
+                .slice()
+                .sort((a, b) =>
+                  a.districtNameTh.localeCompare(b.districtNameTh, 'th')
+                )
+                .map((district: District) => (
+                  <option
+                    key={district.districtCode}
+                    value={district.districtCode}
+                  >
+                    {district.districtNameTh}
                   </option>
                 ))}
             </select>
