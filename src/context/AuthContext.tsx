@@ -51,12 +51,11 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       if (path.includes('login') || path === '/') return;
 
-      const userStr = localStorage.getItem('user');
+      const userObj: Buyer | Seller | null = await getUser();
 
-      const userObj: Buyer | Seller = JSON.parse(userStr ?? '');
       setUser(userObj);
 
-      const userType: 'buyer' | 'seller' = userObj.userType;
+      const userType: 'buyer' | 'seller' | '' = userObj?.userType ?? '';
 
       if (userType === 'buyer') {
         if (path.includes('seller') && !path.includes('review')) {
@@ -71,7 +70,6 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setIsReady(true);
     };
     protectRoute();
-    setIsReady(true);
   }, [router, path]);
 
   return (

@@ -15,9 +15,15 @@ export const refreshAccessToken = async (
   refToken: string
 ): Promise<string | null> => {
   try {
-    const res: AxiosResponse<TokenDTO> = await apiClient.post('/auth/refresh', {
-      refreshToken: refToken,
-    });
+    const res: AxiosResponse<TokenDTO> = await apiClient.post(
+      '/auth/refresh',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${refToken}`,
+        },
+      }
+    );
     const tokenDTO: TokenDTO = res.data;
 
     if (!tokenDTO.success) return tokenDTO.message;
@@ -159,7 +165,7 @@ export const buyerAuth = async (
   password: string
 ): Promise<Buyer | null> => {
   try {
-    const res: AxiosResponse<BuyerDTO> = await apiClient.post('/auth/buyer', {
+    const res: AxiosResponse<BuyerDTO> = await apiClient.post('/auth/buyer/', {
       username: username,
       password: password,
     });
