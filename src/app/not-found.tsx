@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { getSellerBalance } from '@/utils/seller';
 import Logout from '@/components/Logout';
 
-export default function Profile() {
+export default function NotFound() {
   const { user, logout } = useAuth();
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
 
