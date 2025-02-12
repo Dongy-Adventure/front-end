@@ -1,23 +1,30 @@
-
-import { apiClient } from './axios';
 import { Buyer } from '@/types/user';
 import { getAccessToken, getUserId } from './auth';
+import { apiClient } from './axios';
 import { BuyerDTO } from '@/dtos/userDTO';
 import { AxiosResponse } from 'axios';
 
 export const createBuyer = async (
   password: string,
-  username: string,
+  username: string
 ): Promise<boolean | null> => {
   try {
-    const res = await apiClient.post('/buyer/', {
-      name: "John",
-      surname: "Doe",
+    const res = await apiClient.post('/buyer', {
+      name: 'John',
+      surname: 'Doe',
       payment: '',
       password: password,
       username: username,
-      phoneNumber: ''
-    }
+      phoneNumber: '',
+    });
+    if (!res.data.success) return false;
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
 
 export const getBuyerById = async (id: string): Promise<Buyer | null> => {
   try {
@@ -54,7 +61,7 @@ export const updateBuyer = async (
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-
+      }
     );
     if (!res.data.success) return false;
 
@@ -63,6 +70,4 @@ export const updateBuyer = async (
     console.error(err);
     return false;
   }
-
 };
-
