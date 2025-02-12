@@ -11,7 +11,7 @@ import { updateSeller } from '@/utils/seller';
 import Image from 'next/image';
 import Pakichu from '@/../public/placeholder2.jpg';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface District {
   id: number;
@@ -30,16 +30,47 @@ export default function ProfileForm({
   const { user } = useAuth();
   const router = useRouter();
 
+  const getProvinceCode = (provinceName: string) => {
+    const province = provinces.find((p) => p.provinceNameTh === provinceName);
+    return province ? province.provinceCode.toString() : '';
+  };
+
+  const getDistrictCode = (districtName: string) => {
+    const district = districts.find((d) => d.districtNameTh === districtName);
+    return district ? district.districtCode.toString() : '';
+  };
+
+  const defaultProvinceCode = getProvinceCode(userInfo.province);
+  const defaultDistrictCode = getDistrictCode(userInfo.city);
+
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
-    defaultValues: userInfo,
+    defaultValues: {
+      ...userInfo,
+      province: defaultProvinceCode,
+      city: defaultDistrictCode,
+    },
   });
+  const selectedProvince = watch('province'); // Get real-time value of province
+
+  useEffect(() => {
+    if (selectedProvince) {
+      const provinceCode = Number(selectedProvince);
+      const newDistricts = districts.filter(
+        (d) => d.provinceCode === provinceCode
+      );
+      setFilteredDistricts(newDistricts);
+    } else {
+      setFilteredDistricts([]);
+    }
+  }, [selectedProvince]);
 
   const [filteredDistricts, setFilteredDistricts] = useState<District[]>([]);
 
@@ -174,8 +205,7 @@ export default function ProfileForm({
                   (district) => district.provinceCode === provinceCode
                 );
                 setFilteredDistricts(newDistricts);
-                setValue('city', ''); // Reset city when province changes
-                setValue('zip', ''); // Reset zip when province changes
+                setValue('zip', '');
               }}
               className="w-36 p-0 pb-1 border-0 border-b border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
             >
@@ -240,21 +270,13 @@ export default function ProfileForm({
           <p className="text-red-500 text-sm">{errors.zip?.message}</p>
         </div>
       </div>
-
       <div className="flex items-center gap-6">
         <button
           type="button"
           className="w-20 h-12 bg-gray-200 text-project-blue border rounded-xl hover:bg-gray-300"
-          onClick={() => {
-            Object.keys(userInfo).forEach((key) =>
-              setValue(
-                key as keyof ProfileFormData,
-                userInfo[key as keyof ProfileFormData]
-              )
-            );
-          }}
+          onClick={() => router.push('/profile')}
         >
-          รีเซ็ต
+          ยกเลิก
         </button>
         <button
           type="submit"
