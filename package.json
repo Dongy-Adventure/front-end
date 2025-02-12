@@ -10,14 +10,18 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
+    "@hookform/resolvers": "^4.0.0",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.4.2",
     "next": "15.1.6",
     "ntp-time": "^2.0.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
     "react-hot-toast": "^2.5.1",
-    "tailwind-merge": "^2.6.0"
+    "tailwind-merge": "^2.6.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

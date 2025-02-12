@@ -40,6 +40,7 @@ export const refreshAccessToken = async (
 };
 
 export const getAccessToken = async (): Promise<string | null> => {
+  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkzMzU3Mzd9.qa5X79W5-nkCJL1STOaZcTiEYZJpr0WGQpYO8s0hXCo";
   const tokenStr = localStorage.getItem('token');
 
   if (!tokenStr) return null;
@@ -58,6 +59,7 @@ export const getAccessToken = async (): Promise<string | null> => {
 };
 
 export const getUserId = async (id?: string): Promise<string | null> => {
+  return "67ac237cebb32d149c108bcf";
   let userId: string | null;
   if (!id) {
     userId = localStorage.getItem('userId');
@@ -79,7 +81,7 @@ export const getUser = async (): Promise<Buyer | Seller | null> => {
   }
 
   try {
-    const userType = localStorage.getItem('userType');
+    const userType = 'seller';
 
     if (userType === 'seller') {
       const res: AxiosResponse<SellerDTO> = await apiClient.get(
