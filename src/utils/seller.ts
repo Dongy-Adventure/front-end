@@ -6,7 +6,7 @@ export const createSeller = async (
   username: string
 ): Promise<boolean | null> => {
   try {
-    const res = await apiClient.post('/seller', {
+    const res = await apiClient.post('/seller/', {
       name: 'John',
       surname: 'Doe',
       password: password,

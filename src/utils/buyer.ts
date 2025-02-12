@@ -9,7 +9,7 @@ export const createBuyer = async (
   username: string
 ): Promise<boolean | null> => {
   try {
-    const res = await apiClient.post('/buyer', {
+    const res = await apiClient.post('/buyer/', {
       name: 'John',
       surname: 'Doe',
       password: password,
