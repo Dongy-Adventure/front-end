@@ -11,6 +11,7 @@ import { convertTokenDTOToToken, TokenDTO } from '@/dtos/tokenDTO';
 import { Token } from '@/types/token';
 import { getExpireTime } from './time';
 
+
 export const refreshAccessToken = async (
   refToken: string
 ): Promise<string | null> => {
@@ -145,6 +146,31 @@ export const sellerAuth = async (
     localStorage.setItem('token', tokenStr);
     localStorage.setItem('userType', 'seller');
 
+    return data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const buyerAuth = async (
+  username: string,
+  password: string
+): Promise<Buyer | null> => {
+  try {
+    const res: AxiosResponse<BuyerDTO> = await apiClient.post('/auth/buyer', {
+      username: username,
+      password: password,
+    });
+
+    if (!res.data.success) return null;
+    const { data, accessToken, refreshToken } = res.data;
+
+    const buyerStr = JSON.stringify(data);
+
+    localStorage.setItem('token', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('user', buyerStr);
     return data;
   } catch (err) {
     console.error(err);

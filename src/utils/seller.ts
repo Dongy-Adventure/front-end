@@ -2,21 +2,18 @@ import { getAccessToken, getUserId } from './auth';
 import { apiClient } from './axios';
 
 export const createSeller = async (
-  name: string,
-  surname: string,
-  payment: string,
   password: string,
-  username: string,
-  phoneNumber: string
+  username: string
 ): Promise<boolean | null> => {
   try {
-    const res = await apiClient.post('/seller', {
-      name: name,
-      surname: surname,
-      payment: payment,
+    const res = await apiClient.post('/seller/', {
+      name: 'John',
+      surname: 'Doe',
+      payment: '',
       password: password,
       username: username,
-      phoneNumber: phoneNumber,
+      phoneNumber: ''
+
     });
     if (!res.data.success) return false;
 
