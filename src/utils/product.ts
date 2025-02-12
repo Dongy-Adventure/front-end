@@ -1,4 +1,4 @@
-import { getAccessToken, getUser, getUserId } from './auth';
+import { getAccessToken, getUserId } from './auth';
 import { AxiosResponse } from 'axios';
 import { ProductDTO } from '@/dtos/productDTO';
 import { apiClient } from './axios';
@@ -6,27 +6,30 @@ import { apiClient } from './axios';
 export const createProduct = async (
   name: string,
   price: number,
-  amount: number,
   description: string,
-  image: string
+  image: string,
+  color: string,
+  tag: string[]
 ): Promise<boolean> => {
   const accessToken = await getAccessToken();
-  const uesrId = await getUserId();
+  const userId = await getUserId();
 
-  if (!accessToken || !uesrId) {
+  if (!accessToken || !userId) {
     console.error('Cannot Create Product.');
     return false;
   }
-
   try {
     const res: AxiosResponse<ProductDTO> = await apiClient.post(
-      `/product/${uesrId}`,
+      `/product/`,
       {
-        name: name,
+        sellerID: userId,
+        productName: name,
         price: price,
-        amount: amount,
         description: description,
         image: image,
+        tag: tag,
+        color: color,
+        createdAt: new Date().toISOString(),
       },
       {
         headers: {
@@ -34,11 +37,11 @@ export const createProduct = async (
         },
       }
     );
-    
-    // if (!res.data.status) {
-    //   console.error(res.data.message);
-    //   return false;
-    // }
+
+    if (!res.data.status) {
+      console.error(res.data.message);
+      return false;
+    }
 
     return true;
   } catch (err) {
