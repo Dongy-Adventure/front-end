@@ -6,14 +6,13 @@ export const createSeller = async (
   username: string
 ): Promise<boolean | null> => {
   try {
-    const res = await apiClient.post('/seller/', {
+    const res = await apiClient.post('/seller', {
       name: 'John',
       surname: 'Doe',
       payment: '',
       password: password,
       username: username,
-      phoneNumber: ''
-
+      phoneNumber: '',
     });
     if (!res.data.success) return false;
 

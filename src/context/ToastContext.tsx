@@ -3,7 +3,6 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { AnimatePresence, motion } from 'framer-motion';
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { cn } from '@/lib/utils';
-import clsx from 'clsx';
 
 interface IToastContext {
   setToast: (type: 'error' | 'success', message: string) => void;

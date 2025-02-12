@@ -1,4 +1,3 @@
-import { Product } from '@/types/product';
 import { getAccessToken, getUser, getUserId } from './auth';
 import { AxiosResponse } from 'axios';
 import { ProductDTO } from '@/dtos/productDTO';
@@ -35,10 +34,10 @@ export const createProduct = async (
         },
       }
     );
-    if (!res.data.status) {
-      console.error(res.data.message);
-      return false;
-    }
+    // if (!res.data.status) {
+    //   console.error(res.data.message);
+    //   return false;
+    // }
 
     return true;
   } catch (err) {
