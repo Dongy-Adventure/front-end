@@ -3,25 +3,25 @@ import PLACEHOLDER from '@/../public/placeholder.png';
 
 interface ReviewCard {
   image?: StaticImageData;
-  username: string;
+  reviewer: string;
   message: string;
   score: number;
   date: string;
 }
 
 export default function Card(props: ReviewCard) {
-  const { image, username, message, score, date } = props;
+  const { image, reviewer, message, score, date } = props;
   return (
     <section className="bg-white rounded-2xl p-2 shadow-lg text-black">
       <div className="flex justify-between gap-2 p-2">
         <div className="flex gap-2">
           <Image
             src={image ?? PLACEHOLDER}
-            alt={username}
+            alt={reviewer}
             width={30}
             height={30}
           />
-          <h1>{username}</h1>
+          <h1>{reviewer}</h1>
         </div>
 
         <h1>{score} / 10</h1>

@@ -29,21 +29,17 @@ export const getReviews = async (): Promise<Review[] | null> => {
 
     const reviewData: ReviewDataDTO[] = res.data.data;
 
-    const reviews: Review[] = await Promise.all(
-      reviewData.map(async (r: ReviewDataDTO) => {
-        const buyerId: string | null = await getUserId(r.buyerID);
-        const buyerUserName: Buyer | null = await getBuyerById(buyerId ?? '');
-
-        return {
-          reviewId: r.reviewID,
-          username: buyerUserName?.username ?? 'Unknown',
-          date: r.date,
-          message: r.message,
-          score: r.score,
-          image: r.image,
-        };
-      })
-    );
+    const reviews: Review[] = reviewData.map((r: ReviewDataDTO) => {
+      return {
+        reviewId: r.reviewID,
+        reviewer: r.buyerName === '' ? 'Unknown' : r.buyerName,
+        reviewee: r.sellerName,
+        date: r.date,
+        message: r.message,
+        score: r.score,
+        image: r.image,
+      };
+    });
 
     return reviews;
   } catch (err) {

@@ -24,7 +24,7 @@ export default function Reviews() {
     <section className="p-12 text-black">
       <Return />
       <div className="text-2xl font-bold pb-8 grid place-items-center">
-        {user?.username ?? 'Seller'}&apos;s Review
+        {user?.name ?? 'Seller'}&apos;s Review
       </div>
       {reviews.length === 0 ? (
         <p>No reviews found.</p>
@@ -34,7 +34,7 @@ export default function Reviews() {
             <Card
               key={review.reviewId}
               image={NEXT}
-              username={review.username}
+              reviewer={review.reviewer}
               message={review.message}
               score={review.score}
               date={review.date}

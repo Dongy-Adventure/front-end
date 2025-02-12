@@ -39,7 +39,6 @@ const transactionDummy = [
 
 export default function TransactionHistory() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-
   // useEffect(() => {
   //   // Fetch transaction data (replace with actual API endpoint)
   //   axios.get("/api/transactions")

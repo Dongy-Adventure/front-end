@@ -1,4 +1,5 @@
 export type ReviewDataDTO = {
+  buyerName: string;
   buyerID: string;
   date: string;
   image: string;
@@ -6,6 +7,7 @@ export type ReviewDataDTO = {
   reviewID: string;
   score: number;
   sellerID: string;
+  sellerName: string;
 };
 
 export type ReviewDTO = {
