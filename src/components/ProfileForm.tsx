@@ -1,5 +1,7 @@
 'use client';
 
+import provinces from '@/const/provinces.json';
+import districts from '@/const/districts.json';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { profileSchema, ProfileFormData } from '@/lib/validations/profile';
@@ -9,6 +11,16 @@ import { updateSeller } from '@/utils/seller';
 import Image from 'next/image';
 import Pakichu from '@/../public/placeholder2.jpg';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+interface District {
+  id: number;
+  provinceCode: number;
+  districtCode: number;
+  districtNameEn: string;
+  districtNameTh: string;
+  postalCode: number;
+}
 
 export default function ProfileForm({
   userInfo,
@@ -28,6 +40,8 @@ export default function ProfileForm({
     resolver: zodResolver(profileSchema),
     defaultValues: userInfo,
   });
+
+  const [filteredDistricts, setFilteredDistricts] = useState<District[]>([]);
 
   const image = watch('image');
 
@@ -133,31 +147,75 @@ export default function ProfileForm({
           <p className="text-red-500 text-sm">{errors.address?.message}</p>
 
           <div className="flex gap-8">
+            {/* City Dropdown */}
             <select
               {...register('city')}
+              onChange={(e) => {
+                const selectedDistrict = districts.find(
+                  (district) => district.districtCode === Number(e.target.value)
+                );
+                setValue(
+                  'zip',
+                  selectedDistrict ? selectedDistrict.postalCode.toString() : ''
+                );
+              }}
               className="w-36 p-0 pb-1 border-0 border-b border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
             >
               <option value="">- City -</option>
-              <option value="Wangchan">Wangchan</option>
-              <option value="Patumwan">Patumwan</option>
-              <option value="Phayathai">Phayathai</option>
+              {filteredDistricts
+                .slice()
+                .sort((a, b) =>
+                  a.districtNameTh.localeCompare(b.districtNameTh, 'th')
+                )
+                .map((district: District) => (
+                  <option
+                    key={district.districtCode}
+                    value={district.districtCode}
+                  >
+                    {district.districtNameTh}
+                  </option>
+                ))}
             </select>
+
+            {/* Province Dropdown */}
             <select
               {...register('province')}
+              onChange={(e) => {
+                const provinceCode = Number(e.target.value);
+                const newDistricts = districts.filter(
+                  (district) => district.provinceCode === provinceCode
+                );
+                setFilteredDistricts(newDistricts);
+                setValue('city', ''); // Reset city when province changes
+                setValue('zip', ''); // Reset zip when province changes
+              }}
               className="w-36 p-0 pb-1 border-0 border-b border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
             >
               <option value="">- Province -</option>
-              <option value="Bangkok">Bangkok</option>
-              <option value="Rayong">Rayong</option>
-              <option value="Chiangmai">Chiangmai</option>
+              {provinces
+                .slice()
+                .sort((a, b) =>
+                  a.provinceNameTh.localeCompare(b.provinceNameTh, 'th')
+                )
+                .map((province) => (
+                  <option
+                    key={province.provinceCode}
+                    value={province.provinceCode}
+                  >
+                    {province.provinceNameTh}
+                  </option>
+                ))}
             </select>
           </div>
+
           <p className="text-red-500 text-sm">
             {errors.city?.message || errors.province?.message}
           </p>
 
+          {/* Zip Code Input (Auto-filled) */}
           <input
             {...register('zip')}
+            readOnly
             className="w-80 p-1 border-0 border-b border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
             placeholder="Zip"
           />

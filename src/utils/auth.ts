@@ -40,7 +40,7 @@ export const refreshAccessToken = async (
 };
 
 export const getAccessToken = async (): Promise<string | null> => {
-  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkzMzc0MDN9.UESni4-6KJoAdDbjFy5E8kJNT_it8y3y-EXV0_g45bA";
+  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkzNDQwMDJ9.HqkRie32PCuBffB16lo9-0aEzkL3WQeGEgsxE_jS1JI";
   const tokenStr = localStorage.getItem('token');
 
   if (!tokenStr) return null;
@@ -59,7 +59,7 @@ export const getAccessToken = async (): Promise<string | null> => {
 };
 
 export const getUserId = async (id?: string): Promise<string | null> => {
-  return "67ac29e4ebb32d149c108bd0";
+  return "67ac43cbebb32d149c108bd3";
   let userId: string | null;
   if (!id) {
     userId = localStorage.getItem('userId');
