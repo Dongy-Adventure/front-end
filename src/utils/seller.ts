@@ -2,22 +2,17 @@ import { getAccessToken, getUserId } from './auth';
 import { apiClient } from './axios';
 
 export const createSeller = async (
-  name: string,
-  surname: string,
-  payment: string,
   password: string,
-  username: string,
-  phoneNumber: string
+  username: string
 ): Promise<boolean | null> => {
   try {
     const res = await apiClient.post('/seller', {
-      name: name,
-      surname: surname,
-      payment: payment,
+      name: 'John',
+      surname: 'Doe',
       password: password,
       username: username,
-      phoneNumber: phoneNumber,
     });
+
     if (!res.data.success) return false;
 
     return true;
@@ -53,7 +48,7 @@ export const updateSeller = async (
       }
     );
     if (!res.data.success) return false;
-
+    console.log(res);
     return true;
   } catch (err) {
     console.error(err);
