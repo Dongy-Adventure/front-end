@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Return from './Return';
-import Link from 'next/link';
 import { updateSeller } from '@/utils/seller';
 import Image from 'next/image';
 import Pakichu from '@/../public/placeholder2.jpg';
