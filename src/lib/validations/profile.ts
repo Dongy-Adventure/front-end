@@ -18,7 +18,6 @@ export const profileSchema = z.object({
     .string()
     .length(5, 'Zip code must be exactly 5 digits')
     .regex(/^[0-9]+$/, 'Zip code must contain only numbers'),
-  image: z.string().optional(), // ✅ Add this line
 });
 
 export type ProfileFormData = z.infer<typeof profileSchema>;
