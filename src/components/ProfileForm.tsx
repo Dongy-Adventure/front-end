@@ -59,8 +59,9 @@ export default function ProfileForm({
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        if (e.target?.result) {
-          setValue('image', e.target.result as string);
+        const result = e.target?.result;
+        if (result) {
+          setValue('image', result as string);
         }
       };
       reader.readAsDataURL(file);
@@ -147,7 +148,6 @@ export default function ProfileForm({
           <p className="text-red-500 text-sm">{errors.address?.message}</p>
 
           <div className="flex gap-8">
-            {/* City Dropdown */}
             <select
               {...register('city')}
               onChange={(e) => {
@@ -177,7 +177,6 @@ export default function ProfileForm({
                 ))}
             </select>
 
-            {/* Province Dropdown */}
             <select
               {...register('province')}
               onChange={(e) => {
@@ -186,8 +185,8 @@ export default function ProfileForm({
                   (district) => district.provinceCode === provinceCode
                 );
                 setFilteredDistricts(newDistricts);
-                setValue('city', ''); // Reset city when province changes
-                setValue('zip', ''); // Reset zip when province changes
+                setValue('city', '');
+                setValue('zip', '');
               }}
               className="w-36 p-0 pb-1 border-0 border-b border-project-blue bg-transparent text-base focus:outline-none focus:ring-0 focus:border-project-blue text-project-blue"
             >

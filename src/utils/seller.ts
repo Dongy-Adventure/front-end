@@ -48,7 +48,6 @@ export const updateSeller = async (
       }
     );
     if (!res.data.success) return false;
-    console.log(res);
     return true;
   } catch (err) {
     console.error(err);
