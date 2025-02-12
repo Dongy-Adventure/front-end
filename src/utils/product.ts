@@ -14,7 +14,7 @@ export const createProduct = async (
   const uesrId = await getUserId();
 
   if (!accessToken || !uesrId) {
-    console.error('Fuck you');
+    console.error('Cannot Create Product.');
     return false;
   }
 
@@ -34,6 +34,7 @@ export const createProduct = async (
         },
       }
     );
+    
     // if (!res.data.status) {
     //   console.error(res.data.message);
     //   return false;

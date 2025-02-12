@@ -3,22 +3,23 @@
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Return from '@/components/Return';
-import Link from 'next/link';
+// import Link from 'next/link';
+// import { Seller } from '@/types/user';
 import { createProduct } from '@/utils/product';
 import { useToast } from '@/context/ToastContext';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 interface productInfo {
   sellerName: string;
   sellerSurname: string;
   productName: string;
-  price: string;
-  amount: string;
+  price: number;
+  amount: number;
   description: string;
   productImage: string;
 }
 
-export default function PostProduct({
+export default function PostProductForm({
   productInfo,
 }: {
   productInfo: productInfo;
@@ -31,18 +32,35 @@ export default function PostProduct({
   const [productImage, setProductImage] = useState(productInfo.productImage);
 
   const toast = useToast();
-  const router = useRouter();
+  // const router = useRouter();
+
+  // const handleSubmit = async () => {
+  //   const status = await createProduct(form.name, form.price,...);
+  //   if (status) {
+  //     toast?.setToast('success', "Post product succeeded")
+  //     router.push("/profile");
+  //   } else {
+  //     toast?.setToast('error', "Post product failed")
+  //     router.push("/home")
+  //   }
+  // };
 
   const handleSubmit = async () => {
-    const status = await createProduct(form.name, form.price,...);
+    const status = await createProduct(
+      productName,
+      price, 
+      amount, 
+      description,
+      productImage
+    );
     if (status) {
-      toast?.setToast('success', "Post product succeeded")
-      router.push("/profile");
+      toast?.setToast('success', 'Post product succeeded')
+      // router.push('/profile');
     } else {
-      toast?.setToast('error', "Post product failed")
-      router.push("/home")
+      toast?.setToast('error', 'Post product failed')
+      // router.push('/home')
     }
-  };
+  }
 
   const handleProductImageChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -62,11 +80,11 @@ export default function PostProduct({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Product posted');
-    // Implement API call to post product
-  };
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   console.log('Product posted');
+  //   Implement API call to post product
+  // };
 
   return (
     <div className="flex flex-col items-center pb-20 gap-12">
@@ -122,7 +140,7 @@ export default function PostProduct({
               className="w-80 p-1 pt-0 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
               placeholder=""
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) => setPrice(Number(e.target.value))}
             ></input>
           </div>
 
@@ -134,7 +152,7 @@ export default function PostProduct({
               className="w-80 p-1 pt-0 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
               placeholder=""
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => setAmount(Number(e.target.value))}
             ></input>
           </div>
 
@@ -162,17 +180,19 @@ export default function PostProduct({
             >
               Reset
             </button>
-            <Link href="../profile">
-              <button className="w-20 h-12 bg-project-blue text-white border rounded-xl hover:bg-blue-950"
-              onClick={() => handleSubmit(...)}>
+            {/*<Link href="../profile">*/}
+              <button 
+                className="w-20 h-12 bg-project-blue text-white border rounded-xl hover:bg-blue-950"
+                onClick={() => handleSubmit()}
+              >
                 Post
               </button>
-            </Link>
+            {/*</Link>*/}
           </div>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-8 pt-8">
-          <div className="text-black absolute top-8">
+          <div className="text-black absolute top-32 font-semibold">
             Sorry, but you are not a seller.
           </div>
         </div>
