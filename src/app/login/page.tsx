@@ -5,7 +5,7 @@ import Link from "next/link";
 import { buyerAuth } from "@/utils/auth";
 import { sellerAuth } from "@/utils/auth";
 import { useRouter } from "next/navigation";
-import { useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
 
 export default function LoginPage() {
@@ -37,44 +37,31 @@ export default function LoginPage() {
         });
 
         try {
+            let user;
             if (userType === "ผู้ซื้อ") {
-                const buyer = await buyerAuth(username, password);
-                if (buyer) {
-                    setTimeout(() => {
-                        toast.success('ลงทะเบียนสำเร็จ!', { id: loadingToast })
-                    }, 1100);  
-                    
-                    setTimeout(() => {
-                        router.push("/profile");
-                    }, 2000)
-
-                } else {
-                    setTimeout(() => {
-                        toast.error('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', { id: loadingToast });
-                        setIsUpLoading(false);
-                    }, 1500);
-                    return;
-                }
+                user = await buyerAuth(username, password);
             } else if (userType === "ผู้ขาย"){
-                const seller = await sellerAuth(username, password);
-                if (seller) {
-                    setTimeout(() => {
-                        toast.success('ลงทะเบียนสำเร็จ!', { id: loadingToast })
-                    }, 1100);
-
-                    setTimeout(() => {
-                        router.push("/profile");
-                    }, 2000)
-                } else {
-                    setTimeout(() => {
-                        toast.error('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', { id: loadingToast });
-                        setIsUpLoading(false);
-                    }, 1500);
-                    return;
-                }
+                user = await sellerAuth(username, password);
             } else {
                 setErrorMessage("Something is wrong");
                 setIsUpLoading(false);
+                return;
+            }
+
+            if (user) {
+                setTimeout(() => {
+                    toast.success('ลงทะเบียนสำเร็จ!', { id: loadingToast })
+                }, 1100);  
+                
+                setTimeout(() => {
+                    router.push("/profile");
+                }, 2000)
+
+            } else {
+                setTimeout(() => {
+                    toast.error('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', { id: loadingToast });
+                    setIsUpLoading(false);
+                }, 1500);
                 return;
             }
             
