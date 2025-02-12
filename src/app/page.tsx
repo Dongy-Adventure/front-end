@@ -5,10 +5,11 @@ import { createBuyer } from '@/utils/buyer';
 import { createSeller } from '@/utils/seller';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { useToast } from '@/context/ToastContext';
 
 function RegisterPage() {
   const router = useRouter();
+  const toast = useToast();
   const { register, handleSubmit } = useForm();
   const [userType, setUserType] = useState<string>('ผู้ซื้อ');
   const [isUploading, setIsUpLoading] = useState<boolean>(false);
@@ -32,16 +33,6 @@ function RegisterPage() {
       return;
     }
 
-    const loadingToast = toast.loading('กำลังเข้าสู่ระบบ', {
-      position: 'top-center',
-      style: {
-        marginTop: '50vh',
-        transform: 'translateY(-50%)',
-        width: '500',
-        height: '500',
-      },
-    });
-
     try {
       let res;
       if (userType === 'ผู้ซื้อ') {
@@ -56,7 +47,7 @@ function RegisterPage() {
       if (res) {
         setErrorMessage('');
         setTimeout(() => {
-          toast.success('เข้าสู่ระบบสำเร็จ!', { id: loadingToast });
+          toast?.setToast('success', 'เข้าสู่ระบบสำเร็จ!');
         }, 1100);
 
         setTimeout(() => {
@@ -65,9 +56,7 @@ function RegisterPage() {
       }
     } catch (error) {
       setTimeout(() => {
-        toast.error('การลงทะเบียนล้มเหลว โปรดลองอีกครั้ง', {
-          id: loadingToast,
-        });
+        toast?.setToast('error', 'การลงทะเบียนล้มเหลว โปรดลองอีกครั้ง');
       }, 1500);
       setIsUpLoading(false);
     }

@@ -6,10 +6,11 @@ import { buyerAuth } from '@/utils/auth';
 import { sellerAuth } from '@/utils/auth';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { useToast } from '@/context/ToastContext';
 
 export default function LoginPage() {
   const router = useRouter();
+  const toast = useToast();
   const { register, handleSubmit } = useForm();
   const [userType, setUserType] = useState<string>('ผู้ซื้อ');
   const [isUploading, setIsUpLoading] = useState<boolean>(false);
@@ -26,16 +27,6 @@ export default function LoginPage() {
       return;
     }
 
-    const loadingToast = toast.loading('กำลังเข้าสู่ระบบ', {
-      position: 'top-center',
-      style: {
-        marginTop: '50vh',
-        transform: 'translateY(-50%)',
-        width: '500',
-        height: '500',
-      },
-    });
-
     try {
       let user;
       if (userType === 'ผู้ซื้อ') {
@@ -50,7 +41,7 @@ export default function LoginPage() {
 
       if (user) {
         setTimeout(() => {
-          toast.success('ลงทะเบียนสำเร็จ!', { id: loadingToast });
+          toast?.setToast('success', 'ลงทะเบียนสำเร็จ!');
         }, 1100);
 
         setTimeout(() => {
@@ -58,14 +49,14 @@ export default function LoginPage() {
         }, 2000);
       } else {
         setTimeout(() => {
-          toast.error('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', { id: loadingToast });
+          toast?.setToast('error', 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
           setIsUpLoading(false);
         }, 1500);
         return;
       }
     } catch (error) {
       setTimeout(() => {
-        toast.error('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', { id: loadingToast });
+        toast?.setToast('error', 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
       }, 500);
       setIsUpLoading(false);
     }
