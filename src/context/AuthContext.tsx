@@ -11,6 +11,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { useToast } from './ToastContext';
 
 interface IAuthContext {
   user: Buyer | Seller | null;
@@ -30,6 +31,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<Buyer | Seller | null>(null);
   const path = usePathname();
   const router = useRouter();
+  const toast = useToast();
   const [isReady, setIsReady] = useState<boolean>(false);
 
   const resetContext = useCallback(async () => {
@@ -57,10 +59,12 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       if (userType === 'buyer') {
         if (path.includes('seller') && !path.includes('review')) {
+          toast?.setToast('error', 'ท่านไม่สามารถทำรายการนี้ได้');
           router.push('/');
         }
       } else {
         if (path.includes('buyer')) {
+          toast?.setToast('error', 'ท่านไม่สามารถทำรายการนี้ได้');
           router.push('/');
         }
       }

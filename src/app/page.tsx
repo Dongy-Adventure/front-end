@@ -40,6 +40,7 @@ function RegisterPage() {
       } else if (userType === 'ผู้ขาย') {
         res = await createSeller(password, username);
       } else {
+        setIsUpLoading(false);
         setErrorMessage('Something is wrong');
         return;
       }
@@ -53,6 +54,8 @@ function RegisterPage() {
         setTimeout(() => {
           router.push('/login');
         }, 2000);
+      } else {
+        setIsUpLoading(false);
       }
     } catch (error) {
       setTimeout(() => {
