@@ -183,28 +183,3 @@ export const buyerAuth = async (
     return null;
   }
 };
-
-export const buyerAuth = async (
-  username: string,
-  password: string
-): Promise<Buyer | null> => {
-  try {
-    const res: AxiosResponse<BuyerDTO> = await apiClient.post('/auth/buyer/', {
-      username: username,
-      password: password,
-    });
-
-    if (!res.data.success) return null;
-    const { data, accessToken, refreshToken } = res.data;
-
-    const buyerStr = JSON.stringify(data);
-
-    localStorage.setItem('token', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-    localStorage.setItem('user', buyerStr);
-    return data;
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
-};
