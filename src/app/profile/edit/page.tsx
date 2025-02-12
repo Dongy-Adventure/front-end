@@ -19,7 +19,6 @@ interface UserInfo {
 
 export default function Profile() {
   const { user } = useAuth();
-  console.log(user);
 
   const userInfo: UserInfo = {
     name: user?.name ?? 'John',

@@ -57,7 +57,6 @@ export default function ProfileForm({
 
   const onSubmit = async (data: ProfileFormData) => {
     try {
-      console.log(data.address);
       await updateSeller(
         data.name,
         data.surname,
@@ -67,8 +66,6 @@ export default function ProfileForm({
         getDistrictNameTh(parseInt(data.city)),
         data.zip
       );
-      console.log(data.province);
-      console.log(data.zip);
       router.push('/profile');
     } catch (error) {
       console.error('Update failed', error);

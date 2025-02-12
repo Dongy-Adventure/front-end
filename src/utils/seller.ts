@@ -34,7 +34,6 @@ export const updateSeller = async (
   try {
     const accessToken = await getAccessToken();
     const id = await getUserId();
-    console.log(zip);
 
     const res = await apiClient.put(
       `/seller/${id}`,
@@ -55,7 +54,6 @@ export const updateSeller = async (
       }
     );
     if (!res.data.success) return false;
-    console.log(res);
     return true;
   } catch (err) {
     console.error(err);

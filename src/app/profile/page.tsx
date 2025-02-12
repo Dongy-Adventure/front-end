@@ -13,7 +13,6 @@ import Logout from '@/components/Logout';
 
 export default function Profile() {
   const { user, logout } = useAuth();
-  console.log(user);
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
 
   useEffect(() => {
