@@ -11,9 +11,11 @@ export type BuyerDTO = {
 
 export type SellerDTO = {
   accessToken: string;
+  accessTokenExpiredIn: number;
   data: Seller;
   message: string;
   refreshToken: string;
+  refreshTokenExpiredin: number;
   status: number;
   success: boolean;
 };
@@ -21,13 +23,13 @@ export type SellerDTO = {
 export const convertBuyerDTOToBuyer = (buyerDTO: BuyerDTO): Buyer => {
   return {
     ...buyerDTO.data,
-    userType: 'Buyer',
+    userType: 'buyer',
   };
 };
 
 export const convertSellerDTOToSeller = (sellerDTO: SellerDTO): Seller => {
   return {
     ...sellerDTO.data,
-    userType: 'Seller',
+    userType: 'seller',
   };
 };

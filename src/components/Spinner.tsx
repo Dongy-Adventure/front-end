@@ -9,7 +9,7 @@ const Spinner: React.FC<SpinnerProps> = (props) => {
   const { className } = props;
 
   return (
-    <div>
+    <div className="absolute top-1/2 left-1/2">
       <svg
         aria-hidden="true"
         className={cn(
