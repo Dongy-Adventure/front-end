@@ -1,6 +1,7 @@
 'use client';
 
 import Return from '@/components/Return';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import Wallet from '@/components/seller/wallet/Wallet';
@@ -43,7 +44,13 @@ export default function Profile() {
             {user?.name} {user?.surname}
           </p>
           {user?.userType === 'seller' && (
-            <div className="text-black">Score: {user?.score}</div>
+            <Link
+              className="text-black flex gap-1 items-center"
+              href="/seller/review"
+            >
+              <div>Score: {user?.score}</div>
+              <Icon icon="mdi:eye" />
+            </Link>
           )}
         </div>
         <div className="flex flex-col items-start gap-2 pt-4 w-full">
