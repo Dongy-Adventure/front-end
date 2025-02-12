@@ -110,6 +110,7 @@ export const getUser = async (): Promise<Buyer | Seller | null> => {
       return convertBuyerDTOToBuyer(res.data);
     }
   } catch (error) {
+    console.error(error);
     return null;
   }
 };
