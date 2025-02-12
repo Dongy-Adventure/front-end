@@ -11,7 +11,6 @@ import { convertTokenDTOToToken, TokenDTO } from '@/dtos/tokenDTO';
 import { Token } from '@/types/token';
 import { getExpireTime } from './time';
 
-
 export const refreshAccessToken = async (
   refToken: string
 ): Promise<string | null> => {
@@ -135,6 +134,7 @@ export const sellerAuth = async (
       return null;
     }
     const seller: Seller = convertSellerDTOToSeller(res.data);
+    const sellerStr = JSON.stringify(seller);
 
     const tokenStr = JSON.stringify({
       accessToken: accessToken,
@@ -145,6 +145,7 @@ export const sellerAuth = async (
     localStorage.setItem('userId', seller.sellerID);
     localStorage.setItem('token', tokenStr);
     localStorage.setItem('userType', 'seller');
+    localStorage.setItem('user', sellerStr);
 
     return data;
   } catch (err) {

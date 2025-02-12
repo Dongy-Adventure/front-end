@@ -49,13 +49,11 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const protectRoute = async () => {
       setIsReady(false);
 
-      const userStr = localStorage.getItem('user');
-      if (!userStr) {
-        setIsReady(true);
-        return router.push('/');
-      }
+      if (path.includes('login') || path === '/') return;
 
-      const userObj: Buyer | Seller = JSON.parse(userStr);
+      const userStr = localStorage.getItem('user');
+
+      const userObj: Buyer | Seller = JSON.parse(userStr ?? '');
       setUser(userObj);
 
       const userType: 'buyer' | 'seller' = userObj.userType;
@@ -72,6 +70,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       setIsReady(true);
     };
+    protectRoute();
     setIsReady(true);
   }, [router, path]);
 
