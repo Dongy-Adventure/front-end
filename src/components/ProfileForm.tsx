@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { updateSeller } from '@/utils/seller';
 import Image from 'next/image';
 import Pakichu from '@/../public/placeholder2.jpg';
+import { useRouter } from 'next/navigation';
 
 interface UserInfo {
   name: string;
@@ -28,7 +29,13 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
   const [city, setCity] = useState(userInfo.city);
   const [province, setProvince] = useState(userInfo.province);
   const [zip, setZip] = useState(userInfo.zip);
-  const [image, setImage] = useState('');
+
+  const [image, setImage] = useState(null);
+  const router = useRouter();
+
+  const handleSubmit = async () => {
+    return await updateSeller(name, surname, tel, address);
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -168,14 +175,15 @@ export default function ProfileForm({ userInfo }: { userInfo: UserInfo }) {
         >
           รีเซ็ต
         </button>
-        <Link href="../profile">
-          <button
-            className="w-20 h-12 bg-project-blue text-white border rounded-xl hover:bg-blue-950"
-            onClick={() => updateSeller(name, surname, tel, address)}
-          >
-            บันทึก
-          </button>
-        </Link>
+        <button
+          className="w-20 h-12 bg-project-blue text-white border rounded-xl hover:bg-blue-950"
+          onClick={() => {
+            handleSubmit();
+            router.push('/profile');
+          }}
+        >
+          บันทึก
+        </button>
       </div>
     </div>
   );
