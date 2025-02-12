@@ -3,124 +3,153 @@
 import React, { useState } from "react";
 import { createBuyer } from "@/utils/buyer";
 import { createSeller } from "@/utils/seller";
+import { useRouter } from "next/navigation";
+import { useForm} from "react-hook-form";
+import toast from 'react-hot-toast';
 
 function RegisterPage() {
-    const [userType, setUserType] = useState("Buyer");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [confrimPassword, setConfrimPassword] = useState("");
-    const [error, setError] = useState("");
+    const router = useRouter();
+    const {register, handleSubmit} = useForm();
+    const [userType, setUserType] = useState<string>("ผู้ซื้อ");
+    const [isUploading, setIsUpLoading] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+    const onSubmit = async (data : any) => {
+        setIsUpLoading(true);
+        const {username, password, confirmPassword} = data;
         
-    };
+        if (!username || !password || !confirmPassword) {
+            setErrorMessage("โปรดใส่ข้อมูลให้ครบถ้วน")
+            setIsUpLoading(false);
 
-    const handleSubmit = async (e: any) => {
-        e.defaultPrevented();
-
-        if (password != confrimPassword) {
-            setError("Password do not match!");
             return;
         }
 
-        if (!username || !password || !confrimPassword) {
-            setError("Please complete all inputs")
+        if (password != confirmPassword) {
+            setErrorMessage("รหัสผ่านไม่ตรงกัน");
+            setIsUpLoading(false);
+
+            return;
         }
 
+        const loadingToast = toast.loading('กำลังเข้าสู่ระบบ', {
+            position: "top-center", 
+            style: {
+                marginTop: "50vh", 
+                transform: "translateY(-50%)",
+                width: "500",
+                height: "500"
+            }
+        });
 
+        try {
+            let res;
+            if (userType === "ผู้ซื้อ") {
+               res = await createBuyer(password, username);
+            } else if (userType === "ผู้ขาย") {
+               res = await createSeller(password, username);
+            }
+            else {
+                setErrorMessage("Something is wrong")
+                return;
+            }
+            
+            if (res) {
+                setErrorMessage("");
+                setTimeout(() => {
+                    toast.success('เข้าสู่ระบบสำเร็จ!', { id: loadingToast })
+                }, 1100);
+
+                setTimeout(() => {
+                    router.push("/profile");
+                }, 2000)
+            }
+
+        } catch(error) {
+            setTimeout(() => {
+                toast.error('การลงทะเบียนล้มเหลว โปรดลองอีกครั้ง', { id: loadingToast });
+            }, 1500);
+            setIsUpLoading(false);
+        }
     }
     
-        
-
-    return (
+    return (    
         <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
             <main className="flex flex-col items-center justify-center w-full flex-1 px-4 sm:px-10 text-center">
                 <div className="bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row w-full max-w-4xl">
-                    {/* Left Section */}
                     <div className="w-full md:w-3/5 p-6 md:p-10">
                         <div className="py-10 md:py-20">
                             <h2 className="text-2xl md:text-3xl font-bold text-blue-900 mb-4">
-                                Sign Up Your Account
+                                ลงทะเบียน
                             </h2>
 
-                            {/* User Type Buttons */}
                             <div className="flex justify-center mb-6">
                                 <button
                                     type="button"
-                                    onClick={() => setUserType("Buyer")}
+                                    onClick={() => setUserType("ผู้ซื้อ")}
                                     className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
-                                        userType === "Buyer"
+                                        userType === "ผู้ซื้อ"
                                             ? "border-blue-900 text-blue-900"
                                             : "border-transparent text-black"
                                     }`}
                                 >
-                                    Buyer
+                                    ผู้ซื้อ
                                 </button>
                                 <button
                                     type="button"
-                                    onClick={() => setUserType("Seller")}
+                                    onClick={() => setUserType("ผู้ขาย")}
                                     className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
-                                        userType === "Seller"
+                                        userType === "ผู้ขาย"
                                             ? "border-blue-900 text-blue-900"
                                             : "border-transparent text-black"
                                     }`}
                                 >
-                                    Seller
+                                    ผู้ขาย
                                 </button>
                             </div>
 
-                            {/* Form Fields */}
-                            <form onSubmit={handleSubmit} className="flex flex-col items-center">
-                                {error && (
-                                    <div className="bg-red-500 w-fit text-sm text-white py-1 px-3 round-md mt-2">
-                                        {error}
-                                    </div>
-                                ) }
+                            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center" method="POST">
                             
                                 <input
-                                    onChange={(e) => setUsername(e.target.value)}
                                     type="text"
-                                    name="username"
-                                    placeholder="Username"
+                                    {...register("username")}
+                                    placeholder="ชื่อผู้ใช้"
                                     className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black"
                                 />
                                 <input
-                                    onChange={(e) => setPassword(e.target.value)}
                                     type="password"
-                                    name="password"
-                                    placeholder="Password"
+                                    {...register("password")}
+                                    placeholder="รหัสผ่าน"
                                     className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black"
                                 />
                                 <input
-                                    onChange={(e) => setConfrimPassword(e.target.value)}
                                     type="password"
-                                    name="confirmPassword"
-                                    placeholder="Confirm Password"
+                                    {...register("confirmPassword")}
+                                    placeholder="ยืนยันรหัสผ่าน"
                                     className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black" 
                                 />
                                 <button
                                     type = "submit"
-                                    className="border-2 border-blue-900 text-blue-900 rounded-full px-12 py-2 inline-block font-semibold hover:bg-blue-900 hover:text-white"
+                                    disabled={isUploading}
+                                    className={`border-2  rounded-full px-12 py-2 inline-block font-semibold ${!isUploading ? "border-blue-900 text-blue-900 hover:bg-blue-900 hover:text-white" : " bg-gray-500 text-white"}`}
                                 >
-                                    Sign In
+                                    ลงทะเบียน
                                 </button>
+                                {errorMessage && <p className="mt-4 text-red-500 text-sm">{errorMessage}</p>}
                             </form>
                         </div>
                     </div>
 
-                    {/* Right Section */}
-                    <div className="w-full md:w-2/5 bg-blue-900 text-white py-10 px-6 md:py-36 md:px-12 rounded-b-3xl md:rounded-bl-none md:rounded-r-3xl">
-                        <h2 className="text-2xl md:text-3xl font-bold mb-6">Create an Account!</h2>
-                        <p className="mb-8 text-sm md:text-base">
-                            If you already have an account, please go to the login page...
+                    <div className="w-full md:w-2/5 bg-blue-900 text-white py-10 px-6 md:py-36 md:px-12 flex flex-col justify-center rounded-b-3xl md:rounded-bl-none md:rounded-r-3xl">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-6">สร้างบัญชี</h2>
+                        <p className="mb-8 text-sm md:text-base text-nowrap">
+                            ถ้าคุณมีบัญชีแล้ว โปรดไปที่หน้าลงชื่อเข้าใช้...
                         </p>
                         <a
                             href="\login"
                             className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-blue-900"
                         >
-                            Login
+                            ลงชื่อเข้าใช้
                         </a>
                     </div>
                 </div>
