@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Athiti } from 'next/font/google';
-import { Toaster } from 'react-hot-toast';
 import './globals.css';
 import AuthProvider from '@/context/AuthContext';
 import Layout from '@/components/Layout';
+import { ToastProvider } from '@/context/ToastContext';
 
 const athiti = Athiti({
   subsets: ['latin', 'thai'],
@@ -26,10 +26,11 @@ export default function RootLayout({
       <body
         className={`${athiti.variable} bg-gray-100 antialiased font-athiti`}
       >
-        <Toaster />
-        <AuthProvider>
-          <Layout>{children}</Layout>
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <Layout>{children}</Layout>
+          </AuthProvider>
+        </ToastProvider>
       </body>
     </html>
   );

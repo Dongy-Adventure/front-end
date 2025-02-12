@@ -11,19 +11,6 @@ import { useEffect, useState } from 'react';
 import { getSellerBalance } from '@/utils/seller';
 import Logout from '@/components/Logout';
 
-interface UserInfo {
-  name: string;
-  surname: string;
-  tel: string;
-  address: string;
-  city: string;
-  province: string;
-  zip: string;
-  language: string;
-  image: string;
-  balance: number;
-}
-
 export default function Profile() {
   const { user, logout } = useAuth();
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
