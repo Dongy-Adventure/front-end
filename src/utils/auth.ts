@@ -15,9 +15,15 @@ export const refreshAccessToken = async (
   refToken: string
 ): Promise<string | null> => {
   try {
-    const res: AxiosResponse<TokenDTO> = await apiClient.post('/auth/refresh', {
-      refreshToken: refToken,
-    });
+    const res: AxiosResponse<TokenDTO> = await apiClient.post(
+      '/auth/refresh',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${refToken}`,
+        },
+      }
+    );
     const tokenDTO: TokenDTO = res.data;
 
     if (!tokenDTO.success) return tokenDTO.message;
@@ -40,7 +46,6 @@ export const refreshAccessToken = async (
 };
 
 export const getAccessToken = async (): Promise<string | null> => {
-  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkzNDQwMDJ9.HqkRie32PCuBffB16lo9-0aEzkL3WQeGEgsxE_jS1JI";
   const tokenStr = localStorage.getItem('token');
 
   if (!tokenStr) return null;
@@ -59,7 +64,6 @@ export const getAccessToken = async (): Promise<string | null> => {
 };
 
 export const getUserId = async (id?: string): Promise<string | null> => {
-  return "67ac43cbebb32d149c108bd3";
   let userId: string | null;
   if (!id) {
     userId = localStorage.getItem('userId');
@@ -136,6 +140,7 @@ export const sellerAuth = async (
       return null;
     }
     const seller: Seller = convertSellerDTOToSeller(res.data);
+    const sellerStr = JSON.stringify(seller);
 
     const tokenStr = JSON.stringify({
       accessToken: accessToken,
@@ -146,7 +151,33 @@ export const sellerAuth = async (
     localStorage.setItem('userId', seller.sellerID);
     localStorage.setItem('token', tokenStr);
     localStorage.setItem('userType', 'seller');
+    localStorage.setItem('user', sellerStr);
 
+    return data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const buyerAuth = async (
+  username: string,
+  password: string
+): Promise<Buyer | null> => {
+  try {
+    const res: AxiosResponse<BuyerDTO> = await apiClient.post('/auth/buyer/', {
+      username: username,
+      password: password,
+    });
+
+    if (!res.data.success) return null;
+    const { data, accessToken, refreshToken } = res.data;
+
+    const buyerStr = JSON.stringify(data);
+
+    localStorage.setItem('token', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('user', buyerStr);
     return data;
   } catch (err) {
     console.error(err);
