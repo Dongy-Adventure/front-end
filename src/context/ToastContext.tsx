@@ -42,7 +42,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
               'fixed left-1/2 z-[101] rounded-xl px-4 py-2'
             )}
           >
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 gap-1">
               {toast.data?.type === 'error' && (
                 <Icon
                   icon="mdi:alert-circle"

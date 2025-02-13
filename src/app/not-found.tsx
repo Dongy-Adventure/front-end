@@ -1,8 +1,17 @@
+'use client';
 import Image from 'next/image';
 import notFound from '@/../public/404.png';
 import Link from 'next/link';
+import { useToast } from '@/context/ToastContext';
+import { useEffect } from 'react';
 
 export default function NotFound() {
+  const toast = useToast();
+
+  useEffect(() => {
+    toast?.setToast('error', 'ขออภัย ไม่พบหน้านี้');
+  }, []);
+
   return (
     <div className="flex flex-col items-center py-8 lg:py-16 px:8 lg:px-24 w-full h-auto bg-project-secondary gap-4">
       <Image
