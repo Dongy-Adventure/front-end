@@ -3,6 +3,8 @@ import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import logo from '@/../public/logo.png';
+import Image from 'next/image';
 
 type Page = 'Home' | 'Order' | 'Profile';
 
@@ -39,8 +41,8 @@ export default function Navbar() {
   const [active, setActive] = useState<Page | null>(null);
 
   return (
-    <nav className="bg-project-blue fixed md:top-0 bottom-4 md:bottom-auto md:left-0 left-1/2 transform -translate-x-1/2 md:translate-x-0 w-4/5 md:w-screen grid grid-cols-3 place-items-center md:rounded-none rounded-xl p-1">
-      {navs.map((nav: NavComponent, index: number) => (
+    <nav className="z-50 flex items-center justify-center p-1 bg-white shadow-md fixed md:top-0 bottom-4 md:bottom-auto md:left-0 left-1/2 transform -translate-x-1/2 md:translate-x-0 w-4/5 md:w-screen">
+      {/* {navs.map((nav: NavComponent, index: number) => (
         <div
           key={index}
           className="flex items-center gap-x-1 rounded-lg font-semibold hover:bg-slate-500"
@@ -59,7 +61,17 @@ export default function Navbar() {
           />
           <p className="max-md:hidden">{nav.text}</p>
         </div>
-      ))}
+      ))} */}
+      <div className="w-10 h-10">
+        <Image
+          src={logo}
+          alt="logo"
+          className="w-full flex-shrink-0"
+        />
+      </div>
+      <p className="font-bold text-xl text-black text-center p-2">
+        TarsMarketplace
+      </p>
     </nav>
   );
 }
