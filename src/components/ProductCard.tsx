@@ -51,7 +51,7 @@ const ProductCard = ({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          router.push('/order');
+          router.push('/cart');
         }}
         className="z-10 absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full bg-project-secondary"
       >
