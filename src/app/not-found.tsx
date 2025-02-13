@@ -15,7 +15,7 @@ export default function NotFound() {
       <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold">
         That Page Cant Be Found
       </h1>
-      <p className="text-sm md:text-md lg:text-lg xl:text-xl font-thin text-center px-12 leading-tight">
+      <p className="text-sm md:text-md lg:text-lg xl:text-xl font-light text-center px-12 leading-tight text-gray-600">
         It looks like nothing was found at this location. Maybe try to search
         for what you are looking for?
       </p>
