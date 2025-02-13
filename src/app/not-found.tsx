@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import notFound from '@/../public/404.png';
 import Link from 'next/link';
+import Carousel from '@/components/Carousel';
 
 export default function NotFound() {
   return (

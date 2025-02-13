@@ -18,7 +18,7 @@ export default {
           primary: '#7A3FF3',
           secondary: '#F1E7FF',
           dark: '#634C9F',
-          gray: '#EEEEEE'
+          pink: '#FB2E86'
         },
       },
       fontFamily: {
