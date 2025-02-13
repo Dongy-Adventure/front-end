@@ -48,7 +48,7 @@ export default function Carousel() {
 
       <button
         onClick={prevSlide}
-        className="absolute inset-y-0 left-0 w-1/8 rounded-xl bg-transparent hover:bg-black/20 transition-opacity opacity-0 hover:opacity-100"
+        className="absolute inset-y-0 left-0 w-1/8 rounded-r-full bg-transparent hover:bg-black/20 transition-opacity opacity-0 hover:opacity-100"
       >
         <Icon
           icon="line-md:chevron-left"
@@ -59,7 +59,7 @@ export default function Carousel() {
       </button>
       <button
         onClick={nextSlide}
-        className="absolute inset-y-0 right-0 w-1/8 rounded-xl bg-transparent hover:bg-black/20 transition-opacity opacity-0 hover:opacity-100"
+        className="absolute inset-y-0 right-0 w-1/8 rounded-l-full bg-transparent hover:bg-black/20 transition-opacity opacity-0 hover:opacity-100"
       >
         <Icon
           icon="line-md:chevron-right"
