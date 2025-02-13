@@ -9,7 +9,7 @@ export default function NotFound() {
   const toast = useToast();
 
   useEffect(() => {
-    toast?.setToast('error', 'ขออภัย ไม่พบหน้านี้');
+    toast?.setToast('error', 'Sorry! Page not found');
   }, []);
 
   return (
