@@ -15,6 +15,10 @@ export default {
         project: {
           blue: '#001F54',
           green: '#37AF3F',
+          primary: '#7A3FF3',
+          secondary: '#F1E7FF',
+          dark: '#634C9F',
+          gray: '#EEEEEE'
         },
       },
       fontFamily: {
