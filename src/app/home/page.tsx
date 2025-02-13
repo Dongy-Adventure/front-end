@@ -86,7 +86,7 @@ const exampleProducts = [
 
 export default function Home() {
   return (
-    <div className="pt-2 flex flex-col">
+    <div className="pt-4 flex flex-col">
       <div className="w-full">
         <Carousel />
       </div>

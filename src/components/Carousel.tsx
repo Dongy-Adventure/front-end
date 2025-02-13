@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import placeholder from '@/../public/placeholder3.png';
-import placeholder2 from '@/../public/404.png';
+import placeholder102 from '@/../public/placeholder102.webp';
+import placeholder103 from '@/../public/placeholder103.webp';
+import placeholder104 from '@/../public/placeholder104.webp';
+import placeholder105 from '@/../public/placeholder105.webp';
 import Image from 'next/image';
 
-const images = [placeholder, placeholder, placeholder2, placeholder];
+const images = [placeholder102, placeholder103, placeholder104, placeholder105];
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
