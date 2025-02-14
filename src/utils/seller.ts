@@ -1,3 +1,4 @@
+import { Seller } from '@/types/user';
 import { getAccessToken, getUserId } from './auth';
 import { apiClient } from './axios';
 
@@ -87,3 +88,22 @@ export const getSellerBalance = async (): Promise<number | null> => {
     return null;
   }
 };
+
+export const getSellerById = async (sid: string): Promise<Seller | null> => {
+
+  try {
+    const res = await apiClient.get(`/seller/${sid}`, {
+    });
+
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return null;
+    }
+
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+

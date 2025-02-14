@@ -44,6 +44,7 @@ export default function Carousel() {
             src={src}
             alt={`Slide ${index + 1}`}
             className="w-full flex-shrink-0"
+            unoptimized
           />
         ))}
       </div>
