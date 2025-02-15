@@ -1,6 +1,6 @@
 import { getAccessToken, getUserId } from './auth';
 import { AxiosResponse } from 'axios';
-import { ProductDTO } from '@/dtos/productDTO';
+import { ProductDataDTO, ProductDTO, ProductsDTO } from '@/dtos/productDTO';
 import { apiClient } from './axios';
 import { Product } from '@/types/product';
 
@@ -61,13 +61,45 @@ export const getProductById = async (pid: string): Promise<Product | null> => {
       console.error(res.data.message);
       return null;
     }
-    
-    console.log(res.data.data);
 
     return res.data.data;
   } catch (err) {
     console.error(err);
     return null;
 
+  }
+};
+
+export const getAllProducts = async (): Promise<Product[] | null> => {
+  try {
+    const res: AxiosResponse<ProductsDTO> = await apiClient.get(
+      `/product`,
+    );
+  
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return null;
+    }
+    
+    const productData: ProductDataDTO[] = res.data.data;
+
+    const products: Product[] = productData.map((p: ProductDataDTO) => {
+      return {
+        sellerID: p.sellerID,
+        color: p.color,
+        createdAt: p.createdAt,
+        description: p.description,
+        imageURL: p.imageURL,
+        price: p.price,
+        productID: p.productID,
+        productName: p.productName,
+        tag: p.tag,
+      };
+    });
+
+    return products;
+  } catch (err) {
+    console.error(err);
+    return null;
   }
 };
