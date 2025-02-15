@@ -175,7 +175,7 @@ export default function Profile() {
             </div>
             <button
               onClick={() => router.push('/profile/edit')}
-              className="w-24 h-10 mt-8 bg-project-primary rounded-lg font-semibold text-white align-center justify-center"
+              className="w-24 h-10 mt-8 bg-project-primary rounded-lg font-semibold text-white align-center justify-center hover:bg-project-dark"
             >
               <p>Edit</p>
             </button>
