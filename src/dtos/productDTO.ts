@@ -1,6 +1,6 @@
 export type ProductDTO = {
   data: {
-    SellerID: string;
+    sellerID: string;
     color: string;
     createdAt: string;
     description: string;

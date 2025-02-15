@@ -2,6 +2,7 @@ import { getAccessToken, getUserId } from './auth';
 import { AxiosResponse } from 'axios';
 import { ProductDTO } from '@/dtos/productDTO';
 import { apiClient } from './axios';
+import { Product } from '@/types/product';
 
 export const createProduct = async (
   name: string,
@@ -47,5 +48,26 @@ export const createProduct = async (
   } catch (err) {
     console.error(err);
     return false;
+  }
+};
+
+export const getProductById = async (pid: string): Promise<Product | null> => {
+  try {
+    const res: AxiosResponse<ProductDTO> = await apiClient.get(
+      `/product/${pid}`,
+    );
+  
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return null;
+    }
+    
+    console.log(res.data.data);
+
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+    return null;
+
   }
 };

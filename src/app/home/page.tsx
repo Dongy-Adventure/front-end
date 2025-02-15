@@ -3,7 +3,7 @@ import ProductCard from '@/components/ProductCard';
 
 const exampleProducts = [
   {
-    pid: '1001',
+    pid: '67b04400a4b06a82570bc299',
     category: 'Dried fruit',
     productName: 'Mango',
     price: 150,
@@ -11,7 +11,7 @@ const exampleProducts = [
     image: 'public/placeholder2.jpg',
   },
   {
-    pid: '1002',
+    pid: '67b03f31a4b06a82570bc297',
     category: 'Dried fruit',
     productName: 'Pineapple',
     price: 130,
@@ -86,7 +86,7 @@ const exampleProducts = [
 
 export default function Home() {
   return (
-    <div className="pt-2 flex flex-col">
+    <div className="pt-4 flex flex-col">
       <div className="w-full">
         <Carousel />
       </div>
