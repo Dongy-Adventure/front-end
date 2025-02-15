@@ -120,7 +120,7 @@ export const getUser = async (): Promise<Buyer | Seller | null> => {
   }
 
   try {
-    const userType = 'seller';
+    const userType = localStorage.getItem('userType');
 
     if (userType === 'seller') {
       const res: AxiosResponse<SellerDTO> = await apiClient.get(
@@ -212,6 +212,7 @@ export const buyerAuth = async (
 
     localStorage.setItem('token', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('userType', 'buyer');
     localStorage.setItem('user', buyerStr);
     return data;
   } catch (err) {
