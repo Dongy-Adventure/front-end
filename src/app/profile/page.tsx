@@ -1,18 +1,16 @@
 'use client';
 
-import Return from '@/components/Return';
-import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import Wallet from '@/components/seller/wallet/Wallet';
-
-import Pakichu from '@/../public/placeholder2.jpg';
+import tempProfilePicture from '@/../public/placeholder2.jpg';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { getSellerBalance } from '@/utils/seller';
-import Logout from '@/components/Logout';
+import { useRouter } from 'next/navigation';
+import { Seller } from '@/types/user';
 
 export default function Profile() {
+  const router = useRouter();
   const { user, logout } = useAuth();
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
 
@@ -27,75 +25,163 @@ export default function Profile() {
     }
   }, []);
 
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+  };
+
   return (
-    <div className="flex flex-col items-center pb-20 gap-12">
-      <div className="flex flex-col items-center justify-center gap-8 pt-8">
-        <Return />
-        <Logout />
-        <div className="flex flex-col gap-4 items-center">
-          <div className="flex items-center justify-center w-48 h-48 border-[1px] border-project-blue rounded-lg bg-gray-100">
-            <Image
-              src={Pakichu}
-              alt="Pakichu"
-              className="object-contain rounded-lg"
-            />
-          </div>
-          <p className="text-project-blue font-bold text-xl">
+    <div className="p-12 md:px-20 md:pt-16 flex flex-col">
+      <div className="flex gap-2 pb-12">
+        <Link
+          href="/home"
+          className="text-gray-400"
+        >
+          Home
+        </Link>
+        <p className="text-gray-400">{'\u003E'}</p>
+        <p className="text-gray-400">My Account</p>
+        <p className="text-gray-400">{'\u003E'}</p>
+        <p className="text-black font-semibold">Profile</p>
+      </div>
+      <div className=" px-4 md:px-12 flex h-28 w-full bg-project-secondary rounded-xl items-center justify-start gap-8">
+        <Image
+          src={tempProfilePicture}
+          alt="Profile Picture"
+          width={90}
+          height={90}
+          className="rounded-full"
+        />
+        <div className="flex flex-col gap-1">
+          <p className="text-lg font-semibold">
             {user?.name} {user?.surname}
           </p>
-          {user?.userType === 'seller' && (
-            <Link
-              className="text-black flex gap-1 items-center"
-              href="/seller/review"
-            >
-              <div>Score: {user?.score}</div>
-              <Icon icon="mdi:eye" />
-            </Link>
-          )}
-        </div>
-        <div className="flex flex-col items-start gap-2 pt-4 w-full">
-          <p className="text-project-blue text-left pb-2 font-semibold">
-            เบอร์โทรศัพท์
-          </p>
-          <p className="w-80 p-1 pt-0 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue">
-            {user?.phoneNumber}
-          </p>
-        </div>
-        <div className="flex flex-col items-start gap-2 pt-4">
-          <p className="text-project-blue text-left pb-2 font-semibold">
-            ที่อยู่
-          </p>
-          <p className="w-80 p-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue">
-            {user?.address}
-          </p>
-          <div className="flex gap-8">
-            <p className="w-36 p-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue">
-              {user?.city ?? 'Wangchan'}
-            </p>
-            <p className="w-36 p-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue">
-              {user?.province ?? 'Rayong'}
-            </p>
-          </div>
-          <p className="w-80 p-1 border-0 border-b-[1px] border-project-blue bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue">
-            {user?.zip ?? '21877'}
-          </p>
+          <p className="text-sm">placeholder@gmail.com</p>
         </div>
       </div>
-      <Link
-        className="flex w-32 items-center gap-6 mb-4"
-        href="./profile/edit"
-      >
-        <button className="w-full h-12 bg-project-blue text-white border rounded-xl hover:bg-blue-950">
-          แก้ไขข้อมูล
-        </button>
-      </Link>
-      {user?.userType === 'seller' && <Wallet balance={sellerBalance ?? 0} />}
-      <button
-        className="w-48 h-12 bg-red-700 text-white border rounded-xl hover:bg-blue-950"
-        onClick={logout}
-      >
-        ออกจากระบบ
-      </button>
+      <div className="flex pt-16 gap-16">
+        <div className="rounded-xl hidden xl:block w-1/4 max-w-80 font-semibold">
+          <Link
+            href="/profile"
+            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0 rounded-t-xl bg-project-secondary"
+          >
+            Profile
+          </Link>
+          <Link
+            href="/home"
+            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
+          >
+            Manage Order
+          </Link>
+          <Link
+            href="/home"
+            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
+          >
+            Product On-display
+          </Link>
+          <Link
+            href="/seller/transaction-history"
+            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
+          >
+            Transaction History
+          </Link>
+          <Link
+            href="/withdraw"
+            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
+          >
+            Wallet
+          </Link>
+          <Link
+            href="/ads"
+            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
+          >
+            Create Ads
+          </Link>
+          <Link
+            href="/review"
+            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
+          >
+            My Review
+          </Link>
+          <button
+            className="flex px-4 w-full h-12 items-center justify-start border-[1px] text-red-500 rounded-b-xl"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
+        <div className="flex flex-col w-full">
+          <h1 className="text-xl font-semibold pb-4">My Profile</h1>
+          <div className="flex overflow-scroll gap-4 w-full h-28 mb-12  text-white">
+            <div className="bg-black w-full min-w-60 max-w-72 h-full rounded-2xl px-8">
+              <p className="pt-10 font-semibold">Balance</p>
+              <p className="font-semibold text-2xl">
+                {Number(sellerBalance).toFixed(2)} THB
+              </p>
+            </div>
+            <div className="bg-black w-full min-w-60 max-w-72 h-full rounded-2xl px-8">
+              <p className="pt-10 font-semibold">Products Sold</p>
+              <p className="font-semibold text-2xl">{20}</p>
+            </div>
+            <div className="bg-black w-full min-w-60 max-w-72 h-full rounded-2xl px-8">
+              <p className="pt-10 font-semibold">Review Score</p>
+              <p className="font-semibold text-2xl">
+                {Number((user as Seller)?.score).toFixed(2)}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-4 w-4/5">
+            <div className="grid grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <p className="text-sm">Username</p>
+                <p className="text-md font-semibold">{user?.username}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="text-sm">Password</p>
+                <p className="text-md font-semibold">*******************</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <p className="text-sm">Name</p>
+                <p className="text-md font-semibold">{user?.name}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="text-sm">Surname</p>
+                <p className="text-md font-semibold">{user?.surname}</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm">Phone Number</p>
+              <p className="text-md font-semibold">{user?.phoneNumber}</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm">Address</p>
+              <p className="text-md font-semibold">{user?.address}</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm">District</p>
+              <p className="text-md font-semibold">{(user as Seller)?.city}</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm">Province</p>
+              <p className="text-md font-semibold">
+                {(user as Seller)?.province}
+              </p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm">ZIP Code</p>
+              <p className="text-md font-semibold">{(user as Seller)?.zip}</p>
+            </div>
+            <button
+              onClick={() => router.push('/profile/edit')}
+              className="w-24 h-10 mt-8 bg-project-primary rounded-lg font-semibold text-white align-center justify-center"
+            >
+              <p>Edit</p>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
