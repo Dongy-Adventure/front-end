@@ -8,7 +8,7 @@ const mockSeller = {
 };
 
 export default function ProductSellerCard({ sid }: { sid: string }) {
-  const seller = getSellerById(sid);
+  // const seller = getSellerById(sid);
 
   return (
     <div className="flex gap-4">

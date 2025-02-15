@@ -51,20 +51,23 @@ export const createProduct = async (
   }
 };
 
-export const getProductById = (pid: string ): Product => { 
+export const getProductById = async (pid: string): Promise<Product | null> => {
+  try {
+    const res: AxiosResponse<ProductDTO> = await apiClient.get(
+      `/product/${pid}`,
+    );
+  
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return null;
+    }
+    
+    console.log(res.data.data);
 
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+    return null;
 
-  const mockProductData: Product = {
-    productID: pid,
-    tag: ["Dried fruit"],
-    productName: "Potato Chips 52g, American Cream & Onion Flavour, Crunchy Chips & Snacks.",
-    price: 201,
-    sellerID: "1000",
-    color: "",
-    createdAt: "",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1990.",
-    imageURL: "string",
   }
-
-  return mockProductData;
-}
+};
