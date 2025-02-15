@@ -16,7 +16,7 @@ export const refreshAccessToken = async (
 ): Promise<string | null> => {
   try {
     const res: AxiosResponse<TokenDTO> = await apiClient.post(
-      '/auth/refresh',
+      '/auth/refresh/',
       {},
       {
         headers: {
@@ -61,6 +61,41 @@ export const getAccessToken = async (): Promise<string | null> => {
   }
 
   return token.accessToken;
+};
+
+export const logOut = async (): Promise<boolean> => {
+  const accessToken = await getAccessToken();
+  const tokenStr = localStorage.getItem('token');
+
+  if (!tokenStr) return false;
+
+  const token: Token = JSON.parse(tokenStr);
+  const refreshToken = await refreshAccessToken(token.refreshToken);
+
+  try {
+    const res = await apiClient.post(
+      '/auth/logout/',
+      {
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.status) {
+      console.error(res.data.message);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
 };
 
 export const getUserId = async (id?: string): Promise<string | null> => {

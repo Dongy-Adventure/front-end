@@ -1,7 +1,7 @@
 'use client';
 import Spinner from '@/components/Spinner';
 import { Buyer, Seller } from '@/types/user';
-import { getUser } from '@/utils/auth';
+import { getUser, logOut } from '@/utils/auth';
 import { usePathname, useRouter } from 'next/navigation';
 import React, {
   createContext,
@@ -43,6 +43,10 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const logout = useCallback(() => {
+    const logoutFunction = async (): Promise<boolean> => {
+      return await logOut();
+    };
+    logoutFunction();
     localStorage.clear();
     window.location.href = '/';
   }, []);
