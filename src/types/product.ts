@@ -1,5 +1,5 @@
 export type Product = {
-  sellerName: string;
+  sellerID: string;
   color: string;
   createdAt: string;
   description: string;
