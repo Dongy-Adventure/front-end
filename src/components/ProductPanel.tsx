@@ -8,6 +8,7 @@ import { Product } from '@/types/product';
 import Image from 'next/image';
 import ProductCard from './ProductCard';
 import temp from '@/../public/404.png';
+import { Seller } from '@/types/user';
 
 const exampleProducts = [
   {
@@ -52,7 +53,13 @@ const exampleProducts = [
   },
 ];
 
-export default function ProductPanel({ product }: { product: Product }) {
+export default function ProductPanel({
+  product,
+  seller,
+}: {
+  product: Product;
+  seller: Seller;
+}) {
   const [count, setCount] = useState(1);
 
   const router = useRouter();
@@ -97,7 +104,7 @@ export default function ProductPanel({ product }: { product: Product }) {
           <p className="leading-tight font-light text-sm pb-8">
             {product.description}
           </p>
-          <ProductSellerCard sid={product.sellerID} />
+          <ProductSellerCard seller={seller} />
           <div className="flex pt-12 pb-12 gap-4">
             <div className="flex items-center justify-between w-28 h-10 border rounded-lg bg-gray-100">
               <button

@@ -3,7 +3,7 @@ import ProductCard from '@/components/ProductCard';
 
 const exampleProducts = [
   {
-    pid: '67b03bb9745dafe39fa00aa6',
+    pid: '67b04400a4b06a82570bc299',
     category: 'Dried fruit',
     productName: 'Mango',
     price: 150,
