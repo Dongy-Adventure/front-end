@@ -16,7 +16,7 @@ export const refreshAccessToken = async (
 ): Promise<string | null> => {
   try {
     const res: AxiosResponse<TokenDTO> = await apiClient.post(
-      '/auth/refresh/',
+      '/auth/refresh',
       {},
       {
         headers: {
