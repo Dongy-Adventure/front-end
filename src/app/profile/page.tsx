@@ -43,7 +43,7 @@ export default function Profile() {
         <p className="text-gray-400">{'\u003E'}</p>
         <p className="text-black font-semibold">Profile</p>
       </div>
-      <div className=" px-4 md:px-12 flex h-28 w-full bg-project-secondary rounded-xl items-center justify-start gap-8">
+      <div className="text-black px-4 md:px-12 flex h-28 w-full bg-project-secondary rounded-xl items-center justify-start gap-8">
         <Image
           src={tempProfilePicture}
           alt="Profile Picture"
@@ -58,7 +58,7 @@ export default function Profile() {
           <p className="text-sm">placeholder@gmail.com</p>
         </div>
       </div>
-      <div className="flex pt-16 gap-16">
+      <div className="flex pt-16 gap-16 text-black">
         <div className="rounded-xl hidden xl:block w-1/4 max-w-80 font-semibold">
           <Link
             href="/profile"

@@ -1,8 +1,9 @@
 import { Buyer } from '@/types/user';
-import { getAccessToken, getUserId } from './auth';
+import { getAccessToken } from './auth';
 import { apiClient } from './axios';
 import { BuyerDTO } from '@/dtos/userDTO';
 import { AxiosResponse } from 'axios';
+import { getUserId } from './user';
 
 export const createBuyer = async (
   password: string,

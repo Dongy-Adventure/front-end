@@ -1,7 +1,7 @@
 'use client';
 import Spinner from '@/components/Spinner';
 import { Buyer, Seller } from '@/types/user';
-import { getUser, logOut } from '@/utils/auth';
+import { logOut } from '@/utils/auth';
 import { usePathname, useRouter } from 'next/navigation';
 import React, {
   createContext,
@@ -12,6 +12,7 @@ import React, {
   useState,
 } from 'react';
 import { useToast } from './ToastContext';
+import { getUser } from '@/utils/user';
 
 interface IAuthContext {
   user: Buyer | Seller | null;

@@ -1,10 +1,9 @@
 import { Review } from '@/types/review';
-import { getAccessToken, getUserId } from './auth';
+import { getAccessToken } from './auth';
 import { apiClient } from './axios';
 import { AxiosResponse } from 'axios';
 import { ReviewDataDTO, ReviewDTO } from '@/dtos/reviewDTO';
-import { getBuyerById } from './buyer';
-import { Buyer } from '@/types/user';
+import { getUserId } from './user';
 
 export const getReviews = async (): Promise<Review[] | null> => {
   const accessToken = await getAccessToken();

@@ -1,8 +1,9 @@
 import { Seller } from '@/types/user';
-import { getAccessToken, getUserId } from './auth';
+import { getAccessToken } from './auth';
 import { apiClient } from './axios';
 import { SellerDTO } from '@/dtos/userDTO';
 import { AxiosResponse } from 'axios';
+import { getUserId } from './user';
 
 export const createSeller = async (
   password: string,
@@ -34,7 +35,7 @@ export const updateSeller = async (
   address: string,
   province: string,
   city: string,
-  zip: string,
+  zip: string
 ): Promise<boolean | null> => {
   try {
     const accessToken = await getAccessToken();
@@ -52,7 +53,7 @@ export const updateSeller = async (
         address: address,
         province: province,
         city: city,
-        zip: zip
+        zip: zip,
       },
       {
         headers: {
@@ -96,10 +97,11 @@ export const getSellerBalance = async (): Promise<number | null> => {
 };
 
 export const getSellerById = async (sid: string): Promise<Seller | null> => {
-
   try {
-    const res: AxiosResponse<SellerDTO> = await apiClient.get(`/seller/${sid}`, {
-    });
+    const res: AxiosResponse<SellerDTO> = await apiClient.get(
+      `/seller/${sid}`,
+      {}
+    );
 
     if (!res.data.success) {
       console.error(res.data.message);
@@ -112,4 +114,3 @@ export const getSellerById = async (sid: string): Promise<Seller | null> => {
     return null;
   }
 };
-
