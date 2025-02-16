@@ -6,6 +6,7 @@ import { createSeller } from '@/utils/seller';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/context/ToastContext';
+import { cn } from '@/lib/utils';
 
 function RegisterPage() {
   const router = useRouter();
@@ -20,14 +21,14 @@ function RegisterPage() {
     const { username, password, confirmPassword } = data;
 
     if (!username || !password || !confirmPassword) {
-      setErrorMessage('โปรดใส่ข้อมูลให้ครบถ้วน');
+      setErrorMessage('Please fill all the data!');
       setIsUpLoading(false);
 
       return;
     }
 
     if (password != confirmPassword) {
-      setErrorMessage('รหัสผ่านไม่ตรงกัน');
+      setErrorMessage("Passwords don't match");
       setIsUpLoading(false);
 
       return;
@@ -48,7 +49,7 @@ function RegisterPage() {
       if (res) {
         setErrorMessage('');
         setTimeout(() => {
-          toast?.setToast('success', 'เข้าสู่ระบบสำเร็จ!');
+          toast?.setToast('success', 'Successfully Sign Up!');
         }, 1100);
 
         setTimeout(() => {
@@ -59,7 +60,7 @@ function RegisterPage() {
       }
     } catch (error) {
       setTimeout(() => {
-        toast?.setToast('error', 'การลงทะเบียนล้มเหลว โปรดลองอีกครั้ง');
+        toast?.setToast('error', 'Failed to sign up! Please try again later!');
       }, 1500);
       setIsUpLoading(false);
     }
@@ -79,22 +80,25 @@ function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setUserType('ผู้ซื้อ')}
-                  className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
+                  className={cn(
+                    'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
+
                     userType === 'ผู้ซื้อ'
                       ? 'border-project-primary text-project-primary'
                       : 'border-transparent text-black'
-                  }`}
+                  )}
                 >
                   Buyer
                 </button>
                 <button
                   type="button"
                   onClick={() => setUserType('ผู้ขาย')}
-                  className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
+                  className={cn(
+                    'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
                     userType === 'ผู้ขาย'
                       ? 'border-project-primary text-project-primary'
                       : 'border-transparent text-black'
-                  }`}
+                  )}
                 >
                   Seller
                 </button>
@@ -126,7 +130,12 @@ function RegisterPage() {
                 <button
                   type="submit"
                   disabled={isUploading}
-                  className={`border-2  rounded-full px-12 py-2 inline-block font-semibold ${!isUploading ? 'border-project-primary text-project-primary hover:bg-project-primary hover:text-white' : ' bg-gray-500 text-white'}`}
+                  className={cn(
+                    'border-2  rounded-full px-12 py-2 inline-block font-semibold',
+                    !isUploading
+                      ? 'border-project-primary text-project-primary hover:bg-project-primary hover:text-white'
+                      : ' bg-gray-500 text-white'
+                  )}
                 >
                   Register
                 </button>
