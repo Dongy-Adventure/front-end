@@ -1,4 +1,4 @@
-import ProductPanel from '@/components/ProductPanel';
+import ProductPanel from '@/components/product/ProductPanel';
 import { Product } from '@/types/product';
 import { Seller } from '@/types/user';
 import { getProductById } from '@/utils/product';

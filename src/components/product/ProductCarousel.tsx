@@ -16,11 +16,11 @@ const products = [
 export default function ProductCarousel() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState<NodeJS.Timeout | number | null>(null);
   const [startIndex, setStartIndex] = useState(0);
 
   const restartTimer = () => {
-    if (timer) clearInterval(timer);
+    if (timer) clearInterval(timer); // Clear the old timer
     const newTimer = setInterval(() => {
       setDirection(1);
       setCurrent((prev) => (prev + 1) % products.length);
@@ -30,7 +30,7 @@ export default function ProductCarousel() {
 
   useEffect(() => {
     restartTimer();
-    return () => clearInterval(timer);
+    return () => clearInterval(timer ?? undefined);
   }, [current]);
 
   useEffect(() => {

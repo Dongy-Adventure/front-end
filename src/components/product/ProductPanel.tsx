@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import ProductSellerCard from '@/components/ProductSellerCard';
+import ProductSellerCard from '@/components/product/ProductSellerCard';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Product } from '@/types/product';

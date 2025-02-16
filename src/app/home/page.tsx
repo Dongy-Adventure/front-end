@@ -1,5 +1,5 @@
-import Carousel from '@/components/Carousel';
-import ProductCard from '@/components/ProductCard';
+import Carousel from '@/components/product/Carousel';
+import ProductCard from '@/components/product/ProductCard';
 import { Product } from '@/types/product';
 import { getAllProducts } from '@/utils/product';
 
