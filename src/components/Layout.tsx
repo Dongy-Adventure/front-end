@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import Navbar from '@/components/Navbar';
+import { cn } from '@/lib/utils';
 
 export default function RootLayoutNav({
   children,
@@ -13,7 +14,9 @@ export default function RootLayoutNav({
   return (
     <>
       {pathname !== '/' && pathname !== '/login' && <Navbar />}
-      <main className="my-8">{children}</main>
+      <main className={cn(pathname !== '/' && pathname !== '/login' && 'my-8')}>
+        {children}
+      </main>
     </>
   );
 }
