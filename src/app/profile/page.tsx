@@ -85,7 +85,7 @@ export default function Profile() {
             Transaction History
           </Link>
           <Link
-            href="/withdraw"
+            href="/seller/withdraw"
             className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
           >
             Wallet
@@ -97,7 +97,7 @@ export default function Profile() {
             Create Ads
           </Link>
           <Link
-            href="/review"
+            href="/seller/review"
             className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
           >
             My Review

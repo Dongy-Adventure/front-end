@@ -54,7 +54,7 @@ export default function ProfileForm({
       city: defaultDistrictCode,
     },
   });
-  const selectedProvince = watch('province'); // Get real-time value of province
+  const selectedProvince = watch('province');
 
   useEffect(() => {
     if (selectedProvince) {

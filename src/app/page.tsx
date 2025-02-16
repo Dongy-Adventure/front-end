@@ -5,34 +5,29 @@ import { createBuyer } from '@/utils/buyer';
 import { createSeller } from '@/utils/seller';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/context/ToastContext';
 import { cn } from '@/lib/utils';
+import { authSchema, AuthSchema } from '@/lib/validations/auth';
 
 function RegisterPage() {
   const router = useRouter();
   const toast = useToast();
-  const { register, handleSubmit } = useForm();
   const [userType, setUserType] = useState<string>('ผู้ซื้อ');
   const [isUploading, setIsUpLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const onSubmit = async (data: any) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AuthSchema>({
+    resolver: zodResolver(authSchema),
+  });
+
+  const onSubmit = async (data: AuthSchema) => {
     setIsUpLoading(true);
-    const { username, password, confirmPassword } = data;
-
-    if (!username || !password || !confirmPassword) {
-      setErrorMessage('Please fill all the data!');
-      setIsUpLoading(false);
-
-      return;
-    }
-
-    if (password != confirmPassword) {
-      setErrorMessage("Passwords don't match");
-      setIsUpLoading(false);
-
-      return;
-    }
+    const { username, password } = data;
 
     try {
       let res;
@@ -49,7 +44,7 @@ function RegisterPage() {
       if (res) {
         setErrorMessage('');
         setTimeout(() => {
-          toast?.setToast('success', 'Successfully Sign Up!');
+          toast?.setToast('success', 'Successfully Signed Up!');
         }, 1100);
 
         setTimeout(() => {
@@ -82,7 +77,6 @@ function RegisterPage() {
                   onClick={() => setUserType('ผู้ซื้อ')}
                   className={cn(
                     'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
-
                     userType === 'ผู้ซื้อ'
                       ? 'border-project-primary text-project-primary'
                       : 'border-transparent text-black'
@@ -106,39 +100,58 @@ function RegisterPage() {
 
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col items-center"
+                className="flex gap-2 flex-col items-center"
                 method="POST"
               >
                 <input
                   type="text"
                   {...register('username')}
                   placeholder="Username"
-                  className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black"
+                  className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black"
                 />
+                {errors.username && (
+                  <p className="text-red-500 text-sm">
+                    {errors.username.message}
+                  </p>
+                )}
+
                 <input
                   type="password"
                   {...register('password')}
                   placeholder="Password"
-                  className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black"
+                  className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black"
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
+
                 <input
                   type="password"
                   {...register('confirmPassword')}
                   placeholder="Confirm Password"
-                  className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black"
+                  className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black"
                 />
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-sm">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+
                 <button
                   type="submit"
                   disabled={isUploading}
                   className={cn(
-                    'border-2  rounded-full px-12 py-2 inline-block font-semibold',
+                    'border-2 rounded-full px-12 py-2 inline-block font-semibold',
                     !isUploading
                       ? 'border-project-primary text-project-primary hover:bg-project-primary hover:text-white'
-                      : ' bg-gray-500 text-white'
+                      : 'bg-gray-500 text-white'
                   )}
                 >
                   Register
                 </button>
+
                 {errorMessage && (
                   <p className="mt-6 text-red-500 text-sm">{errorMessage}</p>
                 )}
@@ -151,10 +164,10 @@ function RegisterPage() {
               Create Account
             </h2>
             <p className="mb-8 text-sm md:text-base text-nowrap">
-              If you have an account, Go to login page...
+              If you have an account, go to the login page...
             </p>
             <a
-              href="\login"
+              href="/login"
               className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-project-primary"
             >
               Login
