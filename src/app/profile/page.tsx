@@ -27,7 +27,6 @@ export default function Profile() {
 
   const handleLogout = () => {
     logout();
-    router.push('/');
   };
 
   return (
