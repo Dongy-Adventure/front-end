@@ -71,8 +71,8 @@ function RegisterPage() {
         <div className="bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row w-full max-w-4xl">
           <div className="w-full md:w-3/5 p-6 md:p-10">
             <div className="py-10 md:py-20">
-              <h2 className="text-2xl md:text-3xl font-bold text-blue-900 mb-4">
-                ลงทะเบียน
+              <h2 className="text-2xl md:text-3xl font-bold text-project-primary mb-4">
+                Register
               </h2>
 
               <div className="flex justify-center mb-6">
@@ -81,22 +81,22 @@ function RegisterPage() {
                   onClick={() => setUserType('ผู้ซื้อ')}
                   className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
                     userType === 'ผู้ซื้อ'
-                      ? 'border-blue-900 text-blue-900'
+                      ? 'border-project-primary text-project-primary'
                       : 'border-transparent text-black'
                   }`}
                 >
-                  ผู้ซื้อ
+                  Buyer
                 </button>
                 <button
                   type="button"
                   onClick={() => setUserType('ผู้ขาย')}
                   className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
                     userType === 'ผู้ขาย'
-                      ? 'border-blue-900 text-blue-900'
+                      ? 'border-project-primary text-project-primary'
                       : 'border-transparent text-black'
                   }`}
                 >
-                  ผู้ขาย
+                  Seller
                 </button>
               </div>
 
@@ -108,45 +108,47 @@ function RegisterPage() {
                 <input
                   type="text"
                   {...register('username')}
-                  placeholder="ชื่อผู้ใช้"
+                  placeholder="Username"
                   className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black"
                 />
                 <input
                   type="password"
                   {...register('password')}
-                  placeholder="รหัสผ่าน"
+                  placeholder="Password"
                   className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black"
                 />
                 <input
                   type="password"
                   {...register('confirmPassword')}
-                  placeholder="ยืนยันรหัสผ่าน"
+                  placeholder="Confirm Password"
                   className="bg-gray-100 w-full sm:w-72 p-2 mb-4 rounded outline-none text-sm text-black"
                 />
                 <button
                   type="submit"
                   disabled={isUploading}
-                  className={`border-2  rounded-full px-12 py-2 inline-block font-semibold ${!isUploading ? 'border-blue-900 text-blue-900 hover:bg-blue-900 hover:text-white' : ' bg-gray-500 text-white'}`}
+                  className={`border-2  rounded-full px-12 py-2 inline-block font-semibold ${!isUploading ? 'border-project-primary text-project-primary hover:bg-project-primary hover:text-white' : ' bg-gray-500 text-white'}`}
                 >
-                  ลงทะเบียน
+                  Register
                 </button>
                 {errorMessage && (
-                  <p className="mt-4 text-red-500 text-sm">{errorMessage}</p>
+                  <p className="mt-6 text-red-500 text-sm">{errorMessage}</p>
                 )}
               </form>
             </div>
           </div>
 
-          <div className="w-full md:w-2/5 bg-blue-900 text-white py-10 px-6 md:py-36 md:px-12 flex flex-col justify-center rounded-b-3xl md:rounded-bl-none md:rounded-r-3xl">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6">สร้างบัญชี</h2>
+          <div className="w-full md:w-2/5 bg-project-primary text-white py-10 px-6 md:py-36 md:px-12 flex flex-col justify-center rounded-b-3xl md:rounded-bl-none md:rounded-r-3xl">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">
+              Create Account
+            </h2>
             <p className="mb-8 text-sm md:text-base text-nowrap">
-              ถ้าคุณมีบัญชีแล้ว โปรดไปที่หน้าลงชื่อเข้าใช้...
+              If you have an account, Go to login page...
             </p>
             <a
               href="\login"
-              className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-blue-900"
+              className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-project-primary"
             >
-              ลงชื่อเข้าใช้
+              Login
             </a>
           </div>
         </div>

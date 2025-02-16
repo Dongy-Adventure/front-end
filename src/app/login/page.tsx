@@ -67,7 +67,7 @@ export default function LoginPage() {
       <main className="flex flex-col items-center justify-center w-full px-4 sm:px-10 text-center">
         <div className="bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row w-full max-w-4xl">
           <div className="flex flex-col w-full md:w-3/5 p-6 md:p-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-blue-900 mb-6 mt-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-project-primary mb-6 mt-6">
               ลงชื่อเข้าใช้
             </h2>
 
@@ -77,7 +77,7 @@ export default function LoginPage() {
                 onClick={() => setUserType('ผู้ซื้อ')}
                 className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
                   userType === 'ผู้ซื้อ'
-                    ? 'border-blue-900 text-blue-900'
+                    ? 'border-project-prtext-project-primary text-project-primary'
                     : 'border-transparent text-black'
                 }`}
               >
@@ -88,7 +88,7 @@ export default function LoginPage() {
                 onClick={() => setUserType('ผู้ขาย')}
                 className={`px-6 py-2 font-semibold border-b-2 transition-all duration-300 ${
                   userType === 'ผู้ขาย'
-                    ? 'border-blue-900 text-blue-900'
+                    ? 'border-project-prtext-project-primary text-project-primary'
                     : 'border-transparent text-black'
                 }`}
               >
@@ -115,7 +115,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isUploading}
-                className={`border-2  rounded-full px-12 py-2 inline-block font-semibold ${!isUploading ? 'border-blue-900 text-blue-900 hover:bg-blue-900 hover:text-white' : 'bg-gray-500 text-white'}`}
+                className={`border-2  rounded-full px-12 py-2 inline-block font-semibold ${!isUploading ? 'border-project-primary text-project-primary hover:bg-project-prtext-project-primary hover:text-white' : 'bg-gray-500 text-white'}`}
               >
                 ลงชื่อเข้าใช้
               </button>
@@ -125,14 +125,14 @@ export default function LoginPage() {
             </form>
           </div>
 
-          <div className="w-full md:w-2/5 bg-blue-900 text-white py-10 px-6 md:py-36 md:px-12 rounded-b-3xl md:rounded-bl-none md:rounded-r-3xl">
+          <div className="w-full md:w-2/5 bg-project-primary text-white py-10 px-6 md:py-36 md:px-12 rounded-b-3xl md:rounded-bl-none md:rounded-r-3xl">
             <h2 className="text-2xl md:text-3xl font-bold mb-6">สวัสดี!</h2>
             <p className="mb-8 text-sm md:text-base">
               ลงทะเบียน ถ้าคุณยังไม่มีบัญชี
             </p>
             <Link
               href="/"
-              className="border-2 border-white rounded-full px-12 py-2 font-semibold hover:bg-white hover:text-blue-900"
+              className="border-2 border-white rounded-full px-12 py-2 font-semibold hover:bg-white hover:text-project-primary"
             >
               ลงทะเบียน
             </Link>
