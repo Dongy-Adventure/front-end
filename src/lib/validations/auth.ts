@@ -18,7 +18,7 @@ export const authSchema = z
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
-    path: ['confirmPassword'], // This ensures the error appears for confirmPassword
+    path: ['confirmPassword'],
   });
 
 export type AuthSchema = z.infer<typeof authSchema>;
