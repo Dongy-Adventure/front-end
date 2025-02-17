@@ -8,10 +8,11 @@ import { useEffect, useState } from 'react';
 import { getSellerBalance } from '@/utils/seller';
 import { useRouter } from 'next/navigation';
 import { Seller } from '@/types/user';
+import Sidebar from '@/components/Sidebar';
 
 export default function Profile() {
   const router = useRouter();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
 
   useEffect(() => {
@@ -24,10 +25,6 @@ export default function Profile() {
       getBalance();
     }
   }, []);
-
-  const handleLogout = () => {
-    logout();
-  };
 
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
@@ -59,56 +56,7 @@ export default function Profile() {
         </div>
       </div>
       <div className="flex pt-16 gap-16 text-black">
-        <div className="rounded-xl hidden xl:block w-1/4 max-w-80 font-semibold">
-          <Link
-            href="/profile"
-            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0 rounded-t-xl bg-project-secondary"
-          >
-            Profile
-          </Link>
-          <Link
-            href="/home"
-            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
-          >
-            Manage Order
-          </Link>
-          <Link
-            href="/home"
-            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
-          >
-            Product On-display
-          </Link>
-          <Link
-            href="/seller/transaction-history"
-            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
-          >
-            Transaction History
-          </Link>
-          <Link
-            href="/seller/withdraw"
-            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
-          >
-            Wallet
-          </Link>
-          <Link
-            href="/ads"
-            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
-          >
-            Create Ads
-          </Link>
-          <Link
-            href="/seller/review"
-            className="flex px-4 w-full h-12 items-center justify-start border-[1px] border-b-0"
-          >
-            My Review
-          </Link>
-          <button
-            className="flex px-4 w-full h-12 items-center justify-start border-[1px] text-red-500 rounded-b-xl"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
+        <Sidebar state={1} />
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-semibold pb-4">My Profile</h1>
           <div className="flex overflow-x-scroll gap-4 w-full h-28 mb-12  text-white">
