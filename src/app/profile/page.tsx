@@ -2,13 +2,12 @@
 
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import tempProfilePicture from '@/../public/placeholder2.jpg';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { getSellerBalance } from '@/utils/seller';
 import { useRouter } from 'next/navigation';
 import { Seller } from '@/types/user';
 import Sidebar from '@/components/Sidebar';
+import ProfileBadge from '@/components/ProfileBadge';
 
 export default function Profile() {
   const router = useRouter();
@@ -40,21 +39,7 @@ export default function Profile() {
         <p className="text-gray-400">{'\u003E'}</p>
         <p className="text-black font-semibold">Profile</p>
       </div>
-      <div className="text-black px-4 md:px-12 flex h-28 w-full bg-project-secondary rounded-xl items-center justify-start gap-8">
-        <Image
-          src={tempProfilePicture}
-          alt="Profile Picture"
-          width={90}
-          height={90}
-          className="rounded-full"
-        />
-        <div className="flex flex-col gap-1">
-          <p className="text-lg font-semibold">
-            {user?.name} {user?.surname}
-          </p>
-          <p className="text-sm">placeholder@gmail.com</p>
-        </div>
-      </div>
+      <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">
         <Sidebar state={1} />
         <div className="flex flex-col w-full">
