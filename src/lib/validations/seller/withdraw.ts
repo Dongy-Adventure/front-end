@@ -1,14 +1,18 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-export const withdrawSchema = z.object({
-  method: z.enum(['PromptPay', 'AccountNumber']),
-  phoneNumber: z.string()
-    .min(10, 'Phone number must be at least 10 digits')
-    .max(15, 'Phone number is too long')
-    .regex(/^[0-9]+$/, 'Invalid phone number format'),
-  amount: z.string()
-    .regex(/^[0-9]+(\.[0-9]{1,2})?$/, 'Invalid amount format'),
-  bankName: z.string().min(1, 'Bank name cannot be empty').optional(),
-});
+export const PaymentSchema = (sellerBalance: number) =>
+  z.object({
+    paymentMethod: z.string().min(1, "Please select a payment method"),
+    agreeToTerms: z.literal(true, {
+      errorMap: () => ({ message: "You must agree to the terms and conditions" }),
+    }),
+    amount: z
+      .number({ invalid_type_error: "Amount must be a number" })
+      .min(1, "Amount must be at least 1 THB")
+      .max(sellerBalance, `Amount cannot exceed ${sellerBalance.toFixed(2)} THB`),
+    phoneNumber: z
+      .string()
+      .regex(/^\d{10,15}$/, "Phone number must be 10-15 digits"),
+  });
 
-export type WithdrawFormData = z.infer<typeof withdrawSchema>;
+export type PaymentFormValues = z.infer<ReturnType<typeof PaymentSchema>>;

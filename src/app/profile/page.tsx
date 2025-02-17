@@ -45,17 +45,17 @@ export default function Profile() {
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-semibold pb-4">My Profile</h1>
           <div className="flex overflow-x-scroll gap-4 w-full h-28 mb-12  text-white">
-            <div className="bg-black w-full min-w-60 max-w-72 h-full rounded-2xl px-8">
+            <div className="bg-black w-full min-w-72 max-w-72 h-full rounded-2xl px-8">
               <p className="pt-10 font-semibold">Balance</p>
               <p className="font-semibold text-2xl">
                 {Number(sellerBalance).toFixed(2)} THB
               </p>
             </div>
-            <div className="bg-black w-full min-w-60 max-w-72 h-full rounded-2xl px-8">
+            <div className="bg-black w-full min-w-72 max-w-72 h-full rounded-2xl px-8">
               <p className="pt-10 font-semibold">Products Sold</p>
               <p className="font-semibold text-2xl">{20}</p>
             </div>
-            <div className="bg-black w-full min-w-60 max-w-72 h-full rounded-2xl px-8">
+            <div className="bg-black w-full min-w-72 max-w-72 h-full rounded-2xl px-8">
               <p className="pt-10 font-semibold">Review Score</p>
               <p className="font-semibold text-2xl">
                 {Number((user as Seller)?.score).toFixed(2)}

@@ -5,7 +5,6 @@ import districts from '@/constants/districts.json';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { profileSchema, ProfileFormData } from '@/lib/validations/profile';
-import { useAuth } from '@/context/AuthContext';
 import { updateSeller } from '@/utils/seller';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -24,7 +23,6 @@ export default function ProfileForm({
 }: {
   userInfo: ProfileFormData;
 }) {
-  const { user } = useAuth();
   const router = useRouter();
 
   const getProvinceCode = (provinceName: string) => {
