@@ -23,9 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${athiti.variable} bg-gray-100 antialiased font-athiti`}
-      >
+      <body className={`${athiti.variable} bg-white antialiased font-athiti`}>
         <ToastProvider>
           <AuthProvider>
             <Layout>{children}</Layout>
