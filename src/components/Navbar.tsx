@@ -1,7 +1,6 @@
 'use client';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
-import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import logo from '@/../public/logo.png';
 import Image from 'next/image';
@@ -16,30 +15,8 @@ interface NavComponent {
   link: string;
 }
 
-const navs: NavComponent[] = [
-  {
-    icons: 'mdi-light:format-list-checks',
-    text: 'รายการคำสั่งซื้อ',
-    iconsText: 'Order',
-    link: '/order',
-  },
-  {
-    icons: 'mdi-light:home',
-    text: 'หน้าหลัก',
-    iconsText: 'Home',
-    link: '/home',
-  },
-  {
-    icons: 'mdi-light:account',
-    text: 'โปรไฟล์',
-    iconsText: 'Profile',
-    link: '/profile',
-  },
-];
-
 export default function Navbar() {
   const router = useRouter();
-  const [active, setActive] = useState<Page | null>(null);
   const [query, setQuery] = useState('');
   const user = useAuth();
 
