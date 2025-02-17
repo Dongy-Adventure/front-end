@@ -21,13 +21,13 @@ export default function Sidebar({ state }: { state: number }) {
     { href: '/order', label: 'Manage Order' },
     { href: '/home', label: 'Product On-display' },
     { href: '/seller/transaction-history', label: 'Transaction History' },
-    { href: '/seller/withdraw', label: 'Wallet' },
+    { href: '/seller/wallet', label: 'Wallet' },
     { href: '/ads', label: 'Create Ads' },
     { href: '/seller/review', label: 'My Review' },
   ];
 
   return (
-    <div className="rounded-xl hidden xl:block w-1/4 max-w-80 font-semibold">
+    <div className="rounded-xl hidden xl:flex xl:flex-col w-80 font-semibold">
       {links.map((link, index) => (
         <Link
           key={index}

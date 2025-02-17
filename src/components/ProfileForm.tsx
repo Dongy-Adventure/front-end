@@ -24,7 +24,6 @@ export default function ProfileForm({
 }: {
   userInfo: ProfileFormData;
 }) {
-  const { user } = useAuth();
   const router = useRouter();
 
   const getProvinceCode = (provinceName: string) => {
