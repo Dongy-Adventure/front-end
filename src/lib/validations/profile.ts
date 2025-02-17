@@ -5,14 +5,6 @@ export const profileSchema = z.object({
     .string()
     .min(3, 'Username is too short')
     .max(16, 'Username is too long'),
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters long')
-    .max(50, 'Password is too long')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/\d/, 'Password must contain at least one number')
-    .regex(/[\W_]/, 'Password must contain at least one special character'),
   name: z.string().min(1, 'Name is required').max(50, 'Name is too long'),
   surname: z
     .string()

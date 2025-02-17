@@ -41,37 +41,22 @@ export default function Navbar() {
   const [active, setActive] = useState<Page | null>(null);
 
   return (
-    <nav className="z-50 flex items-center justify-center p-1 bg-white shadow-md fixed md:top-0 bottom-4 md:bottom-auto md:left-0 left-1/2 transform -translate-x-1/2 md:translate-x-0 w-4/5 md:w-screen">
-      {/* {navs.map((nav: NavComponent, index: number) => (
-        <div
-          key={index}
-          className="flex items-center gap-x-1 rounded-lg font-semibold hover:bg-slate-500"
-          onClick={() => {
-            setActive(nav.iconsText);
-            router.push(nav.link);
-          }}
-        >
-          <Icon
-            icon={nav.icons}
-            className={cn(
-              'w-8 h-8 rounded-md',
-              active === nav.iconsText &&
-                'max-md:bg-white max-md:text-project-blue'
-            )}
+    <nav className="z-50 flex justify-stretch p-1 bg-white shadow-md fixed md:top-0 bottom-4 md:bottom-auto md:left-0 left-1/2 transform -translate-x-1/2 md:translate-x-0 w-4/5 md:w-screen">
+      <div className="flex align-center justify-center w-full">
+        <div className="w-10 h-10">
+          <Image
+            src={logo}
+            alt="logo"
+            className="w-full"
           />
-          <p className="max-md:hidden">{nav.text}</p>
         </div>
-      ))} */}
-      <div className="w-10 h-10">
-        <Image
-          src={logo}
-          alt="logo"
-          className="w-full flex-shrink-0"
-        />
+        <p className="font-bold text-xl text-black text-center p-2">
+          TarsMarketplace
+        </p>
       </div>
-      <p className="font-bold text-xl text-black text-center p-2">
-        TarsMarketplace
-      </p>
+      <div className="flex align-center justify-center w-full">
+        <div className="bg-gray-200 rounded-lg w-full my-1"></div>
+      </div>
     </nav>
   );
 }
