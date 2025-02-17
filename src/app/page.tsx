@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/context/ToastContext';
 import { cn } from '@/lib/utils';
 import { authSchema, AuthSchema } from '@/lib/validations/auth';
+import { buyerAuth, sellerAuth } from '@/utils/auth';
 
 function RegisterPage() {
   const router = useRouter();
@@ -47,9 +48,37 @@ function RegisterPage() {
           toast?.setToast('success', 'Successfully Signed Up!');
         }, 1100);
 
-        setTimeout(() => {
-          router.push('/login');
-        }, 2000);
+        try {
+          let user;
+          if (userType === 'ผู้ซื้อ') {
+            user = await buyerAuth(username, password);
+          } else if (userType === 'ผู้ขาย') {
+            user = await sellerAuth(username, password);
+          } else {
+            setErrorMessage('Something is wrong');
+            setIsUpLoading(false);
+            return;
+          }
+
+          if (user) {
+            setTimeout(() => {}, 1100);
+
+            setTimeout(() => {
+              router.push('/profile/edit');
+            }, 2000);
+          } else {
+            setTimeout(() => {
+              toast?.setToast('error', 'Failed to sign in!');
+              setIsUpLoading(false);
+            }, 1500);
+            return;
+          }
+        } catch (error) {
+          setTimeout(() => {
+            toast?.setToast('error', 'Failed to sign in!');
+          }, 500);
+          setIsUpLoading(false);
+        }
       } else {
         setIsUpLoading(false);
       }

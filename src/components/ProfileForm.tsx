@@ -84,7 +84,6 @@ export default function ProfileForm({
     try {
       await updateSeller(
         data.username,
-        data.password,
         data.name,
         data.surname,
         data.phoneNumber,
@@ -125,13 +124,10 @@ export default function ProfileForm({
               <span className="text-sm">
                 Password <u>*</u>
               </span>
-              <p className="text-red-500 text-sm">{errors.password?.message}</p>
             </div>
-            <input
-              {...register('password')}
-              className="w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
-              placeholder=""
-            />
+            <div className="w-full bg-gray-300 border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary">
+              **********************
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-6">
