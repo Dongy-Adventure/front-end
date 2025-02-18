@@ -13,11 +13,12 @@ import { Buyer, Seller } from '@/types/user';
 import { useRouter } from 'next/navigation';
 
 type Mode = 'Register' | 'Login';
+type UserMode = 'Buyer' | 'Seller';
 
 function RegisterPage() {
   const toast = useToast();
   const router = useRouter();
-  const [userType, setUserType] = useState<string>('buyer');
+  const [userType, setUserType] = useState<UserMode>('Buyer');
   const [isUploading, setIsUpLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>('Register');
@@ -47,7 +48,7 @@ function RegisterPage() {
     try {
       if (mode === 'Register') {
         let result: boolean | null;
-        if (userType === 'buyer') {
+        if (userType === 'Buyer') {
           result = await createBuyer(password, username);
           if (result) await buyerAuth(username, password);
         } else {
@@ -65,7 +66,7 @@ function RegisterPage() {
         }
       } else {
         let user: Buyer | Seller | null;
-        if (userType === 'buyer') {
+        if (userType === 'Buyer') {
           user = await buyerAuth(username, password);
         } else {
           user = await sellerAuth(username, password);
@@ -100,10 +101,10 @@ function RegisterPage() {
               <div className="flex justify-center mb-6">
                 <button
                   type="button"
-                  onClick={() => setUserType('buyer')}
+                  onClick={() => setUserType('Buyer')}
                   className={cn(
                     'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
-                    userType === 'buyer'
+                    userType === 'Buyer'
                       ? 'border-project-primary text-project-primary'
                       : 'border-transparent text-black'
                   )}
@@ -112,10 +113,10 @@ function RegisterPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setUserType('seller')}
+                  onClick={() => setUserType('Seller')}
                   className={cn(
                     'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
-                    userType === 'seller'
+                    userType === 'Seller'
                       ? 'border-project-primary text-project-primary'
                       : 'border-transparent text-black'
                   )}
