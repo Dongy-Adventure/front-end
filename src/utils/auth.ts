@@ -143,7 +143,7 @@ export const buyerAuth = async (
   password: string
 ): Promise<Buyer | null> => {
   try {
-    const res: AxiosResponse<BuyerDTO> = await apiClient.post('/auth/buyer/', {
+    const res: AxiosResponse<BuyerDTO> = await apiClient.post('/auth/buyer', {
       username: username,
       password: password,
     });

@@ -31,57 +31,13 @@ function RegisterPage() {
     const { username, password } = data;
 
     try {
-      let res;
       if (userType === 'ผู้ซื้อ') {
-        res = await createBuyer(password, username);
+        await createBuyer(password, username);
       } else if (userType === 'ผู้ขาย') {
-        res = await createSeller(password, username);
-      } else {
-        setIsUpLoading(false);
-        setErrorMessage('Something is wrong');
-        return;
+        await createSeller(password, username);
       }
-
-      if (res) {
-        setErrorMessage('');
-        setTimeout(() => {
-          toast?.setToast('success', 'Successfully Signed Up!');
-        }, 1100);
-
-        try {
-          let user;
-          if (userType === 'ผู้ซื้อ') {
-            user = await buyerAuth(username, password);
-          } else if (userType === 'ผู้ขาย') {
-            user = await sellerAuth(username, password);
-          } else {
-            setErrorMessage('Something is wrong');
-            setIsUpLoading(false);
-            return;
-          }
-
-          if (user) {
-            setTimeout(() => {}, 1100);
-
-            setTimeout(() => {
-              router.push('/profile/edit');
-            }, 2000);
-          } else {
-            setTimeout(() => {
-              toast?.setToast('error', 'Failed to sign in!');
-              setIsUpLoading(false);
-            }, 1500);
-            return;
-          }
-        } catch (error) {
-          setTimeout(() => {
-            toast?.setToast('error', 'Failed to sign in!');
-          }, 500);
-          setIsUpLoading(false);
-        }
-      } else {
-        setIsUpLoading(false);
-      }
+      toast?.setToast('success', 'Successfully Sign Up!');
+      router.push('/login');
     } catch (error) {
       setTimeout(() => {
         toast?.setToast('error', 'Failed to sign up! Please try again later!');
