@@ -1,80 +1,78 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { Card, CardContent } from '@/components/seller/transaction/Card';
-import Return from '@/components/Return';
 
-interface Transaction {
-  id: string;
-  productName: string;
-  amount: number;
-  date: string;
-}
-
-const transactionDummy = [
-  {
-    id: '1',
-    productName: 'แว่นไอ่ดอง',
-    amount: 20000.0,
-    date: '2025-02-02T00:00:00Z',
-  },
-  {
-    id: '2',
-    productName: 'นาฬิกาไอ่ดอง',
-    amount: 100000.0,
-    date: '2025-02-01T00:00:00Z',
-  },
-  {
-    id: '3',
-    productName: 'โทรศัพท์ไอ่ดอง',
-    amount: 50000.0,
-    date: '2025-01-31T00:00:00Z',
-  },
-  {
-    id: '4',
-    productName: 'Test',
-    amount: 100.0,
-    date: '2025-01-31T00:00:00Z',
-  },
-];
+import ProfileBadge from '@/components/ProfileBadge';
+import Sidebar from '@/components/Sidebar';
+import { useAuth } from '@/context/AuthContext';
+import { Transaction } from '@/types/wallet';
+import Link from 'next/link';
 
 export default function TransactionHistory() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  // useEffect(() => {
-  //   // Fetch transaction data (replace with actual API endpoint)
-  //   axios.get("/api/transactions")
-  //     .then(response => setTransactions(response.data))
-  //     .catch(error => console.error("Error fetching transactions:", error));
-  // }, []);
+  const { user } = useAuth();
 
-  useEffect(() => {
-    setTransactions(transactionDummy);
-  }, []);
+  const hasTransactions =
+    user && 'transaction' in user && Array.isArray(user.transaction);
 
   return (
-    <section className="p-12 text-black">
-      <Return />
-      <div className="text-2xl font-bold pb-8 grid place-items-center">
-        Transaction History
+    <div className="p-12 md:px-20 md:pt-16 flex flex-col">
+      <div className="flex gap-2 pb-12">
+        <Link
+          href="/home"
+          className="text-gray-400"
+        >
+          Home
+        </Link>
+        <p className="text-gray-400">{'\u003E'}</p>
+        <p className="text-gray-400">My Account</p>
+        <p className="text-gray-400">{'\u003E'}</p>
+        <p className="text-black font-semibold">Profile</p>
       </div>
-      {transactions.length === 0 ? (
-        <p>No transactions found.</p>
-      ) : (
-        <div className="grid md:grid-cols-3 gap-4 overflow-scroll">
-          {transactions.map((transaction: Transaction) => (
-            <Card
-              key={transaction.id}
-              className="p-4 shadow-lg text-black"
-            >
-              <CardContent>
-                <strong>Product:</strong> {transaction.productName}
-                <strong>Amount:</strong> {transaction.amount.toFixed(2)} Bath
-                <strong>Date:</strong>
-                {new Date(transaction.date).toLocaleDateString()}
-              </CardContent>
-            </Card>
-          ))}
+      <ProfileBadge />
+      <div className="flex pt-16 gap-16 text-black">
+        <Sidebar state={4} />
+        <div className="flex flex-col w-full">
+          <h1 className="text-xl font-bold pb-4">Transaction History</h1>
+          <div className="overflow-x-auto p-4">
+            <table className="w-full">
+              <thead className="border-b border-gray-300 p-3 font-semibold text-left">
+                <tr>
+                  <th>Date</th>
+                  <th>Order ID</th>
+                  <th>Payment Method</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-300">
+                {hasTransactions ? (
+                  user.transaction.map((transaction: Transaction) => (
+                    <tr
+                      key={transaction.orderId}
+                      className="hover:bg-gray-50"
+                    >
+                      <td className="p-3 flex items-center space-x-3">
+                        <span>{transaction.date}</span>
+                      </td>
+                      <td className="p-3">{transaction.orderId}</td>
+                      <td className="p-3">{transaction.paymentMethod}</td>
+                      <td className="p-3 items-center text-project-green font-bold">
+                        ${transaction.total}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={4}
+                      className="text-center p-3 text-gray-500"
+                    >
+                      No transactions found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      )}
-    </section>
+      </div>
+    </div>
   );
 }

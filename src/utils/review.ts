@@ -3,9 +3,7 @@ import { apiClient } from './axios';
 import { AxiosResponse } from 'axios';
 import { ReviewDataDTO, ReviewDTO } from '@/dtos/reviewDTO';
 
-
 export const getReviews = async (id: string): Promise<Review[] | null> => {
-
   try {
     const res: AxiosResponse<ReviewDTO> = await apiClient.get(
       `/review/seller/${id}`
@@ -16,7 +14,7 @@ export const getReviews = async (id: string): Promise<Review[] | null> => {
       return null;
     }
 
-    const reviewData: ReviewDataDTO[] = res.data.data;
+    const reviewData: ReviewDataDTO[] = res.data.data ?? [];
 
     const reviews: Review[] = reviewData.map((r: ReviewDataDTO) => {
       return {

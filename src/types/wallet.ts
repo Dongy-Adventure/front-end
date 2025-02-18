@@ -1,5 +1,6 @@
 export type Transaction = {
-  amount: number;
-  data: string;
-  product: string[];
+  orderId: string;
+  date: string;
+  paymentMethod: string;
+  total: number;
 };

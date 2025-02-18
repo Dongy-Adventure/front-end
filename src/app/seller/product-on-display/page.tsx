@@ -7,25 +7,40 @@ import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
-// Tmp Picture of Product
 import Image from 'next/image';
-// Tmp Picture of Product
 import wristWatch from '@/../public/wrist-watch.png';
 import trash from '@/../public/trash.png';
+
+// Tmp Product
+const productsTmp = [
+  {
+    id: '67a90eaad342af0becec6b71',
+    name: 'wrist watch 1',
+    price: 1000,
+    image: wristWatch,
+  },
+  {
+    id: '67a90eaad342af0becec6b72',
+    name: 'wrist watch 2',
+    price: 2000,
+    image: wristWatch,
+  },
+  {
+    id: '67a90eaad342af0becec6b73',
+    name: 'wrist watch 3',
+    price: 3000,
+    image: wristWatch,
+  },
+];
+// Tmp Product
 
 export default function ProductOnDisplay() {
   const { user } = useAuth();
   const toast = useToast();
   const router = useRouter();
-  const [products, setProducts] = useState<{ id: string, name: string, price: number, image: string }[]>([]);
-
-  // Tmp Product
-  const productsTmp = [
-    { id: "67a90eaad342af0becec6b71", name: "wrist watch 1", price: 1000, image: wristWatch },
-    { id: "67a90eaad342af0becec6b72", name: "wrist watch 2", price: 2000, image: wristWatch },
-    { id: "67a90eaad342af0becec6b73", name: "wrist watch 3", price: 3000, image: wristWatch }
-  ];
-  // Tmp Product
+  const [products, setProducts] = useState<
+    { id: string; name: string; price: number; image: string }[]
+  >([]);
 
   /*useEffect(() => {
     if (user?.userType === 'seller') {
@@ -50,7 +65,7 @@ export default function ProductOnDisplay() {
 
   // Tmp OnDelete
   const onDelete = async (productID: string) => {
-    toast?.setToast('success', 'OK');
+    toast?.setToast('success', 'Product deleted successfully!');
     router.refresh();
   };
   // Tmp OnDelete
@@ -73,33 +88,40 @@ export default function ProductOnDisplay() {
       <div className="flex pt-16 gap-16 text-black">
         <Sidebar state={3} />
         <div className="flex flex-col w-full">
-          <h1 className="text-xl font-semibold pb-4">Product on-display</h1>
+          <h1 className="text-xl font-bold pb-4">Product on-display</h1>
           {/*Product Table*/}
           <div className="overflow-x-auto p-4">
             <table className="w-full">
-              <thead className="border-b border-gray-300">
+              <thead className="border-b border-gray-300 p-3 font-semibold text-left">
                 <tr>
-                  <th className="p-3 font-semibold text-left">Product</th>
-                  <th className="p-3 font-semibold text-left">Product ID</th>
-                  <th className="p-3 font-semibold text-left">Total</th>
-                  <th className="p-3 font-semibold text-left">Action</th>
+                  <th>Product</th>
+                  <th>Product ID</th>
+                  <th>Total</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
                 {productsTmp.map((product) => (
-                  <tr key={product.id} className="hover:bg-gray-50">
+                  <tr
+                    key={product.id}
+                    className="hover:bg-gray-50"
+                  >
                     <td className="p-3 flex items-center space-x-3">
-                      <Image src={product.image} alt={product.name} className="w-12 h-12 object-cover rounded-md" />
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        className="w-12 h-12 object-cover rounded-md"
+                      />
                       <span>{product.name}</span>
                     </td>
                     <td className="p-3">{product.id}</td>
                     <td className="p-3">${product.price}</td>
                     <td className="p-3 items-center">
                       <button
-                        onClick={() => onDelete(product.id)} 
+                        onClick={() => onDelete(product.id)}
                         className="items-canter"
-                      >               
-                        <Image 
+                      >
+                        <Image
                           src={trash}
                           alt="Delete"
                           width={20}
@@ -113,7 +135,6 @@ export default function ProductOnDisplay() {
             </table>
           </div>
           {/*Product Table*/}
-
         </div>
       </div>
     </div>
