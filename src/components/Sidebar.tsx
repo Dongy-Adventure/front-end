@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 const links = [
   { href: '/profile', label: 'Profile' },
   { href: '/order', label: 'Manage Order' },
-  { href: '/home', label: 'Product On-display' },
+  { href: '/seller/product-on-display', label: 'Product On-display' },
   { href: '/seller/transaction-history', label: 'Transaction History' },
   { href: '/seller/wallet', label: 'Wallet' },
   { href: '/ads', label: 'Create Ads' },
