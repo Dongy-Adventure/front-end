@@ -28,7 +28,10 @@ function RegisterPage() {
     formState: { errors },
     reset,
   } = useForm<AuthSchema>({
-    resolver: mode === 'Register' ? zodResolver(authSchema) : undefined,
+    resolver:
+      mode === 'Register'
+        ? zodResolver(authSchema)
+        : zodResolver(authSchema._def.schema.omit({ confirmPassword: true })),
   });
 
   useEffect(() => {
@@ -46,13 +49,14 @@ function RegisterPage() {
         let result: boolean | null;
         if (userType === 'buyer') {
           result = await createBuyer(password, username);
+          if (result) await buyerAuth(username, password);
         } else {
           result = await createSeller(password, username);
+          if (result) await sellerAuth(username, password);
         }
         if (result) {
           toast?.setToast('success', 'Successfully Sign Up!');
-          setMode('Login');
-          console.log(mode);
+          router.push('/profile/edit');
         } else {
           toast?.setToast(
             'error',
@@ -73,7 +77,10 @@ function RegisterPage() {
       }
     } catch (error) {
       setTimeout(() => {
-        toast?.setToast('error', 'Failed to sign up! Please try again later!');
+        toast?.setToast(
+          'error',
+          'There is an error occur! Please try again later!'
+        );
       }, 1500);
     } finally {
       setIsUpLoading(false);
@@ -144,6 +151,24 @@ function RegisterPage() {
                   <p className="text-red-500 text-sm">
                     {errors.password.message}
                   </p>
+                )}
+
+                {mode === 'Register' ? (
+                  <>
+                    <input
+                      type="password"
+                      {...register('confirmPassword')}
+                      placeholder="Confirm Password"
+                      className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black"
+                    />
+                    {errors.confirmPassword && (
+                      <p className="text-red-500 text-sm">
+                        {errors.confirmPassword.message}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <section className="w-full sm:w-72 p-2 h-10" />
                 )}
 
                 <button
