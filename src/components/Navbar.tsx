@@ -5,18 +5,32 @@ import { useRouter } from 'next/navigation';
 import logo from '@/../public/logo.png';
 import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 
 export default function Navbar() {
   const router = useRouter();
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
-  const user = useAuth();
+  const { user, logout } = useAuth();
+  const toast = useToast();
 
   const handleSearch = () => {
     if (query != '') {
       router.push(`/search?q=${query}`);
     }
   };
+
+  const menuItems = user
+    ? [
+        { path: '/profile', label: 'Profile' },
+        { path: '/order', label: 'Manage Order' },
+        { path: '/home', label: 'Product On-display' },
+        { path: '/seller/transaction-history', label: 'Transaction History' },
+        { path: '/seller/wallet', label: 'Wallet' },
+        { path: '/ads', label: 'Create Ads' },
+        { path: '/seller/review', label: 'My Review' },
+      ]
+    : [{ label: 'Home', path: '/home' }];
 
   return (
     <>
@@ -57,7 +71,7 @@ export default function Navbar() {
           <div
             className="flex justify-center gap-2"
             onClick={() =>
-              user.user ? router.push('/profile') : router.push('/login')
+              user ? router.push('/profile') : router.push('/login')
             }
           >
             <Icon
@@ -68,8 +82,8 @@ export default function Navbar() {
             />
             <div className="flex flex-col gap-0 m-0 leading-none self-center">
               <p className="m-0 text-sm">Welcome!</p>
-              {user.user ? (
-                <p className="m-0 font-semibold">{user.user?.username}</p>
+              {user ? (
+                <p className="m-0 font-semibold">{user?.username}</p>
               ) : (
                 <p className="m-0 font-semibold">Please login</p>
               )}
@@ -111,54 +125,54 @@ export default function Navbar() {
             onClick={() => setIsOpen(!isOpen)}
           />
           <div
-            className={`fixed text-2xl font-semibold flex flex-col gap-4 pt-24 px-12 top-0 right-0 w-screen h-screen bg-project-secondary transform ${
+            className={`fixed text-2xl font-semibold flex flex-col gap-4 pt-32 px-12 top-0 right-0 w-screen h-screen bg-project-secondary transform ${
               isOpen ? 'translate-x-0' : 'translate-x-full'
             } transition-transform duration-300 ease-in-out z-40`}
           >
-            <p
-              className="fixed top-4 left-6 font-bold text-2xl"
-              onClick={() => {
-                setIsOpen(false);
-              }}
-            >
-              Menu.
-            </p>
-            <p
-              className="hover:text-project-primary"
-              onClick={() => {
-                router.push('/home');
-                setIsOpen(false);
-              }}
-            >
-              Home
-            </p>
-            <p
-              className="hover:text-project-primary"
-              onClick={() => {
-                router.push('/profile');
-                setIsOpen(false);
-              }}
-            >
-              Profile
-            </p>
-            <p
-              className="hover:text-project-primary"
-              onClick={() => {
-                router.push('/seller/wallet');
-                setIsOpen(false);
-              }}
-            >
-              Wallet
-            </p>
-            <p
-              className="hover:text-project-primary"
-              onClick={() => {
-                router.push('/cart');
-                setIsOpen(false);
-              }}
-            >
-              Cart
-            </p>
+            <div>
+              <p
+                className="fixed top-4 left-6 font-bold text-2xl"
+                onClick={() => setIsOpen(false)}
+              >
+                Menu.
+              </p>
+              {menuItems.map((item, index) => (
+                <p
+                  key={index}
+                  className="hover:text-project-primary pb-4"
+                  onClick={() => {
+                    router.push(item.path);
+                    setIsOpen(false);
+                  }}
+                >
+                  {item.label}
+                </p>
+              ))}
+            </div>
+
+            {user ? (
+              <p
+                className="text-red-500 pt-12"
+                onClick={() => {
+                  logout();
+                  toast?.setToast('success', 'Successfully Logged Out!');
+                  router.push('/');
+                  setIsOpen(false);
+                }}
+              >
+                Logout
+              </p>
+            ) : (
+              <p
+                className="hover:text-project-primary"
+                onClick={() => {
+                  router.push('/');
+                  setIsOpen(false);
+                }}
+              >
+                Login
+              </p>
+            )}
           </div>
         </div>
       </nav>
