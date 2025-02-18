@@ -27,7 +27,6 @@ export const createSeller = async (
 };
 
 export const updateSeller = async (
-  username: string,
   name: string,
   surname: string,
   phoneNumber: string,
@@ -43,7 +42,6 @@ export const updateSeller = async (
     const res = await apiClient.put(
       `/seller/${id}`,
       {
-        username: username,
         sellerID: id,
         name: name,
         surname: surname,
