@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBuyer } from '@/utils/buyer';
 import { createSeller } from '@/utils/seller';
 import { useForm } from 'react-hook-form';
@@ -9,22 +9,18 @@ import { useToast } from '@/context/ToastContext';
 import { cn } from '@/lib/utils';
 import { authSchema, AuthSchema } from '@/lib/validations/auth';
 import { buyerAuth, sellerAuth } from '@/utils/auth';
+import { Buyer, Seller } from '@/types/user';
+import { useRouter } from 'next/navigation';
 
 type Mode = 'Register' | 'Login';
 
 function RegisterPage() {
   const toast = useToast();
+  const router = useRouter();
   const [userType, setUserType] = useState<string>('buyer');
   const [isUploading, setIsUpLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>('Register');
-
-  const handleSetMode = (m: Mode) => {
-    setMode(m);
-    setIsUpLoading(false);
-    setErrorMessage(null);
-    reset();
-  };
 
   const {
     register,
@@ -32,41 +28,54 @@ function RegisterPage() {
     formState: { errors },
     reset,
   } = useForm<AuthSchema>({
-    resolver: zodResolver(authSchema),
+    resolver: mode === 'Register' ? zodResolver(authSchema) : undefined,
   });
+
+  useEffect(() => {
+    reset();
+    setErrorMessage(null);
+    setIsUpLoading(false);
+  }, [mode]);
 
   const onSubmit = async (data: AuthSchema) => {
     setIsUpLoading(true);
     const { username, password } = data;
-    console.log(mode);
-    console.log(username, password);
-    console.log(userType);
+
     try {
-      if (userType === 'buyer') {
-        if (mode === 'Register') {
-          toast?.setToast('success', 'Successfully Sign Up!');
-          await createBuyer(password, username);
-          handleSetMode('Login');
+      if (mode === 'Register') {
+        let result: boolean | null;
+        if (userType === 'buyer') {
+          result = await createBuyer(password, username);
         } else {
-          await buyerAuth(username, password);
-          toast?.setToast('success', 'Successfully Sign In!');
+          result = await createSeller(password, username);
         }
-      } else if (userType === 'seller') {
-        if (mode === 'Register') {
-          await createSeller(password, username);
+        if (result) {
           toast?.setToast('success', 'Successfully Sign Up!');
-          handleSetMode('Login');
+          setMode('Login');
+          console.log(mode);
         } else {
-          await sellerAuth(username, password);
-          toast?.setToast('success', 'Successfully Sign In!');
+          toast?.setToast(
+            'error',
+            'There is an error occur! Please try again later'
+          );
         }
+      } else {
+        let user: Buyer | Seller | null;
+        if (userType === 'buyer') {
+          user = await buyerAuth(username, password);
+        } else {
+          user = await sellerAuth(username, password);
+        }
+        if (user) {
+          toast?.setToast('success', 'Successfully Sign In!');
+          router.push('/profile');
+        } else toast?.setToast('error', 'Username or password is incorrect');
       }
     } catch (error) {
       setTimeout(() => {
         toast?.setToast('error', 'Failed to sign up! Please try again later!');
       }, 1500);
     } finally {
-      console.log('Fu');
       setIsUpLoading(false);
     }
   };
@@ -163,14 +172,12 @@ function RegisterPage() {
             </h2>
             <p className="mb-8 text-sm md:text-base text-nowrap">
               {mode === 'Register'
-                ? 'If you have an account, go to the login page...'
+                ? 'If you have an account, go to the login page'
                 : "Register, if you don't have an account"}
             </p>
             <button
               onClick={() =>
-                mode === 'Register'
-                  ? handleSetMode('Login')
-                  : handleSetMode('Register')
+                mode === 'Register' ? setMode('Login') : setMode('Register')
               }
               className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-project-primary"
             >
