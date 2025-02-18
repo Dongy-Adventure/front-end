@@ -1,10 +1,6 @@
 import { z } from 'zod';
 
 export const profileSchema = z.object({
-  username: z
-    .string()
-    .min(3, 'Username is too short')
-    .max(16, 'Username is too long'),
   name: z.string().min(1, 'Name is required').max(50, 'Name is too long'),
   surname: z
     .string()
