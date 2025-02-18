@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { createBuyer } from '@/utils/buyer';
 import { createSeller } from '@/utils/seller';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/context/ToastContext';
@@ -11,17 +10,27 @@ import { cn } from '@/lib/utils';
 import { authSchema, AuthSchema } from '@/lib/validations/auth';
 import { buyerAuth, sellerAuth } from '@/utils/auth';
 
+type Mode = 'Register' | 'Login';
+
 function RegisterPage() {
-  const router = useRouter();
   const toast = useToast();
-  const [userType, setUserType] = useState<string>('ผู้ซื้อ');
+  const [userType, setUserType] = useState<string>('buyer');
   const [isUploading, setIsUpLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [mode, setMode] = useState<Mode>('Register');
+
+  const handleSetMode = (m: Mode) => {
+    setMode(m);
+    setIsUpLoading(false);
+    setErrorMessage(null);
+    reset();
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<AuthSchema>({
     resolver: zodResolver(authSchema),
   });
@@ -29,19 +38,35 @@ function RegisterPage() {
   const onSubmit = async (data: AuthSchema) => {
     setIsUpLoading(true);
     const { username, password } = data;
-
+    console.log(mode);
+    console.log(username, password);
+    console.log(userType);
     try {
-      if (userType === 'ผู้ซื้อ') {
-        await createBuyer(password, username);
-      } else if (userType === 'ผู้ขาย') {
-        await createSeller(password, username);
+      if (userType === 'buyer') {
+        if (mode === 'Register') {
+          toast?.setToast('success', 'Successfully Sign Up!');
+          await createBuyer(password, username);
+          handleSetMode('Login');
+        } else {
+          await buyerAuth(username, password);
+          toast?.setToast('success', 'Successfully Sign In!');
+        }
+      } else if (userType === 'seller') {
+        if (mode === 'Register') {
+          await createSeller(password, username);
+          toast?.setToast('success', 'Successfully Sign Up!');
+          handleSetMode('Login');
+        } else {
+          await sellerAuth(username, password);
+          toast?.setToast('success', 'Successfully Sign In!');
+        }
       }
-      toast?.setToast('success', 'Successfully Sign Up!');
-      router.push('/login');
     } catch (error) {
       setTimeout(() => {
         toast?.setToast('error', 'Failed to sign up! Please try again later!');
       }, 1500);
+    } finally {
+      console.log('Fu');
       setIsUpLoading(false);
     }
   };
@@ -53,16 +78,16 @@ function RegisterPage() {
           <div className="w-full md:w-3/5 p-6 md:p-10">
             <div className="py-10 md:py-20">
               <h2 className="text-2xl md:text-3xl font-bold text-project-primary mb-4">
-                Register
+                {mode === 'Register' ? 'Register' : 'Sign In'}
               </h2>
 
               <div className="flex justify-center mb-6">
                 <button
                   type="button"
-                  onClick={() => setUserType('ผู้ซื้อ')}
+                  onClick={() => setUserType('buyer')}
                   className={cn(
                     'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
-                    userType === 'ผู้ซื้อ'
+                    userType === 'buyer'
                       ? 'border-project-primary text-project-primary'
                       : 'border-transparent text-black'
                   )}
@@ -71,10 +96,10 @@ function RegisterPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setUserType('ผู้ขาย')}
+                  onClick={() => setUserType('seller')}
                   className={cn(
                     'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
-                    userType === 'ผู้ขาย'
+                    userType === 'seller'
                       ? 'border-project-primary text-project-primary'
                       : 'border-transparent text-black'
                   )}
@@ -112,18 +137,6 @@ function RegisterPage() {
                   </p>
                 )}
 
-                <input
-                  type="password"
-                  {...register('confirmPassword')}
-                  placeholder="Confirm Password"
-                  className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black"
-                />
-                {errors.confirmPassword && (
-                  <p className="text-red-500 text-sm">
-                    {errors.confirmPassword.message}
-                  </p>
-                )}
-
                 <button
                   type="submit"
                   disabled={isUploading}
@@ -134,7 +147,7 @@ function RegisterPage() {
                       : 'bg-gray-500 text-white'
                   )}
                 >
-                  Register
+                  {mode === 'Register' ? 'Register' : 'Sign In'}
                 </button>
 
                 {errorMessage && (
@@ -146,17 +159,23 @@ function RegisterPage() {
 
           <div className="w-full md:w-2/5 bg-project-primary text-white py-10 px-6 md:py-36 md:px-12 flex flex-col justify-center rounded-b-3xl md:rounded-bl-none md:rounded-r-3xl">
             <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Create Account
+              {mode === 'Register' ? 'Create Account' : 'Hello!'}
             </h2>
             <p className="mb-8 text-sm md:text-base text-nowrap">
-              If you have an account, go to the login page...
+              {mode === 'Register'
+                ? 'If you have an account, go to the login page...'
+                : "Register, if you don't have an account"}
             </p>
-            <a
-              href="/login"
+            <button
+              onClick={() =>
+                mode === 'Register'
+                  ? handleSetMode('Login')
+                  : handleSetMode('Register')
+              }
               className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-project-primary"
             >
-              Login
-            </a>
+              {mode === 'Register' ? 'Login' : 'Register'}
+            </button>
           </div>
         </div>
       </main>

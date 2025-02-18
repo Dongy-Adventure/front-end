@@ -49,7 +49,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
     };
     logoutFunction();
     localStorage.clear();
-    window.location.href = '/login';
+    window.location.href = '/';
   }, []);
 
   useEffect(() => {
