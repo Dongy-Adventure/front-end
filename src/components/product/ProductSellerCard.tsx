@@ -2,8 +2,15 @@ import Image from 'next/image';
 import placeholder from '@/../public/placeholder2.jpg';
 import { Seller } from '@/types/user';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { Review } from '@/types/review';
 
-export default function ProductSellerCard({ seller }: { seller: Seller }) {
+export default function ProductSellerCard({
+  seller,
+  reviews,
+}: {
+  seller: Seller;
+  reviews: Review[];
+}) {
   return (
     <div className="flex gap-4">
       <Image
@@ -27,7 +34,7 @@ export default function ProductSellerCard({ seller }: { seller: Seller }) {
               height="20"
             />
           ))}
-          <p className="-mt-0.5"> | 96 Ratings</p>
+          <p className="-mt-0.5"> | {reviews.length} Ratings</p>
         </div>
       </div>
     </div>

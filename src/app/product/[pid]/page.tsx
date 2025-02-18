@@ -1,19 +1,21 @@
 import ProductPanel from '@/components/product/ProductPanel';
 import { Product } from '@/types/product';
+import { Review } from '@/types/review';
 import { Seller } from '@/types/user';
 import { getProductById } from '@/utils/product';
+import { getReviews } from '@/utils/review';
 import { getSellerById } from '@/utils/seller';
 
 const tempSeller: Seller = {
   userType: 'seller',
   sellerID: '67b0437ea4b06a82570bc298',
   username: 'petchluvsyou',
-  name: 'PPPP',
-  surname: 'TTTT',
+  name: 'Error',
+  surname: 'Fetching Seller',
   payment: 'promptpay',
   address: '',
   phoneNumber: '',
-  score: 0,
+  score: 10,
   province: 'y',
   city: '',
   zip: '',
@@ -32,12 +34,18 @@ export default async function page({ params }: { params: { pid: string } }) {
   }
 
   const seller: Seller | null = await getSellerById(product.sellerID);
+  console.log(seller);
 
-  if (!seller) {
+  const reviews: Review[] | null = await getReviews(seller?.sellerID ?? '');
+
+  console.log(reviews);
+
+  if (!seller || !reviews) {
     return (
       <ProductPanel
         product={product}
         seller={tempSeller}
+        reviews={[]}
       />
     );
   }
@@ -46,6 +54,7 @@ export default async function page({ params }: { params: { pid: string } }) {
     <ProductPanel
       product={product}
       seller={seller}
+      reviews={reviews}
     />
   );
 }
