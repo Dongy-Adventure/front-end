@@ -133,7 +133,6 @@ export const sellerAuth = async (
     localStorage.setItem('user', sellerStr);
     return data;
   } catch (err) {
-    console.error(err);
     return null;
   }
 };
@@ -159,7 +158,6 @@ export const buyerAuth = async (
     localStorage.setItem('user', buyerStr);
     return data;
   } catch (err) {
-    console.error(err);
     return null;
   }
 };

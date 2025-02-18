@@ -29,10 +29,7 @@ function RegisterPage() {
     formState: { errors },
     reset,
   } = useForm<AuthSchema>({
-    resolver:
-      mode === 'Register'
-        ? zodResolver(authSchema)
-        : zodResolver(authSchema._def.schema.omit({ confirmPassword: true })),
+    resolver: mode === 'Register' ? zodResolver(authSchema) : undefined,
   });
 
   useEffect(() => {
