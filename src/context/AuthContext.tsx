@@ -64,13 +64,13 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       if (userType === 'buyer') {
         if (path.includes('seller') && !path.includes('review')) {
-          toast?.setToast('error', 'ท่านไม่สามารถทำรายการนี้ได้');
-          router.push('/login');
+          toast?.setToast('error', "Sorry! You can't access this site");
+          router.push('/');
         }
       } else {
         if (path.includes('buyer')) {
-          toast?.setToast('error', 'ท่านไม่สามารถทำรายการนี้ได้');
-          router.push('/login');
+          toast?.setToast('error', "Sorry! You can't access this site");
+          router.push('/');
         }
       }
 
