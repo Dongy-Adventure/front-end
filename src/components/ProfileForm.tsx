@@ -8,6 +8,7 @@ import { profileSchema, ProfileFormData } from '@/lib/validations/profile';
 import { updateSeller } from '@/utils/seller';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
 
 interface District {
   id: number;
@@ -24,6 +25,7 @@ export default function ProfileForm({
   userInfo: ProfileFormData;
 }) {
   const router = useRouter();
+  const { user } = useAuth();
 
   const getProvinceCode = (provinceName: string) => {
     const province = provinces.find((p) => p.provinceNameTh === provinceName);
@@ -81,7 +83,6 @@ export default function ProfileForm({
   const onSubmit = async (data: ProfileFormData) => {
     try {
       await updateSeller(
-        data.username,
         data.name,
         data.surname,
         data.phoneNumber,
@@ -109,13 +110,10 @@ export default function ProfileForm({
               <span className="text-sm">
                 Username <u>*</u>
               </span>
-              <p className="text-red-500 text-sm">{errors.username?.message}</p>
             </div>
-            <input
-              {...register('username')}
-              className="w-full bg-transparent border-[1px] border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
-              placeholder=""
-            />
+            <div className="font-medium w-full bg-gray-300 border-[1px]  border-gray-300 p-1.5 rounded-lg">
+              {user?.username}
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex gap-2">
@@ -123,7 +121,7 @@ export default function ProfileForm({
                 Password <u>*</u>
               </span>
             </div>
-            <div className="w-full bg-gray-300 border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary">
+            <div className="font-medium w-full bg-gray-300 border-[1px]  border-gray-300 p-1.5 rounded-lg">
               **********************
             </div>
           </div>
@@ -138,7 +136,7 @@ export default function ProfileForm({
             </div>
             <input
               {...register('name')}
-              className="w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
+              className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
               placeholder=""
             />
           </div>
@@ -151,7 +149,7 @@ export default function ProfileForm({
             </div>
             <input
               {...register('surname')}
-              className="w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
+              className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
               placeholder=""
             />
           </div>
@@ -167,7 +165,7 @@ export default function ProfileForm({
           </div>
           <input
             {...register('phoneNumber')}
-            className="w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
+            className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
             placeholder=""
           />
         </div>
@@ -180,7 +178,7 @@ export default function ProfileForm({
           </div>
           <input
             {...register('address')}
-            className="w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
+            className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
             placeholder=""
           />
         </div>
@@ -202,7 +200,7 @@ export default function ProfileForm({
                 selectedDistrict ? selectedDistrict.postalCode.toString() : ''
               );
             }}
-            className="w-full bg-transparent border-[1px]  border-gray-300 p-1 rounded-lg hover:border-project-primary"
+            className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1 rounded-lg hover:border-project-primary"
           >
             <option value=""></option>
             {filteredDistricts
@@ -237,7 +235,7 @@ export default function ProfileForm({
               setFilteredDistricts(newDistricts);
               setValue('zip', '');
             }}
-            className="w-full bg-transparent border-[1px]  border-gray-300 p-1 rounded-lg hover:border-project-primary"
+            className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1 rounded-lg hover:border-project-primary"
           >
             <option value=""></option>
             {provinces
@@ -265,7 +263,7 @@ export default function ProfileForm({
           <input
             {...register('zip')}
             readOnly
-            className="w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
+            className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
             placeholder="Zip"
           />
         </div>
