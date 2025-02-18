@@ -1,12 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { apiClient } from './axios';
 import { Buyer, Seller } from '@/types/user';
-import {
-  BuyerDTO,
-  convertBuyerDTOToBuyer,
-  convertSellerDTOToSeller,
-  SellerDTO,
-} from '@/dtos/userDTO';
+import { BuyerDTO, convertSellerDTOToSeller, SellerDTO } from '@/dtos/userDTO';
 import { convertTokenDTOToToken, TokenDTO } from '@/dtos/tokenDTO';
 import { Token } from '@/types/token';
 import { getExpireTime } from './time';

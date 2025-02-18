@@ -6,18 +6,9 @@ import logo from '@/../public/logo.png';
 import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 
-type Page = 'Home' | 'Order' | 'Profile';
-
-interface NavComponent {
-  icons: string;
-  text: string;
-  iconsText: Page;
-  link: string;
-}
-
 export default function Navbar() {
   const router = useRouter();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState<string>('');
   const user = useAuth();
 
   const handleSearch = () => {
@@ -87,9 +78,7 @@ export default function Navbar() {
           width="24"
           height="24"
           className="self-center"
-          onClick={() =>
-            user.user ? router.push('/cart') : router.push('/login')
-          }
+          onClick={() => (user ? router.push('/cart') : router.push('/login'))}
         />
       </div>
     </nav>

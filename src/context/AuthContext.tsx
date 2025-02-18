@@ -49,7 +49,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
     };
     logoutFunction();
     localStorage.clear();
-    window.location.href = '/';
+    window.location.href = '/login';
   }, []);
 
   useEffect(() => {
@@ -65,12 +65,12 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
       if (userType === 'buyer') {
         if (path.includes('seller') && !path.includes('review')) {
           toast?.setToast('error', 'ท่านไม่สามารถทำรายการนี้ได้');
-          router.push('/');
+          router.push('/login');
         }
       } else {
         if (path.includes('buyer')) {
           toast?.setToast('error', 'ท่านไม่สามารถทำรายการนี้ได้');
-          router.push('/');
+          router.push('/login');
         }
       }
 
