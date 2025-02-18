@@ -15,7 +15,6 @@ interface District {
   provinceCode: number;
   districtCode: number;
   districtNameEn: string;
-  districtNameTh: string;
   postalCode: number;
 }
 
@@ -28,12 +27,12 @@ export default function ProfileForm({
   const { user } = useAuth();
 
   const getProvinceCode = (provinceName: string) => {
-    const province = provinces.find((p) => p.provinceNameTh === provinceName);
+    const province = provinces.find((p) => p.provinceNameEn === provinceName);
     return province ? province.provinceCode.toString() : '';
   };
 
   const getDistrictCode = (districtName: string) => {
-    const district = districts.find((d) => d.districtNameTh === districtName);
+    const district = districts.find((d) => d.districtNameEn === districtName);
     return district ? district.districtCode.toString() : '';
   };
 
@@ -70,14 +69,14 @@ export default function ProfileForm({
 
   const [filteredDistricts, setFilteredDistricts] = useState<District[]>([]);
 
-  const getProvinceNameTh = (provinceCode: number) => {
+  const getProvinceNameEn = (provinceCode: number) => {
     const province = provinces.find((p) => p.provinceCode === provinceCode);
-    return province ? province.provinceNameTh : 'Province not found';
+    return province ? province.provinceNameEn : 'Province not found';
   };
 
-  const getDistrictNameTh = (districtCode: number) => {
+  const getDistrictNameEn = (districtCode: number) => {
     const district = districts.find((p) => p.districtCode === districtCode);
-    return district ? district.districtNameTh : 'District not found';
+    return district ? district.districtNameEn : 'District not found';
   };
 
   const onSubmit = async (data: ProfileFormData) => {
@@ -87,8 +86,8 @@ export default function ProfileForm({
         data.surname,
         data.phoneNumber,
         data.address,
-        getProvinceNameTh(parseInt(data.province)),
-        getDistrictNameTh(parseInt(data.city)),
+        getProvinceNameEn(parseInt(data.province)),
+        getDistrictNameEn(parseInt(data.city)),
         data.zip
       );
       router.push('/profile');
@@ -185,7 +184,41 @@ export default function ProfileForm({
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
             <span className="text-sm">
-              <u>District *</u>
+              Province <u>*</u>
+            </span>
+            <p className="text-red-500 text-sm">{errors.province?.message}</p>
+          </div>
+          <select
+            {...register('province')}
+            onChange={(e) => {
+              const provinceCode = Number(e.target.value);
+              const newDistricts = districts.filter(
+                (district) => district.provinceCode === provinceCode
+              );
+              setFilteredDistricts(newDistricts);
+              setValue('zip', '');
+            }}
+            className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1 rounded-lg hover:border-project-primary"
+          >
+            {provinces
+              .slice()
+              .sort((a, b) =>
+                a.provinceNameEn.localeCompare(b.provinceNameEn, 'en')
+              )
+              .map((province) => (
+                <option
+                  key={province.provinceCode}
+                  value={province.provinceCode}
+                >
+                  {province.provinceNameEn}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-2">
+            <span className="text-sm">
+              District <u>*</u>
             </span>
             <p className="text-red-500 text-sm">{errors.city?.message}</p>
           </div>
@@ -206,49 +239,14 @@ export default function ProfileForm({
             {filteredDistricts
               .slice()
               .sort((a, b) =>
-                a.districtNameTh.localeCompare(b.districtNameTh, 'th')
+                a.districtNameEn.localeCompare(b.districtNameEn, 'rn')
               )
               .map((district: District) => (
                 <option
                   key={district.districtCode}
                   value={district.districtCode}
                 >
-                  {district.districtNameTh}
-                </option>
-              ))}
-          </select>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="flex gap-2">
-            <span className="text-sm">
-              Province <u>*</u>
-            </span>
-            <p className="text-red-500 text-sm">{errors.province?.message}</p>
-          </div>
-          <select
-            {...register('province')}
-            onChange={(e) => {
-              const provinceCode = Number(e.target.value);
-              const newDistricts = districts.filter(
-                (district) => district.provinceCode === provinceCode
-              );
-              setFilteredDistricts(newDistricts);
-              setValue('zip', '');
-            }}
-            className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1 rounded-lg hover:border-project-primary"
-          >
-            <option value=""></option>
-            {provinces
-              .slice()
-              .sort((a, b) =>
-                a.provinceNameTh.localeCompare(b.provinceNameTh, 'th')
-              )
-              .map((province) => (
-                <option
-                  key={province.provinceCode}
-                  value={province.provinceCode}
-                >
-                  {province.provinceNameTh}
+                  {district.districtNameEn}
                 </option>
               ))}
           </select>
