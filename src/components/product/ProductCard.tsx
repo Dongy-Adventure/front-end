@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import pakichu from '@/../public/placeholder2.jpg';
+import tempProductImage from '@/../public/placeholder200.avif';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useRouter } from 'next/navigation';
 
@@ -28,11 +28,11 @@ const ProductCard = ({
       className="relative bg-white rounded-md flex flex-col items-center max-w-60 min-w-60 min-h-84 max-h-84 border-[1px] border-gray-200 cursor-pointer"
     >
       <Image
-        src={pakichu}
+        src={tempProductImage}
         alt={productName}
         width={200}
         height={200}
-        className="rounded-lg object-cover p-6"
+        className="rounded-lg object-cover p-6 w-full"
       />
       <div className="text-left w-full border-t-[1px] border-gray-200">
         <div className="px-4 py-4 flex flex-col">

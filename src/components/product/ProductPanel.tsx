@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Product } from '@/types/product';
 import Image from 'next/image';
 import ProductCard from './ProductCard';
-import temp from '@/../public/404.png';
+import temp from '@/../public/placeholder200.avif';
 import { Seller } from '@/types/user';
 
 const exampleProducts = [
