@@ -9,6 +9,7 @@ import Image from 'next/image';
 import ProductCard from './ProductCard';
 import temp from '@/../public/placeholder200.avif';
 import { Seller } from '@/types/user';
+import { Review } from '@/types/review';
 
 const exampleProducts = [
   {
@@ -56,9 +57,11 @@ const exampleProducts = [
 export default function ProductPanel({
   product,
   seller,
+  reviews,
 }: {
   product: Product;
   seller: Seller;
+  reviews: Review[];
 }) {
   const [count, setCount] = useState(1);
 
@@ -104,7 +107,10 @@ export default function ProductPanel({
           <p className="leading-tight font-light text-sm pb-8">
             {product.description}
           </p>
-          <ProductSellerCard seller={seller} />
+          <ProductSellerCard
+            seller={seller}
+            reviews={reviews}
+          />
           <div className="flex pt-12 pb-12 gap-4">
             <div className="flex items-center justify-between w-28 h-10 border rounded-lg bg-gray-100">
               <button

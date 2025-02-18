@@ -1,24 +1,14 @@
 import { Review } from '@/types/review';
-import { getAccessToken } from './auth';
 import { apiClient } from './axios';
 import { AxiosResponse } from 'axios';
 import { ReviewDataDTO, ReviewDTO } from '@/dtos/reviewDTO';
-import { getUserId } from './user';
 
-export const getReviews = async (): Promise<Review[] | null> => {
-  const accessToken = await getAccessToken();
-  const userId = await getUserId();
 
-  if (!accessToken || !userId) return null;
+export const getReviews = async (id: string): Promise<Review[] | null> => {
 
   try {
     const res: AxiosResponse<ReviewDTO> = await apiClient.get(
-      `/review/seller/${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
+      `/review/seller/${id}`
     );
 
     if (!res.data.success) {
