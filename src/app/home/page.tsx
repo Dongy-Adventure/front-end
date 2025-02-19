@@ -9,7 +9,7 @@ export default async function Home() {
   console.log(products);
 
   return (
-    <div className="pt-4 flex flex-col">
+    <div className="pt-8 flex flex-col">
       <div className="w-full">
         <Carousel />
       </div>
@@ -19,7 +19,7 @@ export default async function Home() {
             Recommended Products
           </p>
           <p className="text-md lg:text-md font-light">
-            Don't wait. The time will never be just right.
+            Don&apos;t wait. The time will never be just right.
           </p>
           <div className="flex overflow-scroll gap-4 py-8">
             {products &&

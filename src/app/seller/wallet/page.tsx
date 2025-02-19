@@ -4,7 +4,6 @@ import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getSellerBalance } from '@/utils/seller';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Sidebar from '@/components/Sidebar';
