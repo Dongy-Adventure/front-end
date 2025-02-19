@@ -74,7 +74,7 @@ export default function Wallet() {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col md:flex-row gap-4"
           >
-            <div className="flex flex-col p-4 pr-8 rounded-lg bg-gray-100 h-fit w-fit min-w-96">
+            <div className="flex flex-col p-4 pr-8 rounded-lg bg-gray-100 h-fit w-fit md:min-w-96">
               <p className="font-semibold text-xl">Payment Method</p>
               <p className="text-sm font-light pb-4">
                 Please select the preferred payment method to use on this order.
@@ -125,7 +125,7 @@ export default function Wallet() {
                 </p>
               )}
             </div>
-            <div className="flex flex-col p-4 rounded-lg bg-gray-100 w-fit leading-none">
+            <div className="flex flex-col p-4 rounded-lg bg-gray-100 w-full md:w-fit leading-none">
               <p className="font-semibold pb-4">Withdrawal</p>
               <p className="text-sm font-light">Enter withdrawal amount.</p>
               {errors.amount && (
@@ -136,7 +136,7 @@ export default function Wallet() {
                 <input
                   type="number"
                   {...register('amount', { valueAsNumber: true })}
-                  className="w-72 rounded-md bg-white border-[1px] p-2 mt-0.5"
+                  className="w-full md:w-72 rounded-md bg-white border-[1px] p-2 mt-0.5"
                   placeholder="Enter amount"
                   min="1"
                   max={sellerBalance ?? 0}

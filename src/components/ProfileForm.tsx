@@ -102,7 +102,7 @@ export default function ProfileForm({
       className="flex flex-col w-full"
     >
       <h1 className="text-xl font-semibold pb-4">Update Profile</h1>
-      <div className="flex flex-col gap-4 w-4/5">
+      <div className="flex flex-col gap-4 md:w-4/5">
         <div className="grid grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">
             <div className="flex gap-2">
@@ -121,7 +121,7 @@ export default function ProfileForm({
               </span>
             </div>
             <div className="font-medium w-full bg-gray-300 border-[1px]  border-gray-300 p-1.5 rounded-lg">
-              **********************
+              **************
             </div>
           </div>
         </div>
