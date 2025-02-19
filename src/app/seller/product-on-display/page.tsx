@@ -10,47 +10,21 @@ import ProfileBadge from '@/components/ProfileBadge';
 import Image from 'next/image';
 import wristWatch from '@/../public/wrist-watch.png';
 import trash from '@/../public/trash.png';
-
-// Tmp Product
-const productsTmp = [
-  {
-    id: '67a90eaad342af0becec6b71',
-    name: 'wrist watch 1',
-    price: 1000,
-    image: wristWatch,
-  },
-  {
-    id: '67a90eaad342af0becec6b72',
-    name: 'wrist watch 2',
-    price: 2000,
-    image: wristWatch,
-  },
-  {
-    id: '67a90eaad342af0becec6b73',
-    name: 'wrist watch 3',
-    price: 3000,
-    image: wristWatch,
-  },
-];
-// Tmp Product
+import { getSellerProducts } from '@/utils/product';
+import { Product } from '@/types/product';
 
 export default function ProductOnDisplay() {
-  const { user } = useAuth();
   const toast = useToast();
   const router = useRouter();
-  const [products, setProducts] = useState<
-    { id: string; name: string; price: number; image: string }[]
-  >([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
-  /*useEffect(() => {
-    if (user?.userType === 'seller') {
-      const getProduct = async () => {
-        const products = await getSellerProducts(); // Waiting for API
-        setProducts(products ?? { id: "", name: "", price: 0, image: "" });
-      };
-      getProduct();
-    }
-  }, []);*/
+  useEffect(() => {
+    const getProduct = async () => {
+      const products = await getSellerProducts();
+      setProducts(products ?? []);
+    };
+    getProduct();
+  }, []);
 
   /*const onDelete = async (productID: string) => {
     const status = await deleteProduct(productID); // Waiting for API
@@ -63,12 +37,10 @@ export default function ProductOnDisplay() {
     }
   };*/
 
-  // Tmp OnDelete
   const onDelete = async (productID: string) => {
     toast?.setToast('success', 'Product deleted successfully!');
     router.refresh();
   };
-  // Tmp OnDelete
 
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
@@ -80,13 +52,11 @@ export default function ProductOnDisplay() {
           Home
         </Link>
         <p className="text-gray-400">{'\u003E'}</p>
-        <p className="text-gray-400">My Account</p>
-        <p className="text-gray-400">{'\u003E'}</p>
         <p className="text-black font-semibold">Product On Display</p>
       </div>
       <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">
-        <Sidebar state={3} />
+        <Sidebar state={4} />
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-bold pb-4">Product on-display</h1>
           <div className="overflow-x-auto p-4">
@@ -100,24 +70,24 @@ export default function ProductOnDisplay() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
-                {productsTmp.map((product) => (
+                {products.map((product: Product) => (
                   <tr
-                    key={product.id}
+                    key={product.productID}
                     className="hover:bg-gray-50"
                   >
                     <td className="p-3 flex items-center space-x-3">
                       <Image
-                        src={product.image}
-                        alt={product.name}
+                        src={wristWatch}
+                        alt={product.productName}
                         className="w-12 h-12 object-cover rounded-md"
                       />
-                      <span>{product.name}</span>
+                      <span>{product.productName}</span>
                     </td>
-                    <td className="p-3">{product.id}</td>
+                    <td className="p-3">{product.productID}</td>
                     <td className="p-3">${product.price}</td>
                     <td className="p-3 items-center">
                       <button
-                        onClick={() => onDelete(product.id)}
+                        onClick={() => onDelete(product.productName)}
                         className="items-canter"
                       >
                         <Image

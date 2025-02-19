@@ -56,9 +56,7 @@ export default function Profile() {
           Home
         </Link>
         <p className="text-gray-400">{'\u003E'}</p>
-        <p className="text-gray-400">My Account</p>
-        <p className="text-gray-400">{'\u003E'}</p>
-        <p className="text-black font-semibold">Profile</p>
+        <p className="text-black font-semibold">Edit Profile</p>
       </div>
       <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">

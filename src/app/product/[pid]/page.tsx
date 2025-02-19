@@ -34,11 +34,7 @@ export default async function page({ params }: { params: { pid: string } }) {
   }
 
   const seller: Seller | null = await getSellerById(product.sellerID);
-  console.log(seller);
-
   const reviews: Review[] | null = await getReviews(seller?.sellerID ?? '');
-
-  console.log(reviews);
 
   if (!seller || !reviews) {
     return (

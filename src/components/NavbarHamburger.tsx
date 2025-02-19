@@ -13,11 +13,12 @@ export default function NavbarHamburger() {
   const menuItems = user
     ? [
         { path: '/profile', label: 'Profile' },
-        { path: '/order', label: 'Manage Order' },
-        { path: '/home', label: 'Product On-display' },
+        { path: '/seller/order', label: 'Manage Order' },
+        { path: '/seller/post', label: 'Post Product' },
+        { path: '/seller/product-on-display', label: 'Product On-display' },
         { path: '/seller/transaction-history', label: 'Transaction History' },
         { path: '/seller/wallet', label: 'Wallet' },
-        { path: '/ads', label: 'Create Ads' },
+        { path: '/seller/ads', label: 'Create Ads' },
         { path: '/seller/review', label: 'My Review' },
       ]
     : [{ label: 'Home', path: '/home' }];

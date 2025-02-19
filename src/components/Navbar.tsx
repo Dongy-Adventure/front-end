@@ -56,9 +56,7 @@ export default function Navbar() {
         <div className="flex align-center justify-center w-full gap-8 cursor-pointer">
           <div
             className="flex justify-center gap-2"
-            onClick={() =>
-              user ? router.push('/profile') : router.push('/login')
-            }
+            onClick={() => (user ? router.push('/profile') : router.push('/'))}
           >
             <Icon
               icon="iconamoon:profile"

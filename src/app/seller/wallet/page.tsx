@@ -15,7 +15,6 @@ import {
 } from '@/lib/validations/seller/withdraw';
 
 export default function Wallet() {
-  const router = useRouter();
   const { user } = useAuth();
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
 
@@ -27,6 +26,9 @@ export default function Wallet() {
     formState: { errors },
   } = useForm<PaymentFormValues>({
     resolver: zodResolver(PaymentSchema(sellerBalance ?? 0)),
+    defaultValues: {
+      phoneNumber: user?.phoneNumber,
+    },
   });
 
   const selectedPayment = watch('paymentMethod');
@@ -55,13 +57,11 @@ export default function Wallet() {
           Home
         </Link>
         <p className="text-gray-400">{'>'}</p>
-        <p className="text-gray-400">My Account</p>
-        <p className="text-gray-400">{'>'}</p>
         <p className="text-black font-semibold">Wallet</p>
       </div>
       <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">
-        <Sidebar state={5} />
+        <Sidebar state={6} />
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-semibold pb-4">Wallet</h1>
           <div className="bg-black h-28 w-72  rounded-2xl px-8 text-white mb-12">

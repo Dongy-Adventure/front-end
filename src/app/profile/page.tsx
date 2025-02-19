@@ -35,8 +35,6 @@ export default function Profile() {
           Home
         </Link>
         <p className="text-gray-400">{'\u003E'}</p>
-        <p className="text-gray-400">My Account</p>
-        <p className="text-gray-400">{'\u003E'}</p>
         <p className="text-black font-semibold">Profile</p>
       </div>
       <ProfileBadge />

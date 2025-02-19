@@ -34,13 +34,11 @@ export default function Reviews() {
           Home
         </Link>
         <p className="text-gray-400">{'\u003E'}</p>
-        <p className="text-gray-400">My Account</p>
-        <p className="text-gray-400">{'\u003E'}</p>
         <p className="text-black font-semibold">My Review</p>
       </div>
       <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">
-        <Sidebar state={7} />
+        <Sidebar state={8} />
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-bold pb-4">My Review</h1>
           <div className="overflow-x-auto p-4">
