@@ -60,7 +60,7 @@ export default function Profile() {
               </p>
             </div>
           </div>
-          <div className="flex flex-col gap-4 w-4/5">
+          <div className="flex flex-col gap-4 md:w-4/5">
             <div className="grid grid-cols-2">
               <div className="flex flex-col gap-2">
                 <p className="text-sm">Username</p>
