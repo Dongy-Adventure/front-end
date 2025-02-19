@@ -9,7 +9,7 @@ export default async function Home() {
   console.log(products);
 
   return (
-    <div className="pt-4 flex flex-col">
+    <div className="pt-8 flex flex-col">
       <div className="w-full">
         <Carousel />
       </div>

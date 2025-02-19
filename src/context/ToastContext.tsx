@@ -39,7 +39,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
             exit={{ opacity: 0, y: -300, x: '-50%' }}
             className={cn(
               getStyle(toast.data?.type),
-              'fixed left-1/2 z-[101] rounded-xl px-4 py-2'
+              'fixed left-1/2 z-50 rounded-xl px-4 py-2'
             )}
           >
             <div className="flex items-center space-x-2 gap-1">

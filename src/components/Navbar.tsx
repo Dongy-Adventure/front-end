@@ -20,7 +20,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="z-50 hidden md:flex justify-stretch p-2 bg-white shadow-md fixed top-0 bottom-auto left-0 transform translate-x-0 w-screen">
+      <nav className="z-40 hidden md:flex justify-stretch p-2 bg-white shadow-md fixed top-0 bottom-auto left-0 transform translate-x-0 w-screen">
         <div
           className="flex align-center justify-center w-full cursor-pointer"
           onClick={() => router.push('/home')}
@@ -44,6 +44,12 @@ export default function Navbar() {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setQuery(e.target.value)
             }
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSearch();
+              }
+            }}
           />
           <Icon
             icon="material-symbols:search"
@@ -53,9 +59,9 @@ export default function Navbar() {
             onClick={handleSearch}
           />
         </div>
-        <div className="flex align-center justify-center w-full gap-8 cursor-pointer">
+        <div className="flex align-center justify-center w-full gap-8">
           <div
-            className="flex justify-center gap-2"
+            className="flex justify-center gap-2  cursor-pointer"
             onClick={() => (user ? router.push('/profile') : router.push('/'))}
           >
             <Icon
@@ -77,11 +83,12 @@ export default function Navbar() {
             icon="lineicons:cart-2"
             width="24"
             height="24"
-            className="self-center"
+            className="self-center  cursor-pointer"
             onClick={() =>
               user ? router.push('/cart') : router.push('/login')
             }
           />
+          <NavbarHamburger />
         </div>
       </nav>
       <nav className="z-40 flex md:hidden justify-between p-2 bg-white shadow-md fixed top-0 bottom-auto left-0 transform translate-x-0 w-screen px-6">
