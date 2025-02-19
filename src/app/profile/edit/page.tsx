@@ -2,11 +2,8 @@
 
 import ProfileForm from '@/components/ProfileForm';
 import { useAuth } from '@/context/AuthContext';
-import tempProfilePicture from '@/../public/placeholder2.jpg';
 import { Seller } from '@/types/user';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import ProfileBadge from '@/components/ProfileBadge';
 import Sidebar from '@/components/Sidebar';
 
@@ -25,13 +22,8 @@ interface UserInfo {
 }
 
 export default function Profile() {
-  const router = useRouter();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
-  const handleLogout = () => {
-    logout();
-    router.push('/');
-  };
   const userInfo: UserInfo = {
     username: user?.username ?? 'error',
     password: '',
@@ -65,7 +57,4 @@ export default function Profile() {
       </div>
     </div>
   );
-}
-function useState<T>(arg0: null): [any, any] {
-  throw new Error('Function not implemented.');
 }
