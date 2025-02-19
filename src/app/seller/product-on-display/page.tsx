@@ -82,14 +82,13 @@ export default function ProductOnDisplay() {
         <p className="text-gray-400">{'\u003E'}</p>
         <p className="text-gray-400">My Account</p>
         <p className="text-gray-400">{'\u003E'}</p>
-        <p className="text-black font-semibold">Profile</p>
+        <p className="text-black font-semibold">Product On Display</p>
       </div>
       <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">
         <Sidebar state={3} />
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-bold pb-4">Product on-display</h1>
-          {/*Product Table*/}
           <div className="overflow-x-auto p-4">
             <table className="w-full">
               <thead className="border-b border-gray-300 p-3 font-semibold text-left">
