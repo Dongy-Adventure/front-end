@@ -1,29 +1,77 @@
 'use client';
 
-import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
-import Sidebar from '@/components/Sidebar';
-import ProfileBadge from '@/components/ProfileBadge';
-import Image from 'next/image';
-import wristWatch from '@/../public/wrist-watch.png';
-import trash from '@/../public/trash.png';
-import { getSellerProducts } from '@/utils/product';
+import CartCard from '@/components/buyer/cart/CartCard';
 import { Product } from '@/types/product';
+import Summary from '@/components/buyer/cart/Summary';
 
+const cartDummy: Product[] = [
+  {
+    sellerID: '65d7a9f3e0b8f4a5c9d12345',
+    color: 'Red',
+    createdAt: '2025-02-19T10:00:00Z',
+    description: 'A stylish red smartwatch with fitness tracking features.',
+    imageURL: 'https://via.placeholder.com/150/FF0000/FFFFFF?text=Smartwatch',
+    price: 199.99,
+    productID: 'prd-001',
+    productName: 'Smartwatch Pro',
+    tag: ['wearable', 'tech', 'fitness'],
+  },
+  {
+    sellerID: '65d7a9f3e0b8f4a5c9d67890',
+    color: 'Blue',
+    createdAt: '2025-02-18T15:30:00Z',
+    description: 'Noise-canceling over-ear headphones with deep bass.',
+    imageURL: 'https://via.placeholder.com/150/0000FF/FFFFFF?text=Headphones',
+    price: 129.99,
+    productID: 'prd-002',
+    productName: 'Bass Boost Headphones',
+    tag: ['audio', 'music', 'wireless'],
+  },
+  {
+    sellerID: '65d7a9f3e0b8f4a5c9d11223',
+    color: 'Black',
+    createdAt: '2025-02-17T08:45:00Z',
+    description: 'Ultra-lightweight gaming mouse with customizable RGB.',
+    imageURL: 'https://via.placeholder.com/150/000000/FFFFFF?text=Mouse',
+    price: 79.99,
+    productID: 'prd-003',
+    productName: 'RGB Gaming Mouse',
+    tag: ['gaming', 'pc', 'accessory'],
+  },
+  {
+    sellerID: '65d7a9f3e0b8f4a5c9d44556',
+    color: 'White',
+    createdAt: '2025-02-16T20:15:00Z',
+    description: 'Sleek mechanical keyboard with customizable key switches.',
+    imageURL: 'https://via.placeholder.com/150/FFFFFF/000000?text=Keyboard',
+    price: 149.99,
+    productID: 'prd-004',
+    productName: 'Mechanical Keyboard X',
+    tag: ['keyboard', 'mechanical', 'gaming'],
+  },
+];
 export default function Cart() {
   const toast = useToast();
   const router = useRouter();
-  const [products, setProducts] = useState<Product[]>([]);
+  const [carts, setCarts] = useState<Product[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const toggleSelect = (id: string) => {
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
 
   useEffect(() => {
-    const getProduct = async () => {
-      const products = await getSellerProducts();
-      setProducts(products ?? []);
-    };
-    getProduct();
+    // const getProduct = async () => {
+    //   const products = await getSellerProducts();
+    //   setProducts(products ?? []);
+    // };
+    setCarts(cartDummy);
   }, []);
 
   /*const onDelete = async (productID: string) => {
@@ -52,58 +100,43 @@ export default function Cart() {
           Home
         </Link>
         <p className="text-gray-400">{'\u003E'}</p>
-        <p className="text-black font-semibold">Product On Display</p>
+        <p className="text-black font-semibold">Cart</p>
       </div>
-      <ProfileBadge />
-      <div className="flex pt-16 gap-16 text-black">
-        <Sidebar state={4} />
+      <div className="flex gap-16 text-black">
         <div className="flex flex-col w-full">
-          <h1 className="text-xl font-bold pb-4">Product on-display</h1>
-          <div className="overflow-x-auto p-4">
+          <h1 className="text-3xl font-bold pb-4 text-project-primary">Cart</h1>
+          <main className="overflow-x-auto p-8 flex gap-8">
             <table className="w-full">
               <thead className="border-b border-gray-300 p-3 font-semibold text-left">
                 <tr>
+                  <th>Status</th>
                   <th>Product</th>
-                  <th>Product ID</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
                   <th>Total</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
-                {products.map((product: Product) => (
-                  <tr
-                    key={product.productID}
-                    className="hover:bg-gray-50"
-                  >
-                    <td className="p-3 flex items-center space-x-3">
-                      <Image
-                        src={wristWatch}
-                        alt={product.productName}
-                        className="w-12 h-12 object-cover rounded-md"
-                      />
-                      <span>{product.productName}</span>
-                    </td>
-                    <td className="p-3">{product.productID}</td>
-                    <td className="p-3">${product.price}</td>
-                    <td className="p-3 items-center">
-                      <button
-                        onClick={() => onDelete(product.productName)}
-                        className="items-canter"
-                      >
-                        <Image
-                          src={trash}
-                          alt="Delete"
-                          width={20}
-                          height={20}
-                        />
-                      </button>
-                    </td>
-                  </tr>
+                {carts.map((cart: Product) => (
+                  <CartCard
+                    key={cart.productID}
+                    product={cart}
+                    selected={selected}
+                    toggleSelect={toggleSelect}
+                  />
                 ))}
               </tbody>
             </table>
-          </div>
-          {/*Product Table*/}
+            <Summary
+              total={cartDummy
+                .filter((product) => selected.includes(product.productID))
+                .reduce((sum, product) => sum + product.price, 0)}
+              products={carts.filter((product) =>
+                selected.includes(product.productID)
+              )}
+            />
+          </main>
         </div>
       </div>
     </div>

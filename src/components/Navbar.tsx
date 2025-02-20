@@ -79,15 +79,17 @@ export default function Navbar() {
               )}
             </div>
           </div>
-          <Icon
-            icon="lineicons:cart-2"
-            width="24"
-            height="24"
-            className="self-center  cursor-pointer"
-            onClick={() =>
-              user ? router.push('/cart') : router.push('/login')
-            }
-          />
+          {user?.userType === 'buyer' && (
+            <Icon
+              icon="lineicons:cart-2"
+              width="24"
+              height="24"
+              className="self-center  cursor-pointer"
+              onClick={() =>
+                user ? router.push('/buyer/cart') : router.push('/login')
+              }
+            />
+          )}
           <NavbarHamburger />
         </div>
       </nav>
