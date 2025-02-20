@@ -1,5 +1,3 @@
-import { ProductDTO } from '@/dtos/productDTO';
-import { AxiosResponse } from 'axios';
 import { getAccessToken } from './auth';
 import { apiClient } from './axios';
 import { getUserId } from './user';
@@ -14,12 +12,12 @@ export const createOrder = async (product: Product[]): Promise<boolean> => {
     return false;
   }
   try {
-    const res: AxiosResponse<ProductDTO> = await apiClient.post(
+    const res = await apiClient.post(
       `/order/`,
       {
         products: product,
         buyerID: userId,
-        sellerID: product[0].sellerID,
+        sellerID: '67ac79f76eaaa6f91afc0425',
       },
       {
         headers: {
