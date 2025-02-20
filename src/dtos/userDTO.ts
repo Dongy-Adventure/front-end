@@ -2,9 +2,11 @@ import { Buyer, Seller } from '@/types/user';
 
 export type BuyerDTO = {
   accessToken: string;
+  accessTokenExpiredIn: number;
   data: Buyer;
   message: string;
   refreshToken: string;
+  refreshTokenExpiredin: number;
   status: number;
   success: boolean;
 };

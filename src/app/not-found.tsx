@@ -2,18 +2,10 @@
 import Image from 'next/image';
 import notFound from '@/../public/404.png';
 import Link from 'next/link';
-import { useToast } from '@/context/ToastContext';
-import { useEffect } from 'react';
 
 export default function NotFound() {
-  const toast = useToast();
-
-  useEffect(() => {
-    toast?.setToast('error', 'Sorry! Page not found');
-  }, []);
-
   return (
-    <div className="flex flex-col items-center py-8 pt-0 md:pt-16 lg:py-16 lg:px-24 w-full justify-center h-screen md:h-auto bg-project-secondary gap-4">
+    <div className="flex flex-col items-center py-8 pt-0 md:pt-16 lg:py-16 lg:px-24 w-full justify-center h-screen bg-project-secondary gap-4">
       <Image
         src={notFound}
         alt="404"

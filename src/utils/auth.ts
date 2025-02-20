@@ -1,7 +1,12 @@
 import { AxiosResponse } from 'axios';
 import { apiClient } from './axios';
 import { Buyer, Seller } from '@/types/user';
-import { BuyerDTO, convertSellerDTOToSeller, SellerDTO } from '@/dtos/userDTO';
+import {
+  BuyerDTO,
+  convertBuyerDTOToBuyer,
+  convertSellerDTOToSeller,
+  SellerDTO,
+} from '@/dtos/userDTO';
 import { convertTokenDTOToToken, TokenDTO } from '@/dtos/tokenDTO';
 import { Token } from '@/types/token';
 import { getExpireTime } from './time';
@@ -148,14 +153,33 @@ export const buyerAuth = async (
     });
 
     if (!res.data.success) return null;
-    const { data, accessToken, refreshToken } = res.data;
 
-    const buyerStr = JSON.stringify(data);
+    const {
+      data,
+      accessToken,
+      accessTokenExpiredIn,
+      message,
+      status,
+      refreshToken,
+    } = res.data;
 
-    localStorage.setItem('token', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+    if (!status) {
+      console.error(message);
+      return null;
+    }
+    const buyer: Buyer = convertBuyerDTOToBuyer(res.data);
+    const sellerStr = JSON.stringify(buyer);
+
+    const tokenStr = JSON.stringify({
+      accessToken: accessToken,
+      expiresIn: getExpireTime(accessTokenExpiredIn),
+      refreshToken: refreshToken,
+    });
+
+    localStorage.setItem('userId', buyer.buyerID);
+    localStorage.setItem('token', tokenStr);
     localStorage.setItem('userType', 'buyer');
-    localStorage.setItem('user', buyerStr);
+    localStorage.setItem('user', sellerStr);
     return data;
   } catch (err) {
     return null;

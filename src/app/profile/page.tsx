@@ -8,11 +8,13 @@ import { useRouter } from 'next/navigation';
 import { Seller } from '@/types/user';
 import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
+import { getSellerProducts } from '@/utils/product';
 
 export default function Profile() {
   const router = useRouter();
   const { user } = useAuth();
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
+  const [productCount, setProductCount] = useState<number>(0);
 
   useEffect(() => {
     if (user?.userType === 'seller') {
@@ -21,7 +23,13 @@ export default function Profile() {
         setSellerBalance(balance ?? 0);
       };
 
+      const getProductCount = async () => {
+        const total = await getSellerProducts();
+        if (total) setProductCount(total.length);
+      };
+
       getBalance();
+      getProductCount();
     }
   }, []);
 
@@ -42,24 +50,26 @@ export default function Profile() {
         <Sidebar state={1} />
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-semibold pb-4">My Profile</h1>
-          <div className="flex overflow-x-scroll gap-4 w-full h-28 mb-12  text-white">
-            <div className="bg-black w-full min-w-72 max-w-72 h-full rounded-2xl px-8">
-              <p className="pt-10 font-semibold">Balance</p>
-              <p className="font-semibold text-2xl">
-                {Number(sellerBalance).toFixed(2)} THB
-              </p>
+          {user?.userType === 'seller' && (
+            <div className="flex overflow-x-scroll gap-4 w-full h-28 mb-12  text-white">
+              <div className="bg-black w-full min-w-72 max-w-72 h-full rounded-2xl px-8">
+                <p className="pt-10 font-semibold">Balance</p>
+                <p className="font-semibold text-2xl">
+                  {Number(sellerBalance).toFixed(2)} THB
+                </p>
+              </div>
+              <div className="bg-black w-full min-w-72 max-w-72 h-full rounded-2xl px-8">
+                <p className="pt-10 font-semibold">Products On List</p>
+                <p className="font-semibold text-2xl">{productCount}</p>
+              </div>
+              <div className="bg-black w-full min-w-72 max-w-72 h-full rounded-2xl px-8">
+                <p className="pt-10 font-semibold">Review Score</p>
+                <p className="font-semibold text-2xl">
+                  {Number((user as Seller)?.score).toFixed(2)}
+                </p>
+              </div>
             </div>
-            <div className="bg-black w-full min-w-72 max-w-72 h-full rounded-2xl px-8">
-              <p className="pt-10 font-semibold">Products Sold</p>
-              <p className="font-semibold text-2xl">{20}</p>
-            </div>
-            <div className="bg-black w-full min-w-72 max-w-72 h-full rounded-2xl px-8">
-              <p className="pt-10 font-semibold">Review Score</p>
-              <p className="font-semibold text-2xl">
-                {Number((user as Seller)?.score).toFixed(2)}
-              </p>
-            </div>
-          </div>
+          )}
           <div className="flex flex-col gap-4 md:w-4/5">
             <div className="grid grid-cols-2">
               <div className="flex flex-col gap-2">

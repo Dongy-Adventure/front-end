@@ -68,7 +68,7 @@ export default function ProductPanel({
   const router = useRouter();
 
   const handleAddToCart = () => {
-    router.push('/cart');
+    router.push('/buyer/cart');
   };
 
   return (

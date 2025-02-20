@@ -9,6 +9,7 @@ import { updateSeller } from '@/utils/seller';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { updateBuyer } from '@/utils/buyer';
 
 interface District {
   id: number;
@@ -81,15 +82,27 @@ export default function ProfileForm({
 
   const onSubmit = async (data: ProfileFormData) => {
     try {
-      await updateSeller(
-        data.name,
-        data.surname,
-        data.phoneNumber,
-        data.address,
-        getProvinceNameEn(parseInt(data.province)),
-        getDistrictNameEn(parseInt(data.city)),
-        data.zip
-      );
+      if (user?.userType === 'seller') {
+        await updateSeller(
+          data.name,
+          data.surname,
+          data.phoneNumber,
+          data.address,
+          getProvinceNameEn(parseInt(data.province)),
+          getDistrictNameEn(parseInt(data.city)),
+          data.zip
+        );
+      } else {
+        await updateBuyer(
+          data.name,
+          data.surname,
+          data.phoneNumber,
+          data.address,
+          getProvinceNameEn(parseInt(data.province)),
+          getDistrictNameEn(parseInt(data.city)),
+          data.zip
+        );
+      }
       router.push('/profile');
     } catch (error) {
       console.error('Update failed', error);

@@ -1,12 +1,15 @@
 import { Transaction } from './wallet';
 
 export type Buyer = {
-  buyerID: string;
+  address: string;
+  city: string;
+  province: string;
+  zip: string;
   name: string;
+  phoneNumber: string;
+  buyerID: string;
   surname: string;
   username: string;
-  phoneNumber: string;
-  address: string;
   userType: 'buyer';
 };
 
