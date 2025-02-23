@@ -43,8 +43,6 @@ pnpm install
 pnpm dev
 ```
 
-5. Go to [http://localhost:3000](http://localhost:3000) in your fav browser.
-
 ## Contributing
 
 We will seperate a branch for each features and each person then, create pull request for combine code together.
@@ -65,8 +63,6 @@ git branch {your_branch_name}
 git checkout {your_branch_name}
 ```
 
-> Note : exmaple of {your_branch_name} is boom/feat/pet-card, aungpao/refactor/main-page
-
 3. Push your branch upstream
 
 ```bash
@@ -86,33 +82,7 @@ git commit -m {commit_message}
 6. Push your code in to your branch
 
 ```bash
-git push
+git push -u origin <your_branch>
 ```
 
 7. Create pull request to `main` branch in github
-8. Wait for the code to be reviewed and merged
-
-### Conventional Commit Format
-
-In short, the commit message should look like this:
-
-```bash
-git commit -m "feat: <what-you-did>"
-
-# or
-
-git commit -m "fix: <what-you-fixed>"
-
-# or
-
-git commit -m "refactor: <what-you-refactored>"
-```
-
-The commit message should start with one of the following types:
-
-- feat: A new feature
-- fix: A bug fix
-- refactor: A code change that neither fixes a bug nor adds a feature
-- style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-
-For more information, please read the [conventional commit format](https://www.conventionalcommits.org/en/v1.0.0/) documentation.
