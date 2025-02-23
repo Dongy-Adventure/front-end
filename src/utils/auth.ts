@@ -124,7 +124,6 @@ export const sellerAuth = async (
       return null;
     }
     const seller: Seller = convertSellerDTOToSeller(res.data);
-    const sellerStr = JSON.stringify(seller);
 
     const tokenStr = JSON.stringify({
       accessToken: accessToken,
@@ -135,7 +134,6 @@ export const sellerAuth = async (
     localStorage.setItem('userId', seller.sellerID);
     localStorage.setItem('token', tokenStr);
     localStorage.setItem('userType', 'seller');
-    localStorage.setItem('user', sellerStr);
     return data;
   } catch (err) {
     return null;
@@ -168,7 +166,6 @@ export const buyerAuth = async (
       return null;
     }
     const buyer: Buyer = convertBuyerDTOToBuyer(res.data);
-    const sellerStr = JSON.stringify(buyer);
 
     const tokenStr = JSON.stringify({
       accessToken: accessToken,
@@ -179,7 +176,6 @@ export const buyerAuth = async (
     localStorage.setItem('userId', buyer.buyerID);
     localStorage.setItem('token', tokenStr);
     localStorage.setItem('userType', 'buyer');
-    localStorage.setItem('user', sellerStr);
     return data;
   } catch (err) {
     return null;
