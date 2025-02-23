@@ -16,7 +16,7 @@ export default function Reviews() {
     const isSeller = user && 'sellerID' in user;
     const getAllReview = async () => {
       if (isSeller) {
-        const reviews = await getReviews(user.sellerID as string);
+        const reviews = await getReviews(user.sellerID as string, 'seller');
         setReview(reviews ?? []);
       }
     };

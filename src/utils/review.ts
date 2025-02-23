@@ -4,9 +4,11 @@ import { AxiosResponse } from 'axios';
 import { ReviewDataDTO, ReviewDTO } from '@/dtos/reviewDTO';
 import { getAccessToken } from './auth';
 
-export const getReviews = async (id: string): Promise<Review[] | null> => {
+export const getReviews = async (
+  id: string,
+  userType: string
+): Promise<Review[] | null> => {
   try {
-    const userType = localStorage.getItem('userType');
     let res: AxiosResponse<ReviewDTO>;
 
     if (userType === 'seller') {

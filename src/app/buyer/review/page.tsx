@@ -20,7 +20,7 @@ export default function Reviews() {
   useEffect(() => {
     const getBuyerReview = async () => {
       const userId = await getUserId();
-      const res: Review[] | null = await getReviews(userId ?? '');
+      const res: Review[] | null = await getReviews(userId ?? '', 'buyer');
       if (!res) return;
       const rev: ReviewProps[] = res.map((r: Review) => ({
         reviewId: r.reviewId,

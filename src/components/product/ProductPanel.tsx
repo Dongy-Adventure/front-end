@@ -85,7 +85,6 @@ export default function ProductPanel({
       </div>
       <div className="flex gap-12 w-full h-full flex-col lg:flex-row justify-center">
         <div className="flex lg:w-2/5 lg:max-w-2/5 items-center border-[1px] rounded-md p-4">
-          {/* <ProductCarousel /> */}
           <Image
             src={temp}
             alt="product image"

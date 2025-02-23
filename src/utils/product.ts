@@ -114,7 +114,7 @@ export const getSellerProducts = async (): Promise<Product[] | null> => {
 
 export const getAllProducts = async (): Promise<Product[] | null> => {
   try {
-    const res: AxiosResponse<ProductsDTO> = await apiClient.get(`/product`);
+    const res: AxiosResponse<ProductsDTO> = await apiClient.get(`/product/`);
 
     if (!res.data.success) {
       console.error(res.data.message);

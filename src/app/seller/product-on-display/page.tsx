@@ -19,22 +19,11 @@ export default function ProductOnDisplay() {
 
   useEffect(() => {
     const getProduct = async () => {
-      const products = await getSellerProducts();
+      const products: Product[] | null = await getSellerProducts();
       setProducts(products ?? []);
     };
     getProduct();
   }, []);
-
-  /*const onDelete = async (productID: string) => {
-    const status = await deleteProduct(productID); // Waiting for API
-    if (status) {
-      toast?.setToast('success', 'Delete product succeeded');
-      router.refresh();
-    } else {
-      toast?.setToast('error', 'Delete product failed');
-      router.refresh();
-    }
-  };*/
 
   const onDelete = async (productID: string) => {
     toast?.setToast('success', 'Product deleted successfully!');

@@ -1,12 +1,26 @@
+'use client';
+
 import Carousel from '@/components/product/Carousel';
 import ProductCard from '@/components/product/ProductCard';
 import { Product } from '@/types/product';
 import { getAllProducts } from '@/utils/product';
+import { useEffect, useState } from 'react';
 
-export default async function Home() {
-  const products: Product[] | null = await getAllProducts();
+export default function Home() {
+  const [products, setProducts] = useState<Product[]>([]);
 
-  console.log(products);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res: Product[] | null = await getAllProducts();
+        setProducts(res ?? []);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <div className="pt-8 flex flex-col">
@@ -22,24 +36,21 @@ export default async function Home() {
             Don&apos;t wait. The time will never be just right.
           </p>
           <div className="flex overflow-scroll gap-4 py-8">
-            {products &&
-              products.map((product) => (
-                <ProductCard
-                  key={product.productID}
-                  pid={product.productID}
-                  category={
-                    product.tag
-                      ? product.tag.length > 0
-                        ? product.tag.join(', ')
-                        : 'Not Categorized'
-                      : 'Not Categorized'
-                  }
-                  productName={product.productName}
-                  price={product.price}
-                  discountedPrice={product.price * 0.9}
-                  image={product.imageURL}
-                />
-              ))}
+            {products.map((product) => (
+              <ProductCard
+                key={product.productID}
+                pid={product.productID}
+                category={
+                  product.tag?.length
+                    ? product.tag.join(', ')
+                    : 'Not Categorized'
+                }
+                productName={product.productName}
+                price={product.price}
+                discountedPrice={product.price * 0.9}
+                image={product.imageURL}
+              />
+            ))}
           </div>
         </div>
       </div>
