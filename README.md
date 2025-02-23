@@ -86,10 +86,3 @@ git push -u origin <your_branch>
 ```
 
 7. Create pull request to `main` branch in github
-
-- feat: A new feature
-- fix: A bug fix
-- refactor: A code change that neither fixes a bug nor adds a feature
-- style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-
-For more information, please read the [conventional commit format](https://www.conventionalcommits.org/en/v1.0.0/) documentation.
