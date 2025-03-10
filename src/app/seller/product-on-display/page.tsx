@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/context/ToastContext';
-import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
 import Image from 'next/image';

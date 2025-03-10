@@ -1,5 +1,4 @@
 'use client';
-import NEXT from '@/../public/placeholder.png';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { getReviews } from '@/utils/review';

@@ -18,7 +18,15 @@ export default {
           primary: '#7A3FF3',
           secondary: '#F1E7FF',
           dark: '#634C9F',
-          pink: '#FB2E86'
+          pink: '#FB2E86',
+          lightpink: '#FFE5F6',
+          lightblue: '#D9E5FB',
+          lightgreen: '#CFFFF1',
+          brown: '#FBEBDD',
+          pinkred: '#F33CB4',
+          seablue: '#003FFD',
+          orange: '#CC731B',
+          forest: '#0D9C72',
         },
       },
       fontFamily: {
