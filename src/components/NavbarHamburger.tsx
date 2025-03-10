@@ -19,17 +19,24 @@ export default function NavbarHamburger() {
   };
 
   const menuItems = user
-    ? [
-        { path: '/home', label: 'Home' },
-        { path: '/profile', label: 'Profile' },
-        { path: '/seller/order', label: 'Manage Order' },
-        { path: '/seller/post', label: 'Post Product' },
-        { path: '/seller/product-on-display', label: 'Product On-display' },
-        { path: '/seller/transaction-history', label: 'Transaction History' },
-        { path: '/seller/wallet', label: 'Wallet' },
-        { path: '/seller/ads', label: 'Create Ads' },
-        { path: '/seller/review', label: 'My Review' },
-      ]
+    ? user.userType === 'seller'
+      ? [
+          { path: '/home', label: 'Home' },
+          { path: '/profile', label: 'Profile' },
+          { path: '/order', label: 'Manage Order' },
+          { path: '/seller/post', label: 'Post Product' },
+          { path: '/seller/product-on-display', label: 'Product On-display' },
+          { path: '/seller/transaction-history', label: 'Transaction History' },
+          { path: '/seller/wallet', label: 'Wallet' },
+          { path: '/seller/ads', label: 'Create Ads' },
+          { path: '/seller/review', label: 'My Review' },
+        ]
+      : [
+          { path: '/profile', label: 'Profile' },
+          { path: '/buyer/cart', label: 'My Cart' },
+          { path: '/order', label: 'My Order' },
+          { path: '/buyer/review', label: 'My Review' },
+        ]
     : [{ label: 'Home', path: '/home' }];
 
   return (

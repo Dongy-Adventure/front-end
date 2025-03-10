@@ -3,12 +3,8 @@
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getSellerBalance } from '@/utils/seller';
-import { useRouter } from 'next/navigation';
-import { Seller } from '@/types/user';
 import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
-import { getSellerProducts } from '@/utils/product';
 import { Order } from '@/types/order';
 import Card from '@/components/order/Card';
 
@@ -195,7 +191,6 @@ export const dummyOrders: Order[] = [
 ];
 
 export default function Orders() {
-  const router = useRouter();
   const { user } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
 
@@ -217,76 +212,77 @@ export default function Orders() {
       </div>
       <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">
-        <Sidebar state={2} />
+        <Sidebar state={user?.userType === 'seller' ? 2 : 3} />
         <div className="flex flex-col w-full">
-          <h1 className="text-xl font-semibold pb-4">Manage Order</h1>
-          {user?.userType === 'seller' && (
-            <div className="flex overflow-x-scroll gap-4 h-full w-full mb-12 font-bold">
-              <section>
-                <div className="bg-white mb-8 w-full min-w-72 max-w-72 h-28 border-gray-300 border-2 rounded-2xl px-8">
-                  <p className="pt-10 font-semibold">Pending Payment</p>
-                  <p className="font-semibold text-2xl">
-                    {orders.filter((order) => order.status === 0).length}
-                  </p>
-                </div>
-                {orders
-                  .filter((order: Order) => order.status === 0)
-                  .map((order: Order) => (
-                    <Card
-                      key={order.orderID}
-                      orderId={order.orderID}
-                      orderDate={order.createdAt}
-                      price={order.totalPrice}
-                      status={0}
-                    />
-                  ))}
-              </section>
-              <section>
-                <div className="w-full mb-8 min-w-72 max-w-72 h-28 rounded-2xl border-gray-300 border-2 px-8">
-                  <p className="pt-10 font-semibold">Prepare for delivery</p>
-                  <p className="font-semibold text-2xl">
-                    {
-                      orders.filter(
-                        (order) => order.status === 1 || order.status === 2
-                      ).length
-                    }
-                  </p>
-                </div>
-                {orders
-                  .filter(
-                    (order: Order) => order.status === 1 || order.status === 2
-                  )
-                  .map((order: Order) => (
-                    <Card
-                      key={order.orderID}
-                      orderId={order.orderID}
-                      orderDate={order.createdAt}
-                      price={order.totalPrice}
-                      status={order.status}
-                    />
-                  ))}
-              </section>
-              <section>
-                <div className="w-full mb-8 min-w-72 max-w-72 h-28 rounded-2xl border-gray-300 border-2 px-8">
-                  <p className="pt-10 font-semibold">Completed</p>
-                  <p className="font-semibold text-2xl">
-                    {orders.filter((order) => order.status === 3).length}
-                  </p>
-                </div>
-                {orders
-                  .filter((order: Order) => order.status === 3)
-                  .map((order: Order) => (
-                    <Card
-                      key={order.orderID}
-                      orderId={order.orderID}
-                      orderDate={order.createdAt}
-                      price={order.totalPrice}
-                      status={3}
-                    />
-                  ))}
-              </section>
-            </div>
-          )}
+          <h1 className="text-xl font-semibold pb-4">
+            {user?.userType === 'seller' ? 'Manage Order' : 'My Order'}
+          </h1>
+
+          <div className="flex overflow-x-scroll gap-4 h-full w-full mb-12 font-bold">
+            <section>
+              <div className="bg-white mb-8 w-full min-w-72 max-w-72 h-28 border-gray-300 border-2 rounded-2xl px-8">
+                <p className="pt-10 font-semibold">Pending Payment</p>
+                <p className="font-semibold text-2xl">
+                  {orders.filter((order) => order.status === 0).length}
+                </p>
+              </div>
+              {orders
+                .filter((order: Order) => order.status === 0)
+                .map((order: Order) => (
+                  <Card
+                    key={order.orderID}
+                    orderId={order.orderID}
+                    orderDate={order.createdAt}
+                    price={order.totalPrice}
+                    status={0}
+                  />
+                ))}
+            </section>
+            <section>
+              <div className="w-full mb-8 min-w-72 max-w-72 h-28 rounded-2xl border-gray-300 border-2 px-8">
+                <p className="pt-10 font-semibold">Prepare for delivery</p>
+                <p className="font-semibold text-2xl">
+                  {
+                    orders.filter(
+                      (order) => order.status === 1 || order.status === 2
+                    ).length
+                  }
+                </p>
+              </div>
+              {orders
+                .filter(
+                  (order: Order) => order.status === 1 || order.status === 2
+                )
+                .map((order: Order) => (
+                  <Card
+                    key={order.orderID}
+                    orderId={order.orderID}
+                    orderDate={order.createdAt}
+                    price={order.totalPrice}
+                    status={order.status}
+                  />
+                ))}
+            </section>
+            <section>
+              <div className="w-full mb-8 min-w-72 max-w-72 h-28 rounded-2xl border-gray-300 border-2 px-8">
+                <p className="pt-10 font-semibold">Completed</p>
+                <p className="font-semibold text-2xl">
+                  {orders.filter((order) => order.status === 3).length}
+                </p>
+              </div>
+              {orders
+                .filter((order: Order) => order.status === 3)
+                .map((order: Order) => (
+                  <Card
+                    key={order.orderID}
+                    orderId={order.orderID}
+                    orderDate={order.createdAt}
+                    price={order.totalPrice}
+                    status={3}
+                  />
+                ))}
+            </section>
+          </div>
         </div>
       </div>
     </div>

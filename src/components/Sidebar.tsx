@@ -12,7 +12,7 @@ interface NavLink {
 
 const sellerLinks: NavLink[] = [
   { href: '/profile', label: 'Profile' },
-  { href: '/seller/order', label: 'Manage Order' },
+  { href: '/order', label: 'Manage Order' },
   { href: '/seller/post', label: 'Post Product' },
   { href: '/seller/product-on-display', label: 'Product On-display' },
   { href: '/seller/transaction-history', label: 'Transaction History' },
@@ -24,7 +24,7 @@ const sellerLinks: NavLink[] = [
 const buyerLinks: NavLink[] = [
   { href: '/profile', label: 'Profile' },
   { href: '/buyer/cart', label: 'My Cart' },
-  { href: '/buyer/order', label: 'My Order' },
+  { href: '/order', label: 'My Order' },
   { href: '/buyer/review', label: 'My Review' },
 ];
 
