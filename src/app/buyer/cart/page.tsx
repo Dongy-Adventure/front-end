@@ -1,39 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { useToast } from '@/context/ToastContext';
-import { useRouter } from 'next/navigation';
 import CartCard from '@/components/buyer/cart/CartCard';
 import { Product } from '@/types/product';
 import Summary from '@/components/buyer/cart/Summary';
-import { useAuth } from '@/context/AuthContext';
-import { getProductById } from '@/utils/product';
 import { updateCart } from '@/utils/buyer';
+import { useCart } from '@/context/CartContext';
 
 export default function Cart() {
-  const { user } = useAuth();
+  const { cart, selectedItemCart } = useCart();
   const toast = useToast();
-  const router = useRouter();
-  const [carts, setCarts] = useState<Product[]>([]);
-  const [selected, setSelected] = useState<string[]>([]);
-
-  useEffect(() => {
-    const fetchCartProducts = async () => {
-      if (!user || !('cart' in user)) return;
-
-      const productList = await Promise.all(
-        user.cart.map(async (productId: string) => {
-          const product = await getProductById(productId);
-          return product;
-        })
-      );
-
-      setCarts(productList.filter((p): p is Product => p !== null));
-    };
-
-    fetchCartProducts();
-  }, [user]);
 
   const deleteItem = async (pid: string) => {
     const res = await updateCart(pid);
@@ -44,12 +21,6 @@ export default function Cart() {
     } else {
       toast?.setToast('error', 'An error occurred. Please try again later.');
     }
-  };
-
-  const toggleSelect = (id: string) => {
-    setSelected((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
   };
 
   return (
@@ -80,23 +51,23 @@ export default function Cart() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
-                {carts.map((cart: Product) => (
+                {cart.map((cart: Product) => (
                   <CartCard
+                    product={cart}
                     handleDelete={deleteItem}
                     key={cart.productID}
-                    product={cart}
-                    selected={selected}
-                    toggleSelect={toggleSelect}
                   />
                 ))}
               </tbody>
             </table>
             <Summary
-              total={carts
-                .filter((product) => selected.includes(product.productID))
+              total={cart
+                .filter((product) =>
+                  selectedItemCart.includes(product.productID)
+                )
                 .reduce((sum, product) => sum + product.price, 0)}
-              products={carts.filter((product) =>
-                selected.includes(product.productID)
+              products={cart.filter((product) =>
+                selectedItemCart.includes(product.productID)
               )}
             />
           </main>

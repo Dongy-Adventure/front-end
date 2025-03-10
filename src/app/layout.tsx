@@ -4,6 +4,7 @@ import './globals.css';
 import AuthProvider from '@/context/AuthContext';
 import Layout from '@/components/Layout';
 import { ToastProvider } from '@/context/ToastContext';
+import CartProvider from '@/context/CartContext';
 
 const athiti = Athiti({
   subsets: ['latin', 'thai'],
@@ -28,7 +29,9 @@ export default function RootLayout({
       >
         <ToastProvider>
           <AuthProvider>
-            <Layout>{children}</Layout>
+            <CartProvider>
+              <Layout>{children}</Layout>
+            </CartProvider>
           </AuthProvider>
         </ToastProvider>
       </body>

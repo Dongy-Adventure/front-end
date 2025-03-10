@@ -6,31 +6,31 @@ import trash from '@/../public/trash.png';
 import { Product } from '@/types/product';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useCart } from '@/context/CartContext';
 
 interface CartCardProps {
   product: Product;
-  selected: string[];
-  toggleSelect: (id: string) => void;
   handleDelete: (pid: string) => void;
 }
 
 function CartCard(props: CartCardProps) {
-  const { product, selected, toggleSelect, handleDelete } = props;
+  const { toggleChanges, selectedItemCart } = useCart();
+  const { product, handleDelete } = props;
   const [count, setCount] = useState<number>(1);
 
   return (
     <tr
       key={product.productID}
       className={cn(
-        !selected.includes(product.productID) && 'hover:bg-gray-50',
-        selected.includes(product.productID) && 'bg-project-secondary'
+        !selectedItemCart.includes(product.productID) && 'hover:bg-gray-50',
+        selectedItemCart.includes(product.productID) && 'bg-project-secondary'
       )}
     >
       <td>
         <input
           type="checkbox"
-          checked={selected.includes(product.productID)}
-          onChange={() => toggleSelect(product.productID)}
+          checked={selectedItemCart.includes(product.productID)}
+          onChange={() => toggleChanges(product.productID)}
           className="w-5 h-5 text-purple-600 bg-white border-gray-300 rounded focus:ring-2 focus:ring-purple-500"
         />
       </td>
