@@ -143,3 +143,19 @@ export const getAllProducts = async (): Promise<Product[] | null> => {
     return null;
   }
 };
+
+export const deleteProduct = async (pid: string): Promise<boolean> => {
+  try {
+    const res = await apiClient.delete(`/product/${pid}`);
+
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};

@@ -9,7 +9,7 @@ import ProfileBadge from '@/components/ProfileBadge';
 import Image from 'next/image';
 import wristWatch from '@/../public/wrist-watch.png';
 import trash from '@/../public/trash.png';
-import { getSellerProducts } from '@/utils/product';
+import { deleteProduct, getSellerProducts } from '@/utils/product';
 import { Product } from '@/types/product';
 
 export default function ProductOnDisplay() {
@@ -26,8 +26,16 @@ export default function ProductOnDisplay() {
   }, []);
 
   const onDelete = async (productID: string) => {
-    toast?.setToast('success', 'Product deleted successfully!');
-    router.refresh();
+    const success = await deleteProduct(productID);
+    if (success) {
+      toast?.setToast('success', 'Product deleted successfully!');
+      setProducts(products.filter((p: Product) => p.productID !== productID));
+    } else {
+      toast?.setToast(
+        'error',
+        'There is an error occurred! Please try again later.'
+      );
+    }
   };
 
   return (
@@ -75,7 +83,7 @@ export default function ProductOnDisplay() {
                     <td className="p-3">${product.price}</td>
                     <td className="p-3 items-center">
                       <button
-                        onClick={() => onDelete(product.productName)}
+                        onClick={() => onDelete(product.productID)}
                         className="items-canter"
                       >
                         <Image

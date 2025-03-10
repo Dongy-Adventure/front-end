@@ -38,7 +38,6 @@ export default async function page({ params }: { params: { pid: string } }) {
     product?.sellerID ?? '',
     'seller'
   );
-  console.log(reviews);
 
   if (!seller || !reviews) {
     return (
