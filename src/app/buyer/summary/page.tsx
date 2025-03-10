@@ -4,11 +4,36 @@ import Link from 'next/link';
 import { Product } from '@/types/product';
 import Summary from '@/components/buyer/cart/Summary';
 import { useCart } from '@/context/CartContext';
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { getProductById } from '@/utils/product';
 import Card from '@/components/buyer/summary/Cart';
+import Order from '@/components/buyer/summary/Order';
 
 export default function SummaryCart() {
-  const { selectedProduct, totalPrice } = useCart();
-  console.log(selectedProduct);
+  const { user } = useAuth();
+  const { totalPrice, resetContext } = useCart();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const productIds = localStorage.getItem('selectedProduct');
+    const productIdsObj = productIds ? JSON.parse(productIds) : [];
+
+    const fetchSelectedProducts = async () => {
+      if (!user || !('cart' in user)) return;
+
+      const productList = await Promise.all(
+        productIdsObj.map(async (productId: string) => {
+          const product = await getProductById(productId);
+          return product;
+        })
+      );
+
+      setProducts(productList.filter((p): p is Product => p !== null));
+    };
+
+    fetchSelectedProducts();
+  }, []);
 
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
@@ -38,7 +63,7 @@ export default function SummaryCart() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
-                {selectedProduct.map((cart: Product) => (
+                {products.map((cart: Product) => (
                   <Card
                     key={cart.productID}
                     product={cart}
@@ -46,7 +71,7 @@ export default function SummaryCart() {
                 ))}
               </tbody>
             </table>
-            <Summary total={totalPrice} />
+            <Order total={totalPrice} />
           </main>
         </div>
       </div>

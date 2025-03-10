@@ -3,7 +3,7 @@ import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-function Summary({ total }: { total: number }) {
+function Order({ total }: { total: number }) {
   const toast = useToast();
   const router = useRouter();
   const { setPrice, selectedItemCart } = useCart();
@@ -11,10 +11,12 @@ function Summary({ total }: { total: number }) {
   useEffect(() => {
     setPrice(total);
   }, []);
+
   return (
     <section className="border-1 bg-gray-100 w-96 h-60 rounded-xl p-6 flex flex-col justify-between">
       <div>
         <h1 className="font-bold">Your Order</h1>
+        <h1>Payment Method</h1>
         <div className="flex justify-between">
           <h1>Total</h1>
           <h1>${total.toFixed(2)}</h1>
@@ -42,4 +44,4 @@ function Summary({ total }: { total: number }) {
   );
 }
 
-export default Summary;
+export default Order;

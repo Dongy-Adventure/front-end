@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import tempProductImage from '@/../public/placeholder200.avif';
-import trash from '@/../public/trash.png';
 import { Product } from '@/types/product';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -35,20 +34,8 @@ function Card(props: CardProps) {
       </td>
       <td className="p-3">${product.price}</td>
       <td>
-        <div className="flex items-center justify-between w-16 h-6 border rounded-lg bg-gray-100">
-          <button
-            className="w-1/3 h-full flex items-center justify-center text-lg text-gray-700 hover:bg-gray-200"
-            onClick={() => setCount((prev) => Math.max(1, prev - 1))}
-          >
-            -
-          </button>
+        <div className="flex items-center justify-center w-16 h-6">
           <span className="w-1/3 text-center text-lg">{count}</span>
-          <button
-            className="w-1/3 h-full flex items-center justify-center text-lg text-gray-700 hover:bg-gray-200"
-            onClick={() => setCount((prev) => prev + 1)}
-          >
-            +
-          </button>
         </div>
       </td>
       <td>${product.price}</td>

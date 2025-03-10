@@ -14,7 +14,6 @@ import { getProductById } from '@/utils/product';
 interface ICartContext {
   selectedItemCart: string[];
   cart: Product[];
-  selectedProduct: Product[];
   totalPrice: number;
   setPrice: (tot: number) => void;
   toggleChanges: (pid: string) => void;
@@ -28,7 +27,6 @@ export const useCart = () => useContext(CartContext);
 const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user } = useAuth();
   const [cart, setCart] = useState<Product[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<Product[]>([]);
   const [selectedItemCart, setSelectedCartItem] = useState<string[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
@@ -69,30 +67,11 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     fetchCartProducts();
   }, [user]);
 
-  useEffect(() => {
-    const fetchSelectedProducts = async () => {
-      if (!user || !('cart' in user)) return;
-      console.log(selectedItemCart);
-
-      const productList = await Promise.all(
-        selectedItemCart.map(async (productId: string) => {
-          const product = await getProductById(productId);
-          return product;
-        })
-      );
-
-      setSelectedProduct(productList.filter((p): p is Product => p !== null));
-    };
-
-    fetchSelectedProducts();
-  }, [selectedItemCart, user]);
-
   return (
     <CartContext.Provider
       value={{
         selectedItemCart,
         cart,
-        selectedProduct,
         totalPrice,
         setPrice,
         resetContext,
