@@ -34,6 +34,7 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const resetContext = useCallback(() => {
     setSelectedCartItem([]);
+    localStorage.setItem('selectedProduct', '');
   }, []);
 
   const toggleChanges = useCallback(
@@ -65,8 +66,13 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       setCart(productList.filter((p): p is Product => p !== null));
     };
 
+    fetchCartProducts();
+  }, [user]);
+
+  useEffect(() => {
     const fetchSelectedProducts = async () => {
       if (!user || !('cart' in user)) return;
+      console.log(selectedItemCart);
 
       const productList = await Promise.all(
         selectedItemCart.map(async (productId: string) => {
@@ -78,9 +84,8 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       setSelectedProduct(productList.filter((p): p is Product => p !== null));
     };
 
-    fetchCartProducts();
     fetchSelectedProducts();
-  }, []);
+  }, [selectedItemCart, user]);
 
   return (
     <CartContext.Provider

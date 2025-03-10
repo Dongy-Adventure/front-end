@@ -1,18 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { useToast } from '@/context/ToastContext';
-import { useRouter } from 'next/navigation';
-import CartCard from '@/components/buyer/cart/CartCard';
 import { Product } from '@/types/product';
 import Summary from '@/components/buyer/cart/Summary';
 import { useCart } from '@/context/CartContext';
+import Card from '@/components/buyer/summary/Cart';
 
 export default function SummaryCart() {
-  const { selectedProduct } = useCart();
-  const toast = useToast();
-  const router = useRouter();
+  const { selectedProduct, totalPrice } = useCart();
+  console.log(selectedProduct);
 
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
@@ -35,33 +31,22 @@ export default function SummaryCart() {
             <table className="w-full">
               <thead className="border-b border-gray-300 p-3 font-semibold text-left">
                 <tr>
-                  <th>Status</th>
                   <th>Product</th>
                   <th>Price</th>
                   <th>Quantity</th>
                   <th>Total</th>
-                  <th>Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
                 {selectedProduct.map((cart: Product) => (
-                  <CartCard
+                  <Card
                     key={cart.productID}
                     product={cart}
-                    selected={selected}
-                    toggleSelect={toggleSelect}
                   />
                 ))}
               </tbody>
             </table>
-            <Summary
-              total={cartDummy
-                .filter((product) => selected.includes(product.productID))
-                .reduce((sum, product) => sum + product.price, 0)}
-              products={carts.filter((product) =>
-                selected.includes(product.productID)
-              )}
-            />
+            <Summary total={totalPrice} />
           </main>
         </div>
       </div>

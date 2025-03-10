@@ -1,13 +1,12 @@
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
-import { Product } from '@/types/product';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-function Summary({ total, products }: { total: number; products: Product[] }) {
+function Summary({ total }: { total: number }) {
   const toast = useToast();
   const router = useRouter();
-  const { setPrice } = useCart();
+  const { setPrice, selectedItemCart } = useCart();
 
   useEffect(() => {
     setPrice(total);
@@ -24,7 +23,7 @@ function Summary({ total, products }: { total: number; products: Product[] }) {
       <button
         className="bg-project-primary w-72 rounded-lg h-8 text-white font-bold"
         onClick={() => {
-          if (products.length === 0) {
+          if (selectedItemCart.length === 0) {
             toast?.setToast(
               'error',
               'Please add at least one item to continue!'

@@ -22,7 +22,6 @@ export default function Cart() {
       toast?.setToast('error', 'An error occurred. Please try again later.');
     }
   };
-
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
       <div className="flex gap-2 pb-12">
@@ -66,9 +65,6 @@ export default function Cart() {
                   selectedItemCart.includes(product.productID)
                 )
                 .reduce((sum, product) => sum + product.price, 0)}
-              products={cart.filter((product) =>
-                selectedItemCart.includes(product.productID)
-              )}
             />
           </main>
         </div>
