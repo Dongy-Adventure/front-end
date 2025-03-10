@@ -9,11 +9,27 @@ import { useAuth } from '@/context/AuthContext';
 import { getProductById } from '@/utils/product';
 import Card from '@/components/buyer/summary/Cart';
 import Order from '@/components/buyer/summary/Order';
+import { createOrder } from '@/utils/order';
+import { useToast } from '@/context/ToastContext';
+import { useRouter } from 'next/navigation';
 
 export default function SummaryCart() {
+  const toast = useToast();
+  const router = useRouter();
   const { user } = useAuth();
   const { totalPrice, resetContext } = useCart();
   const [products, setProducts] = useState<Product[]>([]);
+
+  const postOrder = async (products: Product[]) => {
+    const res = await createOrder(products);
+    if (res) {
+      toast?.setToast('success', 'Your order has been placed!');
+      router.push('/order');
+    } else {
+      toast?.setToast('error', 'There is an error, please try again later!');
+    }
+    resetContext();
+  };
 
   useEffect(() => {
     const productIds = localStorage.getItem('selectedProduct');
@@ -71,7 +87,11 @@ export default function SummaryCart() {
                 ))}
               </tbody>
             </table>
-            <Order total={totalPrice} />
+            <Order
+              total={totalPrice}
+              handleSubmit={postOrder}
+              products={products}
+            />
           </main>
         </div>
       </div>

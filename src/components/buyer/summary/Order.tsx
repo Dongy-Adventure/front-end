@@ -1,11 +1,18 @@
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
+import { Product } from '@/types/product';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-function Order({ total }: { total: number }) {
-  const toast = useToast();
-  const router = useRouter();
+function Order({
+  total,
+  handleSubmit,
+  products,
+}: {
+  total: number;
+  handleSubmit: (products: Product[]) => void;
+  products: Product[];
+}) {
   const { setPrice, selectedItemCart } = useCart();
 
   useEffect(() => {
@@ -25,20 +32,10 @@ function Order({ total }: { total: number }) {
       <button
         className="bg-project-primary w-72 rounded-lg h-8 text-white font-bold"
         onClick={() => {
-          if (selectedItemCart.length === 0) {
-            toast?.setToast(
-              'error',
-              'Please add at least one item to continue!'
-            );
-          } else {
-            router.push('/buyer/summary');
-            console.log(selectedItemCart);
-            const productStr = JSON.stringify(selectedItemCart);
-            localStorage.setItem('selectedProduct', productStr);
-          }
+          handleSubmit(products);
         }}
       >
-        Check out
+        Place Order
       </button>
     </section>
   );
