@@ -10,6 +10,9 @@ import ProductCard from './ProductCard';
 import temp from '@/../public/placeholder200.avif';
 import { Seller } from '@/types/user';
 import { Review } from '@/types/review';
+import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
+import { updateCart } from '@/utils/buyer';
 
 const exampleProducts = [
   {
@@ -63,12 +66,27 @@ export default function ProductPanel({
   seller: Seller;
   reviews: Review[];
 }) {
+  const { user } = useAuth();
+  const toast = useToast();
   const [count, setCount] = useState(1);
-
   const router = useRouter();
 
-  const handleAddToCart = () => {
-    router.push('/buyer/cart');
+  const handleAddToCart = async () => {
+    if (user?.userType !== 'buyer') {
+      toast?.setToast('error', 'Seller cannot access this!');
+      return;
+    }
+    const res = await updateCart(product.productID);
+    if (res) {
+      toast?.setToast('success', 'Successfully added a product to your cart!');
+      router.push('/buyer/cart');
+    } else {
+      toast?.setToast(
+        'error',
+        'There is an error occurred, Please try again later!'
+      );
+      router.push('/home');
+    }
   };
 
   return (

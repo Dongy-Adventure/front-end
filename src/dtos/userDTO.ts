@@ -8,6 +8,7 @@ export type BuyerDTO = {
   refreshToken: string;
   refreshTokenExpiredin: number;
   status: number;
+  cart: string[];
   success: boolean;
 };
 

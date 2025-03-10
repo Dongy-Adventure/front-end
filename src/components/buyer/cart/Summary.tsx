@@ -21,12 +21,21 @@ function Summary({ total, products }: { total: number; products: Product[] }) {
         <h1 className="font-bold">Your Order</h1>
         <div className="flex justify-between">
           <h1>Total</h1>
-          <h1>${total}</h1>
+          <h1>${total.toFixed(2)}</h1>
         </div>
       </div>
       <button
         className="bg-project-primary w-72 rounded-lg h-8 text-white font-bold"
-        onClick={() => postOrder(products)}
+        onClick={() => {
+          if (products.length === 0) {
+            toast?.setToast(
+              'error',
+              'Please add at least one item to continue!'
+            );
+          } else {
+            postOrder(products);
+          }
+        }}
       >
         Check out
       </button>

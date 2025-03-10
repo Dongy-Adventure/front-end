@@ -11,10 +11,11 @@ interface CartCardProps {
   product: Product;
   selected: string[];
   toggleSelect: (id: string) => void;
+  handleDelete: (pid: string) => void;
 }
 
 function CartCard(props: CartCardProps) {
-  const { product, selected, toggleSelect } = props;
+  const { product, selected, toggleSelect, handleDelete } = props;
   const [count, setCount] = useState<number>(1);
 
   return (
@@ -61,7 +62,10 @@ function CartCard(props: CartCardProps) {
       </td>
       <td>${product.price}</td>
       <td className="p-3 items-center">
-        <button className="items-canter">
+        <button
+          className="items-center"
+          onClick={() => handleDelete(product.productID)}
+        >
           <Image
             src={trash}
             alt="Delete"

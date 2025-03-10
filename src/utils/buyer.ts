@@ -77,3 +77,35 @@ export const updateBuyer = async (
     return false;
   }
 };
+
+export const updateCart = async (pid: string): Promise<boolean> => {
+  const accessToken = await getAccessToken();
+  const userId = await getUserId();
+
+  if (!accessToken || !userId) {
+    return false;
+  }
+
+  try {
+    const res = await apiClient.patch(
+      `/buyer/${userId}/cart`,
+      {
+        productID: pid,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};

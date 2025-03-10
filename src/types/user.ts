@@ -10,6 +10,7 @@ export type Buyer = {
   buyerID: string;
   surname: string;
   username: string;
+  cart: string[];
   userType: 'buyer';
 };
 

@@ -14,7 +14,6 @@ import { Product } from '@/types/product';
 
 export default function ProductOnDisplay() {
   const toast = useToast();
-  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -99,7 +98,6 @@ export default function ProductOnDisplay() {
               </tbody>
             </table>
           </div>
-          {/*Product Table*/}
         </div>
       </div>
     </div>
