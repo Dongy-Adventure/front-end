@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { Product } from '@/types/product';
-import Summary from '@/components/buyer/cart/Summary';
 import { useCart } from '@/context/CartContext';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';

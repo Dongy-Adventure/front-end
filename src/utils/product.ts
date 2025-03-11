@@ -62,7 +62,6 @@ export const getProductById = async (pid: string): Promise<Product | null> => {
       console.error(res.data.message);
       return null;
     }
-
     return res.data.data;
   } catch (err) {
     console.error(err);
