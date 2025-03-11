@@ -9,7 +9,7 @@ import { OrderDTO } from '@/dtos/orderDTO';
 export const getOrder = async (): Promise<Order[] | null> => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
-  const userType = parseInt(localStorage.getItem('userType') ?? '0');
+  const userType = localStorage.getItem('userType') === 'buyer' ? 0 : 1;
 
   if (!accessToken || !userId) {
     return null;

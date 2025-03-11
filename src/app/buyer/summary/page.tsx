@@ -34,7 +34,6 @@ export default function SummaryCart() {
         Object.entries(ordersBySeller).map(
           async ([sellerID, sellerProducts]) => {
             const res = await createOrder(sellerProducts, sellerID);
-            console.log(sellerID);
 
             if (res) {
               toast?.setToast(

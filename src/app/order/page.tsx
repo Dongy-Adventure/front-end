@@ -8,6 +8,8 @@ import ProfileBadge from '@/components/ProfileBadge';
 import { Order } from '@/types/order';
 import Card from '@/components/order/Card';
 import PendingPayment from '@/components/order/PendingPayment';
+import { getOrder } from '@/utils/order';
+import { useToast } from '@/context/ToastContext';
 
 export const dummyOrders: Order[] = [
   {
@@ -193,11 +195,22 @@ export const dummyOrders: Order[] = [
 
 export default function Orders() {
   const { user } = useAuth();
+  const toast = useToast();
   const [orders, setOrders] = useState<Order[]>([]);
   const [isPopup, setIsPopup] = useState<number | null>(null);
 
   useEffect(() => {
     setOrders(dummyOrders);
+    const getUserOrders = async () => {
+      const res = await getOrder();
+      if (!res) {
+        toast?.setToast('error', 'There is an error fetching the orders!');
+      } else {
+        setOrders(res);
+      }
+    };
+
+    getUserOrders();
   }, []);
 
   return (
