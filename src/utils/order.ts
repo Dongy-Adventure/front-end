@@ -4,32 +4,32 @@ import { apiClient } from './axios';
 import { getUserId } from './user';
 import { Product } from '@/types/product';
 
-// export const getOrder = async (): Promise<Order[] | null> => {
-//   const accessToken = await getAccessToken();
-//   const userId = await getUserId();
+export const getOrder = async (): Promise<Order[] | null> => {
+  const accessToken = await getAccessToken();
+  const userId = await getUserId();
 
-//   if (!accessToken || !userId) {
-//     return null;
-//   }
+  if (!accessToken || !userId) {
+    return null;
+  }
 
-//   try {
-//     const res = await apiClient.get(`/order/`, {
-//       headers: {
-//         Authorization: `Bearer ${accessToken}`,
-//       },
-//     });
+  try {
+    const res = await apiClient.get(`/order/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
-//     if (!res.data.status) {
-//       console.error(res.data.message);
-//       return false;
-//     }
+    if (!res.data.status) {
+      console.error(res.data.message);
+      return null; //false
+    }
 
-//     return true;
-//   } catch (err) {
-//     console.error(err);
-//     return null;
-//   }
-// };
+    return null; //true
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
 
 export const createOrder = async (product: Product[]): Promise<boolean> => {
   const accessToken = await getAccessToken();

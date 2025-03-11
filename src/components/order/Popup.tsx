@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import { cn } from '@/lib/utils';
+// import Image from 'next/image';
+// import { cn } from '@/lib/utils';
 import { CardProps } from './Card';
 import Appointment from './Appointment';
 
@@ -20,11 +20,15 @@ export default function Popup(prop: CardProps) {
   const textColor: { [key: number]: string } = {
     0: 'text-[#F33CB4]',
     1: 'text-project-lightblue',
-    2: 'text-project-brown',
+    2: 'text-[#CC731B]',
     3: 'text-project-lightgreen',
   };
   return (
-    <div className="w-fit h-[800px] bg-white rounded-2xl flex flex-row shadow-2xl">
+    <div 
+    onClick={(e) => {
+        e.stopPropagation();  // Prevent parent from triggering
+      }}
+    className="w-fit h-[800px] bg-white rounded-2xl flex flex-col lg:flex-row shadow-2xl z-40">
       {/* left */}
       <div
         className={`w-[500px] gap-5 h-full flex flex-col p-[30px] rounded-2xl items-center `}
@@ -72,7 +76,7 @@ export default function Popup(prop: CardProps) {
         </div>
       </div>
       {/* right */}
-      <Appointment/>
-    </div>
+      <Appointment {...prop} />
+      </div>
   );
 }

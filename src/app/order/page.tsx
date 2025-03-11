@@ -7,6 +7,7 @@ import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
 import { Order } from '@/types/order';
 import Card from '@/components/order/Card';
+import { getOrder } from '@/utils/order';
 
 export const dummyOrders: Order[] = [
   {
@@ -197,7 +198,9 @@ export default function Orders() {
   useEffect(() => {
     setOrders(dummyOrders);
   }, []);
-
+  const oo = getOrder();
+  console.log("order");
+  console.log(oo);
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col bg-white">
       <div className="flex gap-2 pb-12">
