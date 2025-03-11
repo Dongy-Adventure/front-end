@@ -13,7 +13,6 @@ interface NavLink {
 const sellerLinks: NavLink[] = [
   { href: '/profile', label: 'Profile' },
   { href: '/order', label: 'Manage Order' },
-  { href: '/seller/post', label: 'Post Product' },
   { href: '/seller/product-on-display', label: 'Product On-display' },
   { href: '/seller/transaction-history', label: 'Transaction History' },
   { href: '/seller/wallet', label: 'Wallet' },

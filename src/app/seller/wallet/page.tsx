@@ -60,7 +60,7 @@ export default function Wallet() {
       </div>
       <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">
-        <Sidebar state={6} />
+        <Sidebar state={5} />
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-semibold pb-4">Wallet</h1>
           <div className="bg-black h-28 w-72  rounded-2xl px-8 text-white mb-12">

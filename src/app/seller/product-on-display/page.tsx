@@ -50,7 +50,7 @@ export default function ProductOnDisplay() {
       </div>
       <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">
-        <Sidebar state={4} />
+        <Sidebar state={3} />
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-bold pb-4">Product on-display</h1>
           <div className="overflow-x-auto p-4">

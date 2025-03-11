@@ -26,7 +26,7 @@ export default function TransactionHistory() {
       </div>
       <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">
-        <Sidebar state={5} />
+        <Sidebar state={4} />
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-bold pb-4">Transaction History</h1>
           <div className="overflow-x-auto p-4">

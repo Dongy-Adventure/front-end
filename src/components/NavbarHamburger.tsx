@@ -24,7 +24,6 @@ export default function NavbarHamburger() {
           { path: '/home', label: 'Home' },
           { path: '/profile', label: 'Profile' },
           { path: '/order', label: 'Manage Order' },
-          { path: '/seller/post', label: 'Post Product' },
           { path: '/seller/product-on-display', label: 'Product On-display' },
           { path: '/seller/transaction-history', label: 'Transaction History' },
           { path: '/seller/wallet', label: 'Wallet' },

@@ -91,6 +91,7 @@ export const getSellerProducts = async (): Promise<Product[] | null> => {
 
     const productData: ProductDataDTO[] = res.data.data;
 
+    if (!productData) return [];
     const products: Product[] = productData.map((p: ProductDataDTO) => {
       return {
         sellerID: p.sellerID,

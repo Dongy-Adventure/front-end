@@ -37,7 +37,7 @@ export default function Reviews() {
       </div>
       <ProfileBadge />
       <div className="flex pt-16 gap-16 text-black">
-        <Sidebar state={8} />
+        <Sidebar state={7} />
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-bold pb-4">My Review</h1>
           <div className="overflow-x-auto p-4">
