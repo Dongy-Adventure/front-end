@@ -3,35 +3,44 @@ import { getAccessToken } from './auth';
 import { apiClient } from './axios';
 import { getUserId } from './user';
 import { Product } from '@/types/product';
+import { AxiosResponse } from 'axios';
+import { OrderDTO } from '@/dtos/orderDTO';
 
-// export const getOrder = async (): Promise<Order[] | null> => {
-//   const accessToken = await getAccessToken();
-//   const userId = await getUserId();
+export const getOrder = async (): Promise<Order[] | null> => {
+  const accessToken = await getAccessToken();
+  const userId = await getUserId();
+  const userType = parseInt(localStorage.getItem('userType') ?? '0');
 
-//   if (!accessToken || !userId) {
-//     return null;
-//   }
+  if (!accessToken || !userId) {
+    return null;
+  }
 
-//   try {
-//     const res = await apiClient.get(`/order/`, {
-//       headers: {
-//         Authorization: `Bearer ${accessToken}`,
-//       },
-//     });
+  try {
+    const res: AxiosResponse<OrderDTO> = await apiClient.get(
+      `/order/${userId}/${userType}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
 
-//     if (!res.data.status) {
-//       console.error(res.data.message);
-//       return false;
-//     }
+    if (!res.data.status) {
+      console.error(res.data.message);
+      return null;
+    }
 
-//     return true;
-//   } catch (err) {
-//     console.error(err);
-//     return null;
-//   }
-// };
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
 
-export const createOrder = async (product: Product[]): Promise<boolean> => {
+export const createOrder = async (
+  product: Product[],
+  sellerId: string
+): Promise<boolean> => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
 
@@ -45,7 +54,7 @@ export const createOrder = async (product: Product[]): Promise<boolean> => {
       {
         products: product,
         buyerID: userId,
-        sellerID: '67ac79f76eaaa6f91afc0425',
+        sellerID: sellerId,
       },
       {
         headers: {

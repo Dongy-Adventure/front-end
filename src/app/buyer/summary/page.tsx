@@ -20,14 +20,44 @@ export default function SummaryCart() {
   const [products, setProducts] = useState<Product[]>([]);
 
   const postOrder = async (products: Product[]) => {
-    const res = await createOrder(products);
-    if (res) {
-      toast?.setToast('success', 'Your order has been placed!');
+    const ordersBySeller = products.reduce(
+      (acc, product) => {
+        if (!acc[product.sellerID]) acc[product.sellerID] = [];
+        acc[product.sellerID].push(product);
+        return acc;
+      },
+      {} as Record<string, Product[]>
+    );
+
+    try {
+      await Promise.all(
+        Object.entries(ordersBySeller).map(
+          async ([sellerID, sellerProducts]) => {
+            const res = await createOrder(sellerProducts, sellerID);
+            console.log(sellerID);
+
+            if (res) {
+              toast?.setToast(
+                'success',
+                `Order for seller ${sellerID} has been placed!`
+              );
+            } else {
+              toast?.setToast(
+                'error',
+                `Failed to create order for seller ${sellerID}.`
+              );
+            }
+          }
+        )
+      );
+
       router.push('/buyer/summary/complete');
-    } else {
-      toast?.setToast('error', 'There is an error, please try again later!');
+    } catch (error) {
+      console.error('Error placing orders:', error);
+      toast?.setToast('error', 'There was an error processing your order.');
+    } finally {
+      resetContext();
     }
-    resetContext();
   };
 
   useEffect(() => {

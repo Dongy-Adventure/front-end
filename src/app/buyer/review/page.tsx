@@ -50,13 +50,15 @@ export default function Reviews() {
 
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
-      <UpdatePanel
-        comment={selectedEdit?.message ?? ''}
-        ratings={selectedEdit?.score ?? 0}
-        createdAt={selectedEdit?.date ?? '0000'}
-        sellerName={selectedEdit?.reviewee ?? 'John Doe'}
-        reviewId={selectedEdit?.reviewId ?? ''}
-      />
+      {isEditPage && (
+        <UpdatePanel
+          comment={selectedEdit?.message ?? ''}
+          ratings={selectedEdit?.score ?? 0}
+          createdAt={selectedEdit?.date ?? '0000'}
+          sellerName={selectedEdit?.reviewee ?? 'John Doe'}
+          reviewId={selectedEdit?.reviewId ?? ''}
+        />
+      )}
       <div className="flex gap-2 pb-12">
         <Link
           href="/home"
