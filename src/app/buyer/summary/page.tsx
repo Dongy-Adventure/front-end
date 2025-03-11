@@ -23,7 +23,7 @@ export default function SummaryCart() {
     const res = await createOrder(products);
     if (res) {
       toast?.setToast('success', 'Your order has been placed!');
-      router.push('/order');
+      router.push('/buyer/summary/complete');
     } else {
       toast?.setToast('error', 'There is an error, please try again later!');
     }

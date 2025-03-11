@@ -9,14 +9,13 @@ import Link from 'next/link';
 import ReviewCard, { ReviewProps } from '@/components/ReviewCard';
 import { useToast } from '@/context/ToastContext';
 import { getUserId } from '@/utils/user';
-import { useRouter } from 'next/navigation';
 import UpdatePanel from '@/components/buyer/review/UpdatePanel';
 
 export default function Reviews() {
   const { user } = useAuth();
   const toast = useToast();
-  const router = useRouter();
   const [reviews, setReview] = useState<ReviewProps[]>([]);
+  const [selectedEdit, setSelectedEdit] = useState<Review | null>(null);
 
   useEffect(() => {
     const getBuyerReview = async () => {
@@ -49,7 +48,13 @@ export default function Reviews() {
 
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
-      {/* <UpdatePanel /> */}
+      <UpdatePanel
+        comment={selectedEdit?.message ?? ''}
+        ratings={selectedEdit?.score ?? 0}
+        createdAt={selectedEdit?.date ?? '0000'}
+        sellerName={selectedEdit?.reviewee ?? 'John Doe'}
+        reviewId={selectedEdit?.reviewId ?? ''}
+      />
       <div className="flex gap-2 pb-12">
         <Link
           href="/home"
