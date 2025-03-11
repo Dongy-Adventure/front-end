@@ -26,7 +26,7 @@ function RegisterPage() {
   const [usernameFilled, setUsernameFilled] = useState(false);
   const [passwordFilled, setPasswordFilled] = useState(false);
   const [confirmPasswordFilled, setConfirmPasswordFilled] = useState(false);
-  
+
   const {
     register,
     handleSubmit,
@@ -90,26 +90,13 @@ function RegisterPage() {
   };
 
   return (
-    <div className="md:pt-8 flex flex-col ">
-      <div className="flex gap-2 pt-14 pb-6 pl-20 ">
-        <Link
-          href="/home"
-          className="text-gray-400"
-        >
-          Home
-        </Link>
-        <p className="text-gray-400">{'\u003E'}</p>
-        <p className="text-black font-semibold">
-          {mode === 'Register' ? 'Register' : 'Sign In'}
-        </p>
-      </div>
-    <div className="min-h-screen bg-project-secondary text-black flex flex-col items-center">
-      <main className="flex-1 max-w-md p-8 bg-project-secondary rounded-md mt-10 text-black">
+    <div className="min-h-screen bg-project-secondary text-black grid place-items-center">
+      <main className="flex-1 max-w-md p-8 bg-project-secondary rounded-md text-black">
         <h2 className="text-2xl md:text-3xl font-bold text-black mb-4 text-center justify-center">
-            {mode === 'Register' ? 'Register' : 'Sign In'}
+          {mode === 'Register' ? 'Register' : 'Sign In'}
         </h2>
 
-      <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-6">
           <button
             type="button"
             onClick={() => setUserType('Buyer')}
@@ -135,17 +122,18 @@ function RegisterPage() {
             Seller
           </button>
         </div>
-          <p className="text-center mb-6 md:text-base text-nowrap">
-              {mode === 'Register'
-                ? 'If you have an account, go to the login page'
-                : "Register, if you don't have an account"}
-            </p>
-          <form
+        <p className="text-center mb-6 md:text-base text-nowrap">
+          {mode === 'Register'
+            ? 'If you have an account, go to the login page'
+            : "Register, if you don't have an account"}
+        </p>
+        <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col"
           method="POST"
         >
-          <p className="text-black text-left">Username
+          <p className="text-black text-left">
+            Username
             {!usernameFilled && <span className="text-black ml-1">*</span>}
           </p>
           <input
@@ -156,12 +144,11 @@ function RegisterPage() {
             className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
           />
           {errors.username && (
-            <p className="text-red-500 text-sm">
-              {errors.username.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.username.message}</p>
           )}
 
-          <p className="text-black text-left mt-2">Password
+          <p className="text-black text-left mt-2">
+            Password
             {!passwordFilled && <span className="text-black ml-1">*</span>}
           </p>
           <input
@@ -172,21 +159,24 @@ function RegisterPage() {
             className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
           />
           {errors.password && (
-            <p className="text-red-500 text-sm">
-              {errors.password.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
           )}
 
           {mode === 'Register' ? (
             <>
-              <p className="text-black text-left mt-2">Confirm Password
-                {!confirmPasswordFilled && <span className="text-black ml-1">*</span>}
+              <p className="text-black text-left mt-2">
+                Confirm Password
+                {!confirmPasswordFilled && (
+                  <span className="text-black ml-1">*</span>
+                )}
               </p>
               <input
                 type="password"
                 {...register('confirmPassword')}
                 placeholder=""
-                onChange={(e) => setConfirmPasswordFilled(e.target.value.length > 0)}
+                onChange={(e) =>
+                  setConfirmPasswordFilled(e.target.value.length > 0)
+                }
                 className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
               />
               {errors.confirmPassword && (
@@ -218,9 +208,13 @@ function RegisterPage() {
         </form>
         <div className="text-center mt-4">
           <p>
-            {mode === 'Register' ? 'Already have an account?' : "Don't have an account?"}{' '}
+            {mode === 'Register'
+              ? 'Already have an account?'
+              : "Don't have an account?"}{' '}
             <button
-              onClick={() => mode === 'Register' ? setMode('Login') : setMode('Register')}
+              onClick={() =>
+                mode === 'Register' ? setMode('Login') : setMode('Register')
+              }
               className="text-blue-500 underline"
             >
               {mode === 'Register' ? 'Sign In' : 'Register'}
@@ -228,7 +222,6 @@ function RegisterPage() {
           </p>
         </div>
       </main>
-    </div>
     </div>
   );
 }
