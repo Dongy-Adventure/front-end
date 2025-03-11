@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { createBuyer } from '@/utils/buyer';
 import { createSeller } from '@/utils/seller';
@@ -22,7 +23,10 @@ function RegisterPage() {
   const [isUploading, setIsUpLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>('Register');
-
+  const [usernameFilled, setUsernameFilled] = useState(false);
+  const [passwordFilled, setPasswordFilled] = useState(false);
+  const [confirmPasswordFilled, setConfirmPasswordFilled] = useState(false);
+  
   const {
     register,
     handleSubmit,
@@ -86,129 +90,145 @@ function RegisterPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-project-secondary">
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-4 sm:px-10 text-center">
-        <div className="bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row w-full max-w-4xl">
-          <div className="w-full md:w-3/5 p-6 md:p-10">
-            <div className="py-10 md:py-20">
-              <h2 className="text-2xl md:text-3xl font-bold text-project-primary mb-4">
-                {mode === 'Register' ? 'Register' : 'Sign In'}
-              </h2>
+    <div className="md:pt-8 flex flex-col ">
+      <div className="flex gap-2 pt-14 pb-6 pl-20 ">
+        <Link
+          href="/home"
+          className="text-gray-400"
+        >
+          Home
+        </Link>
+        <p className="text-gray-400">{'\u003E'}</p>
+        <p className="text-black font-semibold">
+          {mode === 'Register' ? 'Register' : 'Sign In'}
+        </p>
+      </div>
+    <div className="min-h-screen bg-project-secondary text-black flex flex-col items-center">
+      <main className="flex-1 max-w-md p-8 bg-project-secondary rounded-md mt-10 text-black">
+        <h2 className="text-2xl md:text-3xl font-bold text-black mb-4 text-center justify-center">
+            {mode === 'Register' ? 'Register' : 'Sign In'}
+        </h2>
 
-              <div className="flex justify-center mb-6">
-                <button
-                  type="button"
-                  onClick={() => setUserType('Buyer')}
-                  className={cn(
-                    'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
-                    userType === 'Buyer'
-                      ? 'border-project-primary text-project-primary'
-                      : 'border-transparent text-black'
-                  )}
-                >
-                  Buyer
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setUserType('Seller')}
-                  className={cn(
-                    'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
-                    userType === 'Seller'
-                      ? 'border-project-primary text-project-primary'
-                      : 'border-transparent text-black'
-                  )}
-                >
-                  Seller
-                </button>
-              </div>
-
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="flex gap-2 flex-col items-center"
-                method="POST"
-              >
-                <input
-                  type="text"
-                  {...register('username')}
-                  placeholder="Username"
-                  className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black"
-                />
-                {errors.username && (
-                  <p className="text-red-500 text-sm">
-                    {errors.username.message}
-                  </p>
-                )}
-
-                <input
-                  type="password"
-                  {...register('password')}
-                  placeholder="Password"
-                  className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black"
-                />
-                {errors.password && (
-                  <p className="text-red-500 text-sm">
-                    {errors.password.message}
-                  </p>
-                )}
-
-                {mode === 'Register' ? (
-                  <>
-                    <input
-                      type="password"
-                      {...register('confirmPassword')}
-                      placeholder="Confirm Password"
-                      className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black"
-                    />
-                    {errors.confirmPassword && (
-                      <p className="text-red-500 text-sm">
-                        {errors.confirmPassword.message}
-                      </p>
-                    )}
-                  </>
-                ) : (
-                  <section className="w-full sm:w-72 p-2 h-10" />
-                )}
-
-                <button
-                  type="submit"
-                  disabled={isUploading}
-                  className={cn(
-                    'border-2 rounded-full px-12 py-2 inline-block font-semibold',
-                    !isUploading
-                      ? 'border-project-primary text-project-primary hover:bg-project-primary hover:text-white'
-                      : 'bg-gray-500 text-white'
-                  )}
-                >
-                  {mode === 'Register' ? 'Register' : 'Sign In'}
-                </button>
-
-                {errorMessage && (
-                  <p className="mt-6 text-red-500 text-sm">{errorMessage}</p>
-                )}
-              </form>
-            </div>
-          </div>
-
-          <div className="w-full md:w-2/5 bg-project-primary text-white py-10 px-6 md:py-36 md:px-12 flex flex-col justify-center rounded-b-3xl md:rounded-bl-none md:rounded-r-3xl">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              {mode === 'Register' ? 'Create Account' : 'Hello!'}
-            </h2>
-            <p className="mb-8 text-sm md:text-base text-nowrap">
+      <div className="flex justify-center mb-6">
+          <button
+            type="button"
+            onClick={() => setUserType('Buyer')}
+            className={cn(
+              'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
+              userType === 'Buyer'
+                ? 'border-project-primary text-project-primary'
+                : 'border-transparent text-black'
+            )}
+          >
+            Buyer
+          </button>
+          <button
+            type="button"
+            onClick={() => setUserType('Seller')}
+            className={cn(
+              'px-6 py-2 font-semibold border-b-2 transition-all duration-300',
+              userType === 'Seller'
+                ? 'border-project-primary text-project-primary'
+                : 'border-transparent text-black'
+            )}
+          >
+            Seller
+          </button>
+        </div>
+          <p className="text-center mb-6 md:text-base text-nowrap">
               {mode === 'Register'
                 ? 'If you have an account, go to the login page'
                 : "Register, if you don't have an account"}
             </p>
+          <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col"
+          method="POST"
+        >
+          <p className="text-black text-left">Username
+            {!usernameFilled && <span className="text-black ml-1">*</span>}
+          </p>
+          <input
+            type="text"
+            {...register('username')}
+            placeholder=""
+            onChange={(e) => setUsernameFilled(e.target.value.length > 0)}
+            className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
+          />
+          {errors.username && (
+            <p className="text-red-500 text-sm">
+              {errors.username.message}
+            </p>
+          )}
+
+          <p className="text-black text-left mt-2">Password
+            {!passwordFilled && <span className="text-black ml-1">*</span>}
+          </p>
+          <input
+            type="password"
+            {...register('password')}
+            placeholder=""
+            onChange={(e) => setPasswordFilled(e.target.value.length > 0)}
+            className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
+          />
+          {errors.password && (
+            <p className="text-red-500 text-sm">
+              {errors.password.message}
+            </p>
+          )}
+
+          {mode === 'Register' ? (
+            <>
+              <p className="text-black text-left mt-2">Confirm Password
+                {!confirmPasswordFilled && <span className="text-black ml-1">*</span>}
+              </p>
+              <input
+                type="password"
+                {...register('confirmPassword')}
+                placeholder=""
+                onChange={(e) => setConfirmPasswordFilled(e.target.value.length > 0)}
+                className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-sm">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
+            </>
+          ) : (
+            <section className="w-full sm:w-72 p-2 h-10" />
+          )}
+
+          <button
+            type="submit"
+            disabled={isUploading}
+            className={cn(
+              'border-2 rounded-full px-12 py-2 inline-block font-semibold items-center mt-6',
+              !isUploading
+                ? 'border-project-primary text-project-primary hover:bg-project-primary hover:text-white'
+                : 'bg-gray-500 text-white'
+            )}
+          >
+            {mode === 'Register' ? 'Register' : 'Sign In'}
+          </button>
+
+          {errorMessage && (
+            <p className="mt-6 text-red-500 text-sm">{errorMessage}</p>
+          )}
+        </form>
+        <div className="text-center mt-4">
+          <p>
+            {mode === 'Register' ? 'Already have an account?' : "Don't have an account?"}{' '}
             <button
-              onClick={() =>
-                mode === 'Register' ? setMode('Login') : setMode('Register')
-              }
-              className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-project-primary"
+              onClick={() => mode === 'Register' ? setMode('Login') : setMode('Register')}
+              className="text-blue-500 underline"
             >
-              {mode === 'Register' ? 'Login' : 'Register'}
+              {mode === 'Register' ? 'Sign In' : 'Register'}
             </button>
-          </div>
+          </p>
         </div>
       </main>
+    </div>
     </div>
   );
 }
