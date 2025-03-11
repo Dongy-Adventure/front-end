@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { CardProps } from './Card';
+import Appointment from './Appointment';
 
 export default function Popup(prop: CardProps) {
   const status: { [key: number]: string } = {
@@ -23,16 +24,16 @@ export default function Popup(prop: CardProps) {
     3: 'text-project-lightgreen',
   };
   return (
-    <div className="w-fit h-[800px] bg-white rounded-2xl flex flex-col shadow-2xl">
+    <div className="w-fit h-[800px] bg-white rounded-2xl flex flex-row shadow-2xl">
       {/* left */}
       <div
-        className={`w-[500px] gap-5 h-full flex flex-col border-[30px] rounded-2xl items-center border-white `}
+        className={`w-[500px] gap-5 h-full flex flex-col p-[30px] rounded-2xl items-center `}
       >
         <div
           className={`w-full h-[105px] relative rounded-xl ${BgColorCode[prop.status]}`}
         >
           <div
-            className={`bg-white border-white flex h-[20px] rounded-[8px] w-fit font-bold border-x-[20px] justify-center items-center absolute top-3 right-3 ${textColor[prop.status]}`}
+            className={`bg-white  flex h-[20px] rounded-[8px] w-fit font-bold px-5 justify-center items-center absolute top-3 right-3 ${textColor[prop.status]}`}
           >
             {status[prop.status]}
           </div>
@@ -70,6 +71,8 @@ export default function Popup(prop: CardProps) {
             </div>
         </div>
       </div>
+      {/* right */}
+      <Appointment/>
     </div>
   );
 }
