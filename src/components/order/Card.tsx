@@ -7,11 +7,14 @@ interface CardProps {
   orderDate: string;
   price: number;
   status: number;
+  buyerId: string;
+  sellerId: string;
   setState: (n: number) => void;
 }
 
 export default function Card(props: CardProps) {
-  const { orderId, orderDate, price, status, setState } = props;
+  const { orderId, orderDate, price, status, buyerId, sellerId, setState } =
+    props;
   return (
     <div
       className={cn(
@@ -28,7 +31,7 @@ export default function Card(props: CardProps) {
       <section className="p-2 gap-2">
         <div className="flex justify-between font-medium text-sm">
           <h4>Order</h4>
-          <h4>{orderId}</h4>
+          <h4>#{orderId}</h4>
         </div>
         <div className="flex justify-between font-bold text-md">
           <h4>{new Date(orderDate).toLocaleDateString('en-GB')}</h4>
