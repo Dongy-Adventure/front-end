@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { createBuyer } from '@/utils/buyer';
 import { createSeller } from '@/utils/seller';

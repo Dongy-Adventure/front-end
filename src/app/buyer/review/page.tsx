@@ -15,7 +15,8 @@ export default function Reviews() {
   const { user } = useAuth();
   const toast = useToast();
   const [reviews, setReview] = useState<ReviewProps[]>([]);
-  const [selectedEdit, setSelectedEdit] = useState<Review | null>(null);
+  const [selectedEdit, setSelectedEdit] = useState<ReviewProps | null>(null);
+  const [isEditPage, setIsEditPage] = useState<boolean>(false);
 
   useEffect(() => {
     const getBuyerReview = async () => {
@@ -23,6 +24,7 @@ export default function Reviews() {
       const res: Review[] | null = await getReviews(userId ?? '', 'buyer');
       if (!res) return;
       const rev: ReviewProps[] = res.map((r: Review) => ({
+        reviewee: r.reviewee,
         reviewId: r.reviewId,
         name: r.reviewer,
         score: r.score,
@@ -88,6 +90,8 @@ export default function Reviews() {
                     key={review.reviewId}
                     {...review}
                     deleteReview={removeReview}
+                    setEdit={() => setIsEditPage(true)}
+                    setReview={() => setSelectedEdit(review)}
                   />
                 ))}
               </tbody>
