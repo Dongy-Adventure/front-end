@@ -1,8 +1,11 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import WristWatch from '@/../public/wrist-watch.png';
+import Popup from './Popup';
+import { useState } from 'react';
+import { set } from 'zod';
 
-interface CardProps {
+export interface CardProps {
   orderId: string;
   orderDate: string;
   price: number;
@@ -11,6 +14,8 @@ interface CardProps {
 
 export default function Card(props: CardProps) {
   const { orderId, orderDate, price, status } = props;
+  const [loadView, setLoadView] = useState(false);
+  const [hidden, setHidden] = useState(false);
   return (
     <div
       className={cn(
@@ -24,6 +29,16 @@ export default function Card(props: CardProps) {
               : 'bg-project-lightgreen'
       )}
     >
+      {loadView && (
+        <div
+          className={`absolute top-0 right-0 w-screen h-screen backdrop-blur-[3px] flex justify-center items-center ${hidden ? "-z-40" : "z-40"}`}
+          onClick={() => {setHidden(true)}}
+        >
+          <Popup {...props}/>
+
+        </div>
+      )}
+
       <section className="p-2 gap-2">
         <div className="flex justify-between font-medium text-sm">
           <h4>Order</h4>
@@ -73,6 +88,7 @@ export default function Card(props: CardProps) {
                       ? 'text-project-orange'
                       : 'text-project-forest'
               )}
+              onClick={() => {setLoadView(true) ;setHidden(false)}}
             >
               View
             </button>

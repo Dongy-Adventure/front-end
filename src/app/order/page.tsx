@@ -199,7 +199,7 @@ export default function Orders() {
   }, []);
 
   return (
-    <div className="p-12 md:px-20 md:pt-16 flex flex-col">
+    <div className="p-12 md:px-20 md:pt-16 flex flex-col bg-white">
       <div className="flex gap-2 pb-12">
         <Link
           href="/home"
