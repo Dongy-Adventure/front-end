@@ -13,8 +13,8 @@ export default function RootLayoutNav({
 
   return (
     <>
-      {pathname !== '/' && pathname !== '/login' && <Navbar />}
-      <main className={cn(pathname !== '/' && pathname !== '/login' && 'my-8')}>
+      <Navbar />
+      <main className={cn(pathname !== '/' && 'my-8')}>
         {children}
       </main>
     </>
