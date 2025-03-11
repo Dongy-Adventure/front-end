@@ -26,15 +26,8 @@ interface CurrentDataProps {
 }
 
 export default function EditProduct(props: CurrentDataProps) {
-  const {
-    productName,
-    productDescription,
-    price,
-    color,
-    tag,
-    productId,
-    closing,
-  } = props;
+  const { productName, productDescription, price, color, tag, productId } =
+    props;
   const toast = useToast();
   const [selectedColor, setSelectedColor] = useState<string>('');
 

@@ -202,7 +202,7 @@ export default function Orders() {
 
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
-      {isPopup && <PendingPayment closeTab={() => setIsPopup(null)} />}
+      {isPopup !== null && <PendingPayment closeTab={() => setIsPopup(null)} />}
       <div className="flex gap-2 pb-12">
         <Link
           href="/home"
