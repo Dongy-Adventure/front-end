@@ -1,8 +1,7 @@
 import { COLORS } from '@/constants/color';
 import { useToast } from '@/context/ToastContext';
 import { createProduct } from '@/utils/product';
-import router from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 interface ProductInfo {
@@ -21,6 +20,14 @@ export default function AddProduct(props: { closing: () => void }) {
   const [selectedColor, setSelectedColor] = useState('');
 
   const tags = ['Clothing', 'Gadget', 'Sport', 'Beauty', 'Book'];
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   const { control, handleSubmit, setValue, getValues } = useForm<ProductInfo>({
     defaultValues: {

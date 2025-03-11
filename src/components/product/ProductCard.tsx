@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import tempProductImage from '@/../public/placeholder200.avif';
+import tempProductImage from '@/../public/placeholder200.jpeg';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useRouter } from 'next/navigation';
 

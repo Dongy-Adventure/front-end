@@ -7,10 +7,11 @@ interface CardProps {
   orderDate: string;
   price: number;
   status: number;
+  setState: (n: number) => void;
 }
 
 export default function Card(props: CardProps) {
-  const { orderId, orderDate, price, status } = props;
+  const { orderId, orderDate, price, status, setState } = props;
   return (
     <div
       className={cn(
@@ -73,6 +74,7 @@ export default function Card(props: CardProps) {
                       ? 'text-project-orange'
                       : 'text-project-forest'
               )}
+              onClick={() => setState(status)}
             >
               View
             </button>

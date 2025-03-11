@@ -40,6 +40,14 @@ export default function EditProduct(props: CurrentDataProps) {
 
   const tags = ['Clothing', 'Gadget', 'Sport', 'Beauty', 'Book'];
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
   const { control, handleSubmit, setValue, getValues } = useForm<ProductInfo>({
     defaultValues: {
       productName: productName,
