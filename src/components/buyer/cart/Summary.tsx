@@ -30,7 +30,6 @@ function Summary({ total }: { total: number }) {
             );
           } else {
             router.push('/buyer/summary');
-            console.log(selectedItemCart);
             const productStr = JSON.stringify(selectedItemCart);
             localStorage.setItem('selectedProduct', productStr);
           }

@@ -145,6 +145,52 @@ export const getAllProducts = async (): Promise<Product[] | null> => {
   }
 };
 
+export const updateProduct = async (
+  pid: string,
+  color: string,
+  name: string,
+  desc: string,
+  price: number,
+  tag: string[]
+): Promise<boolean> => {
+  const accessToken = await getAccessToken();
+  const userId = await getUserId();
+
+  if (!accessToken || !userId) {
+    return false;
+  }
+
+  try {
+    const res = await apiClient.put(
+      `/product/${pid}`,
+      {
+        productName: name,
+        productID: pid,
+        tag: tag,
+        color: color,
+        price: price,
+        description: desc,
+        imageURL: '',
+        createdAt: new Date().toISOString(),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
 export const deleteProduct = async (pid: string): Promise<boolean> => {
   try {
     const res = await apiClient.delete(`/product/${pid}`);
