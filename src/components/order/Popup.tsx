@@ -13,7 +13,7 @@ export default function Popup(prop: CardProps) {
   const status: { [key: number]: string } = {
     0: 'Waiting For Seller',
     1: 'Waiting For Buyer',
-    2: 'Waiting For Delivery',
+    2: 'Waiting For Delivery'
     3: 'Completed',
   };
 
@@ -75,7 +75,7 @@ export default function Popup(prop: CardProps) {
             <div className="ml-auto mr-4">Quantity</div>
           </div>
           <div className="flex flex-col w-full overflow-y-scroll h-[350px] gap-3">
-            {prop.products.map((product: Product) => (
+            {prop.order.products.map((product: Product) => (
               <div
                 className="flex relative items-center min-h-[85px] w-full gap-3 shadow-md rounded-xl"
                 key={product.productID}

@@ -28,9 +28,7 @@ export default function Orders() {
 
     getUserOrders();
   }, []);
-  const oo = getOrder();
-  console.log("order");
-  console.log(oo);
+
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col bg-white">
       <div className="flex gap-2 pb-12">
