@@ -7,7 +7,6 @@ import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
 import { Order } from '@/types/order';
 import Card from '@/components/order/Card';
-import PendingPayment from '@/components/order/PendingPayment';
 import { getOrder } from '@/utils/order';
 import { useToast } from '@/context/ToastContext';
 
@@ -29,7 +28,6 @@ export default function Orders() {
 
     getUserOrders();
   }, []);
-
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col bg-white">
       <div className="flex gap-2 pb-12">
@@ -64,8 +62,7 @@ export default function Orders() {
                   <Card
                     key={order.orderID}
                     products={order.products}
-                    orderId={order.orderID}
-                    orderDate={order.createdAt}
+                    order={order}
                     price={order.totalPrice}
                     status={0}
                     setOrder={() => setSelectedOrder(order)}
@@ -90,8 +87,7 @@ export default function Orders() {
                 .map((order: Order) => (
                   <Card
                     key={order.orderID}
-                    orderId={order.orderID}
-                    orderDate={order.createdAt}
+                    order={order}
                     price={order.totalPrice}
                     products={order.products}
                     status={order.status}
@@ -111,8 +107,7 @@ export default function Orders() {
                 .map((order: Order) => (
                   <Card
                     key={order.orderID}
-                    orderId={order.orderID}
-                    orderDate={order.createdAt}
+                    order={order}
                     price={order.totalPrice}
                     products={order.products}
                     status={3}

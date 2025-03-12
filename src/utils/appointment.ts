@@ -13,7 +13,6 @@ export const getAppointmentByOrderID = async (
   if (!accessToken) {
     return null;
   }
-  console.log(orderId);
   try {
     const res: AxiosResponse<AppointmentDTO> = await apiClient.get(
       `/appointment/order/${orderId}`,
@@ -27,7 +26,6 @@ export const getAppointmentByOrderID = async (
       console.error(res.data.message);
       return null;
     }
-    console.log(res.data.data);
     return res.data.data;
   } catch (err) {
     console.error(err);

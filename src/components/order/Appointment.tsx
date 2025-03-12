@@ -12,7 +12,7 @@ export default function AppointmentComponent(prop: CardProps) {
 
   useEffect(() => {
     const getUserOrders = async () => {
-      const res = await getAppointmentByOrderID(prop.orderId);
+      const res = await getAppointmentByOrderID(prop.order.orderID);
       if (!res) {
         toast?.setToast('error', 'There is an error fetching the appointment!');
       } else {
