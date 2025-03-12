@@ -9,8 +9,6 @@ export default function AppointmentComponent(prop: CardProps) {
     const { user } = useAuth();
     const toast = useToast();
     const [appointment, setAppointment] = useState<Appointment | null>(null);
-    // const [time, setTime] = useState('-');
-    // const [date, setDate] = useState('-');
 
     useEffect(() => {
         const getUserOrders = async () => {
@@ -59,6 +57,15 @@ export default function AppointmentComponent(prop: CardProps) {
                 <p className="text-m font-bold text-gray-600">
                     Appointment Date 
                 </p>
+                {appointment?.address ? (
+                    <p className="text-m font-normal text-gray-600">
+                        {appointment.address}
+                    </p>
+                ):(
+                    <p className="text-m font-normal text-gray-600">
+                        No Data - Waiting For Buyer
+                    </p>
+                )}
                 {user?.userType === 'buyer' && (
                     <button className={`rounded-lg absolute bottom-2 right-2 text-white px-4 py-2 ${BGColorCode[prop.status]}`}>
                         Edit
@@ -70,11 +77,11 @@ export default function AppointmentComponent(prop: CardProps) {
                     Appointment Place
                 </p>
                 {appointment?.address ? (
-                    <p className="text-m font-bold text-gray-600">
+                    <p className="text-m font-normal text-gray-600">
                         {appointment.address}
                     </p>
                 ):(
-                    <p className="text-m font-bold text-gray-600">
+                    <p className="text-m font-normal text-gray-600">
                         No Data - Waiting For Seller
                     </p>
                 )}

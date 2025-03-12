@@ -75,13 +75,13 @@ export default function Orders() {
                 .map((order: Order) => (
                   <Card
                     key={order.orderID}
-                    products={order.products}
+                    // products={order.products}
                     orderId={order.orderID}
                     orderDate={order.createdAt}
                     price={order.totalPrice}
                     status={0}
-                    setState={(n) => setIsPopup(n)}
-                    setOrder={() => setSelectedOrder(order)}
+                    // setState={(n) => setIsPopup(n)}
+                    // setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
             </section>
@@ -106,10 +106,10 @@ export default function Orders() {
                     orderId={order.orderID}
                     orderDate={order.createdAt}
                     price={order.totalPrice}
-                    products={order.products}
+                    // products={order.products}
                     status={order.status}
-                    setState={(n) => setIsPopup(n)}
-                    setOrder={() => setSelectedOrder(order)}
+                    // setState={(n) => setIsPopup(n)}
+                    // setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
             </section>
@@ -128,10 +128,10 @@ export default function Orders() {
                     orderId={order.orderID}
                     orderDate={order.createdAt}
                     price={order.totalPrice}
-                    products={order.products}
+                    // products={order.products}
                     status={3}
-                    setState={(n) => setIsPopup(n)}
-                    setOrder={() => setSelectedOrder(order)}
+                    // setState={(n) => setIsPopup(n)}
+                    // setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
             </section>
