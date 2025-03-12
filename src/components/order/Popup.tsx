@@ -94,7 +94,7 @@ export default function Popup(prop: CardProps) {
           </div>
         </div>
       </div>
-      {prop.status === 1 || (prop.status === 2 && <Appointment {...prop} />)}
+      {prop.status <= 2 && <Appointment {...prop} />}
       {prop.status === 3 && <Review {...prop} />}
     </div>
   );
