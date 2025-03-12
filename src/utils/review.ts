@@ -125,7 +125,7 @@ export const createReview = async (
 
   try {
     const res = await apiClient.post(
-      `/review`,
+      '/review/',
       {
         message: message,
         score: score,

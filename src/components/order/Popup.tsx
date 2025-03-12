@@ -4,6 +4,7 @@ import { CardProps } from './Card';
 import Appointment from './Appointment';
 import { Product } from '@/types/product';
 import { Order } from '@/types/order';
+import Review from './Review';
 
 export default function Popup(prop: CardProps) {
   interface Product {
@@ -191,7 +192,8 @@ export default function Popup(prop: CardProps) {
         </div>
       </div>
       {/* right */}
-      <Appointment {...prop} />
+      {prop.status === 1 || prop.status === 2 && <Appointment {...prop} />}
+      {prop.status === 3 && <Review {...prop} />}
     </div>
   );
 }

@@ -36,7 +36,6 @@ export default function Review(prop: CardProps) {
     const status = await createReview(message, score);
     if (status) {
       toast?.setToast('success', 'Create review succeeded');
-      window.location.href = '/buyer/review';
       setReviewSubmitted(true);
     } else {
       toast?.setToast('error', 'Create review failed');
@@ -45,9 +44,9 @@ export default function Review(prop: CardProps) {
 
   return (
     <div className="flex-col bg-white flex border-3 w-[500px] border-[30px] border-white h-full">
-      <div className={"flex flex-col h-fit justify-center w-full gap-[10px] px-[18px] py-[20px] rounded-xl border-[2px] border-green-600 mt-8"}>
-        <div className="font-bold text-[24px]-">Thank you for your order!</div>
-      </div>
+      
+        <div className="font-bold text-2xl mt-20">Thank you for your order!</div>
+      
       <h2 className="text-lg font-bold mt-6">Add Seller Review</h2>
       {reviewSubmitted ? (
         <div className="flex flex-col items-center mt-14">
