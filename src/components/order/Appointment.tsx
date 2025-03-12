@@ -1,12 +1,29 @@
-import {useState} from 'react';
-import { Product } from '@/types/product';
+import { useEffect, useState } from 'react';
 import { CardProps } from './Card';
 import { useAuth } from '@/context/AuthContext';
+import { getAppointmentByOrderID } from '@/utils/appointment';
+import { useToast } from '@/context/ToastContext';
+import { Appointment } from '@/types/appointment';
 
-export default function Appointment(prop: CardProps) {
+export default function AppointmentComponent(prop: CardProps) {
     const { user } = useAuth();
-    const [time, setTime] = useState('-');
-    const [date, setDate] = useState('-');
+    const toast = useToast();
+    const [appointment, setAppointment] = useState<Appointment | null>(null);
+    // const [time, setTime] = useState('-');
+    // const [date, setDate] = useState('-');
+
+    useEffect(() => {
+        const getUserOrders = async () => {
+            const res = await getAppointmentByOrderID(prop.orderId);
+            if (!res) {
+                toast?.setToast('error', 'There is an error fetching the appointment!');
+            } 
+            else {
+                setAppointment(res);
+            }
+        };
+        getUserOrders();
+    }, []);
 
     const status: { [key: number]: string } = {
         0: 'Pending payment',
@@ -28,13 +45,6 @@ export default function Appointment(prop: CardProps) {
       };
 
     return(
-        // <div className='flex-col flex border-3 w-[500px] border-[30px] border-white h-full'>
-        //     <div className='flex h-fit items-center w-full border-x-[2px] border-y-5 border-blue-700'>
-        //         <div className="flex text-[13px] font-normal">Appointment Place</div>
-        //         <div className="font-bold text-[24px]-">status</div>
-        //     </div>
-        // </div>
-
         <div className="px-6 gap-6 flex flex-col items-center justify-center">
             <div className="flex flex-col">
                 <h1 className="text-2xl font-bold text-black mt-4">Appointment Summary</h1>
@@ -59,6 +69,15 @@ export default function Appointment(prop: CardProps) {
                 <p className="text-m font-bold text-gray-600">
                     Appointment Place
                 </p>
+                {appointment?.address ? (
+                    <p className="text-m font-bold text-gray-600">
+                        {appointment.address}
+                    </p>
+                ):(
+                    <p className="text-m font-bold text-gray-600">
+                        No Data - Waiting For Seller
+                    </p>
+                )}
                 {user?.userType === 'seller' && (
                     <button className={`rounded-lg absolute bottom-2 right-2 text-white px-4 py-2 ${BGColorCode[prop.status]}`}>
                         Edit

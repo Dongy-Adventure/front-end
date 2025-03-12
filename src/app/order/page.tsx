@@ -32,7 +32,7 @@ export default function Orders() {
   }, []);
 
   return (
-    <div className="p-12 md:px-20 md:pt-16 flex flex-col">
+    <div className="p-12 md:px-20 md:pt-16 flex flex-col bg-white">
       {isPopup !== null && (
         <PendingPayment
           date={selecteOrder?.createdAt ?? '0000'}
