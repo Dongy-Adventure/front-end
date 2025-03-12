@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 interface ProductInfo {
+  amount: number;
   sellerName: string;
   sellerSurname: string;
   productName: string;
@@ -31,6 +32,7 @@ export default function AddProduct(props: { closing: () => void }) {
 
   const { control, handleSubmit, setValue, getValues } = useForm<ProductInfo>({
     defaultValues: {
+      amount: 0,
       productName: '',
       price: 0.0,
       description: '',
@@ -58,14 +60,23 @@ export default function AddProduct(props: { closing: () => void }) {
   };
 
   const onSubmit = async (data: ProductInfo) => {
-    const { productName, price, description, productImage, color, tag } = data;
+    const {
+      productName,
+      price,
+      description,
+      productImage,
+      color,
+      tag,
+      amount,
+    } = data;
     const status = await createProduct(
       productName,
       Number(price),
       description,
       productImage,
       color,
-      tag
+      tag,
+      Number(amount)
     );
     if (status) {
       toast?.setToast('success', 'Post product succeeded');
@@ -87,7 +98,7 @@ export default function AddProduct(props: { closing: () => void }) {
           </div>
 
           <div className="mt-6">
-            <p className="mb-2 text-sm font-medium">Insert product picture *</p>
+            <p className="mb-2 text-sm font-medium">Insert product picture</p>
             <div className="border border-gray-300 w-full h-52 flex items-center justify-center text-gray-500">
               description
             </div>
@@ -139,6 +150,21 @@ export default function AddProduct(props: { closing: () => void }) {
                 <textarea
                   className="rounded-lg p-2 w-full border outline-none"
                   {...field}
+                />
+              )}
+            />
+          </div>
+          <div className="mt-4">
+            <label className="block text-sm font-medium">Amount *</label>
+            <Controller
+              name="amount"
+              control={control}
+              render={({ field }) => (
+                <input
+                  className="w-full p-2 border rounded mt-1"
+                  placeholder=""
+                  {...field}
+                  type="number"
                 />
               )}
             />
@@ -224,7 +250,7 @@ export default function AddProduct(props: { closing: () => void }) {
             />
           </div>
 
-          <div className="flex justify-end px-4 py-8">
+          <div className="flex justify-end px-4 py-4">
             <button
               type="submit"
               className="bg-project-primary hover:bg-project-dark text-white font-bold py-1 px-8 rounded"

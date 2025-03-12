@@ -16,6 +16,7 @@ export default function Orders() {
   const toast = useToast();
   const [orders, setOrders] = useState<Order[]>([]);
   const [isPopup, setIsPopup] = useState<number | null>(null);
+  const [selecteOrder, setSelectedOrder] = useState<Order | null>(null);
 
   useEffect(() => {
     const getUserOrders = async () => {
@@ -32,7 +33,17 @@ export default function Orders() {
 
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
-      {isPopup !== null && <PendingPayment closeTab={() => setIsPopup(null)} />}
+      {isPopup !== null && (
+        <PendingPayment
+          date={selecteOrder?.createdAt ?? '0000'}
+          orderId={selecteOrder?.orderID ?? ''}
+          products={selecteOrder?.products ?? []}
+          buyerName={selecteOrder?.buyerName ?? ''}
+          paymentMethod="PromtPay"
+          price={selecteOrder?.totalPrice ?? 0}
+          closeTab={() => setIsPopup(null)}
+        />
+      )}
       <div className="flex gap-2 pb-12">
         <Link
           href="/home"
@@ -64,13 +75,13 @@ export default function Orders() {
                 .map((order: Order) => (
                   <Card
                     key={order.orderID}
+                    products={order.products}
                     orderId={order.orderID}
                     orderDate={order.createdAt}
-                    buyerId={order.buyerID}
-                    sellerId={order.sellerID}
                     price={order.totalPrice}
                     status={0}
                     setState={(n) => setIsPopup(n)}
+                    setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
             </section>
@@ -95,10 +106,10 @@ export default function Orders() {
                     orderId={order.orderID}
                     orderDate={order.createdAt}
                     price={order.totalPrice}
-                    buyerId={order.buyerID}
-                    sellerId={order.sellerID}
+                    products={order.products}
                     status={order.status}
                     setState={(n) => setIsPopup(n)}
+                    setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
             </section>
@@ -117,10 +128,10 @@ export default function Orders() {
                     orderId={order.orderID}
                     orderDate={order.createdAt}
                     price={order.totalPrice}
-                    buyerId={order.buyerID}
-                    sellerId={order.sellerID}
+                    products={order.products}
                     status={3}
                     setState={(n) => setIsPopup(n)}
+                    setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
             </section>

@@ -11,7 +11,8 @@ export const createProduct = async (
   description: string,
   image: string,
   color: string,
-  tag: string[]
+  tag: string[],
+  amount: number
 ): Promise<boolean> => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
@@ -24,6 +25,7 @@ export const createProduct = async (
     const res: AxiosResponse<ProductDTO> = await apiClient.post(
       `/product/`,
       {
+        amount: amount,
         sellerID: userId,
         productName: name,
         price: price,
@@ -93,6 +95,7 @@ export const getSellerProducts = async (): Promise<Product[] | null> => {
     if (!productData) return [];
     const products: Product[] = productData.map((p: ProductDataDTO) => {
       return {
+        amount: p.amount,
         sellerID: p.sellerID,
         color: p.color,
         createdAt: p.createdAt,
@@ -129,6 +132,7 @@ export const getAllProducts = async (): Promise<Product[] | null> => {
 
     const products: Product[] = productData.map((p: ProductDataDTO) => {
       return {
+        amount: p.amount,
         sellerID: p.sellerID,
         color: p.color,
         createdAt: p.createdAt,
@@ -154,7 +158,8 @@ export const updateProduct = async (
   name: string,
   desc: string,
   price: number,
-  tag: string[]
+  tag: string[],
+  amount: number
 ): Promise<boolean> => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
@@ -167,6 +172,7 @@ export const updateProduct = async (
     const res = await apiClient.put(
       `/product/${pid}`,
       {
+        amount: amount,
         productName: name,
         productID: pid,
         tag: tag,

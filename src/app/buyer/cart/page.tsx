@@ -6,7 +6,7 @@ import CartCard from '@/components/buyer/cart/CartCard';
 import { Product } from '@/types/product';
 import Summary from '@/components/buyer/cart/Summary';
 import { updateCart } from '@/utils/buyer';
-import { useCart } from '@/context/CartContext';
+import { ItemCart, useCart } from '@/context/CartContext';
 
 export default function Cart() {
   const { cart, selectedItemCart } = useCart();
@@ -50,21 +50,19 @@ export default function Cart() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
-                {cart.map((cart: Product) => (
+                {cart.map((cart: ItemCart) => (
                   <CartCard
-                    product={cart}
+                    product={cart.product}
                     handleDelete={deleteItem}
-                    key={cart.productID}
+                    key={cart.product.productID}
                   />
                 ))}
               </tbody>
             </table>
             <Summary
               total={cart
-                .filter((product) =>
-                  selectedItemCart.includes(product.productID)
-                )
-                .reduce((sum, product) => sum + product.price, 0)}
+                .filter((c) => selectedItemCart.includes(c.product.productID))
+                .reduce((sum, c) => sum + c.product.price * c.amount, 0)}
             />
           </main>
         </div>

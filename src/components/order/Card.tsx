@@ -1,19 +1,20 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import WristWatch from '@/../public/wrist-watch.png';
+import { Product } from '@/types/product';
 
 interface CardProps {
   orderId: string;
   orderDate: string;
   price: number;
   status: number;
-  buyerId: string;
-  sellerId: string;
+  products: Product[];
   setState: (n: number) => void;
+  setOrder: () => void;
 }
 
 export default function Card(props: CardProps) {
-  const { orderId, orderDate, price, status, buyerId, sellerId, setState } =
+  const { orderId, orderDate, price, status, products, setState, setOrder } =
     props;
   return (
     <div
@@ -39,21 +40,16 @@ export default function Card(props: CardProps) {
         </div>
         <div className="flex justify-between font-bold text-md pt-1">
           <div className="grid grid-cols-3">
-            <Image
-              src={WristWatch}
-              alt={orderId}
-              className="w-12 h-12 object-cover rounded-md"
-            />
-            <Image
-              src={WristWatch}
-              alt={orderId}
-              className="w-12 h-12 object-cover rounded-md"
-            />
-            <Image
-              src={WristWatch}
-              alt={orderId}
-              className="w-12 h-12 object-cover rounded-md"
-            />
+            {products.map((p: Product) => {
+              return (
+                <Image
+                  key={p.productID}
+                  src={WristWatch}
+                  alt={orderId}
+                  className="w-12 h-12 object-cover rounded-md"
+                />
+              );
+            })}
           </div>
           <div className="flex flex-col gap-2">
             {status === 1 && (
@@ -77,7 +73,10 @@ export default function Card(props: CardProps) {
                       ? 'text-project-orange'
                       : 'text-project-forest'
               )}
-              onClick={() => setState(status)}
+              onClick={() => {
+                setState(status);
+                setOrder();
+              }}
             >
               View
             </button>

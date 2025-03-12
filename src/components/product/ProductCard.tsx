@@ -40,10 +40,10 @@ const ProductCard = ({
           <h2 className="text-md text-black font-semibold">{productName}</h2>
           <div className="flex gap-2 pt-2">
             <p className="font-bold text-purple-600">
-              ฿{discountedPrice.toFixed(2)}
+              ${discountedPrice.toFixed(2)}
             </p>
             {discountedPrice < price && (
-              <p className="text-gray-400 line-through">฿{price.toFixed(2)}</p>
+              <p className="text-gray-400 line-through">${price.toFixed(2)}</p>
             )}
           </div>
         </div>

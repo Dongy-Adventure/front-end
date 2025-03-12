@@ -1,16 +1,12 @@
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 function Summary({ total }: { total: number }) {
   const toast = useToast();
   const router = useRouter();
-  const { setPrice, selectedItemCart } = useCart();
+  const { selectedItemCart } = useCart();
 
-  useEffect(() => {
-    setPrice(total);
-  }, []);
   return (
     <section className="border-1 bg-gray-100 w-96 h-60 rounded-xl p-6 flex flex-col justify-between">
       <div>
@@ -30,8 +26,10 @@ function Summary({ total }: { total: number }) {
             );
           } else {
             router.push('/buyer/summary');
-            const productStr = JSON.stringify(selectedItemCart);
-            localStorage.setItem('selectedProduct', productStr);
+            localStorage.setItem(
+              'selectedProduct',
+              JSON.stringify(selectedItemCart)
+            );
           }
         }}
       >

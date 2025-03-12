@@ -54,7 +54,9 @@ function CartCard(props: CartCardProps) {
           <span className="w-1/3 text-center text-lg">{count}</span>
           <button
             className="w-1/3 h-full flex items-center justify-center text-lg text-gray-700 hover:bg-gray-200"
-            onClick={() => setCount((prev) => prev + 1)}
+            onClick={() =>
+              setCount((prev) => Math.min(prev + 1, product.amount))
+            }
           >
             +
           </button>

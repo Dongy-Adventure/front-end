@@ -53,6 +53,7 @@ export default function ProductOnDisplay() {
           price={selectedEdit?.price ?? 0}
           color={selectedEdit?.color ?? ''}
           tag={selectedEdit?.tag ?? []}
+          amount={selectedEdit?.amount ?? 1}
           closing={() => setOnEditPage(false)}
         />
       )}
@@ -86,7 +87,8 @@ export default function ProductOnDisplay() {
                 <tr>
                   <th>Product</th>
                   <th>Product ID</th>
-                  <th>Total</th>
+                  <th>Amount</th>
+                  <th>Price</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -105,6 +107,7 @@ export default function ProductOnDisplay() {
                       <span>{product.productName}</span>
                     </td>
                     <td className="p-3">{product.productID}</td>
+                    <td className="p-3">{product.amount}</td>
                     <td className="p-3">${product.price}</td>
                     <td className="p-3 items-center">
                       <button

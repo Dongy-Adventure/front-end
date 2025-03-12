@@ -29,6 +29,7 @@ export const getOrder = async (): Promise<Order[] | null> => {
       console.error(res.data.message);
       return null;
     }
+    console.log(res.data.data);
 
     return res.data.data;
   } catch (err) {
@@ -65,6 +66,40 @@ export const createOrder = async (
 
     if (!res.data.status) {
       console.error(res.data.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+export const changeOrderStatus = async (
+  n: number,
+  orderId: string
+): Promise<boolean> => {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return false;
+  }
+
+  try {
+    const res = await apiClient.patch(
+      `/order/${orderId}`,
+      {
+        orderStatus: n,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
       return false;
     }
 

@@ -12,6 +12,7 @@ interface ProductInfo {
   description: string;
   productImage: string;
   color: string;
+  amount: number;
   tag: string[];
 }
 
@@ -22,12 +23,20 @@ interface CurrentDataProps {
   color: string;
   tag: string[];
   productId: string;
+  amount: number;
   closing: () => void;
 }
 
 export default function EditProduct(props: CurrentDataProps) {
-  const { productName, productDescription, price, color, tag, productId } =
-    props;
+  const {
+    productName,
+    productDescription,
+    price,
+    color,
+    tag,
+    amount,
+    productId,
+  } = props;
   const toast = useToast();
   const [selectedColor, setSelectedColor] = useState<string>('');
 
@@ -43,6 +52,7 @@ export default function EditProduct(props: CurrentDataProps) {
 
   const { control, handleSubmit, setValue, getValues } = useForm<ProductInfo>({
     defaultValues: {
+      amount: amount,
       productName: productName,
       price: price,
       description: productDescription,
@@ -70,14 +80,15 @@ export default function EditProduct(props: CurrentDataProps) {
   };
 
   const onSubmit = async (data: ProductInfo) => {
-    const { productName, price, description, color, tag } = data;
+    const { productName, price, description, color, tag, amount } = data;
     const status = await updateProduct(
       productId,
       color,
       productName,
       description,
       Number(price),
-      tag
+      tag,
+      Number(amount)
     );
     if (status) {
       toast?.setToast('success', 'Edit product succeeded');
@@ -159,6 +170,23 @@ export default function EditProduct(props: CurrentDataProps) {
               )}
             />
           </div>
+
+          <div className="mt-4">
+            <label className="block text-sm font-medium">Amount *</label>
+            <Controller
+              name="amount"
+              control={control}
+              render={({ field }) => (
+                <input
+                  className="w-full p-2 border rounded mt-1"
+                  placeholder=""
+                  {...field}
+                  type="number"
+                />
+              )}
+            />
+          </div>
+
           <div className="mt-4">
             <label className="block text-sm font-medium">Price *</label>
             <Controller

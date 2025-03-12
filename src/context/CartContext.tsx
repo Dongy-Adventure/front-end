@@ -11,12 +11,17 @@ import React, {
 } from 'react';
 import { getProductById } from '@/utils/product';
 
+export interface ItemCart {
+  product: Product;
+  amount: number;
+}
+
 interface ICartContext {
   selectedItemCart: string[];
-  cart: Product[];
+  cart: ItemCart[];
   totalPrice: number;
-  setPrice: (tot: number) => void;
   toggleChanges: (pid: string) => void;
+  setAmountCart: (pid: string, n: number) => void;
   resetContext: () => void;
 }
 
@@ -26,9 +31,17 @@ export const useCart = () => useContext(CartContext);
 
 const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user } = useAuth();
-  const [cart, setCart] = useState<Product[]>([]);
+  const [cart, setCart] = useState<ItemCart[]>([]);
   const [selectedItemCart, setSelectedCartItem] = useState<string[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  const setAmountCart = (pid: string, n: number) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.product.productID === pid ? { ...item, amount: n } : item
+      )
+    );
+  };
 
   const resetContext = useCallback(() => {
     setSelectedCartItem([]);
@@ -46,10 +59,6 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     [user]
   );
 
-  const setPrice = (tot: number) => {
-    setTotalPrice(tot);
-  };
-
   useEffect(() => {
     const fetchCartProducts = async () => {
       if (!user || !('cart' in user)) return;
@@ -61,7 +70,14 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         })
       );
 
-      setCart(productList.filter((p): p is Product => p !== null));
+      setCart(
+        productList
+          .filter((p): p is Product => p !== null)
+          .map((product) => ({
+            product,
+            amount: 1,
+          }))
+      );
     };
 
     fetchCartProducts();
@@ -73,9 +89,9 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         selectedItemCart,
         cart,
         totalPrice,
-        setPrice,
         resetContext,
         toggleChanges,
+        setAmountCart,
       }}
     >
       {children}
