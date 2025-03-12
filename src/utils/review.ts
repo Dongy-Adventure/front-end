@@ -112,3 +112,40 @@ export const updateReview = async (
     return false;
   }
 };
+
+export const createReview = async (
+  message: string,
+  score: number
+): Promise<boolean> => {
+  const accessToken = await getAccessToken();
+  
+  if (!accessToken) {
+    return false;
+  }
+
+  try {
+    const res = await apiClient.post(
+      `/review`,
+      {
+        message: message,
+        score: score,
+        createdAt: new Date().toISOString(),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
