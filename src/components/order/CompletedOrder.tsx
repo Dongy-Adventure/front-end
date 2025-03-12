@@ -1,7 +1,7 @@
 import 'react-day-picker/style.css';
 import { useState } from 'react';
 import { CardProps } from './Card';
-import { Star } from 'lucide-react';
+import { Star, CircleCheck } from 'lucide-react';
 import { useToast } from '@/context/ToastContext';
 import { createReview } from '@/utils/review';
 import { useForm } from 'react-hook-form';
@@ -13,6 +13,8 @@ interface CreateReviewInfo {
   }
 
 export default function CompletedOrder(prop: CardProps) {
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+  const [hover, setHover] = useState<number | null>(null);
   const toast = useToast();
   const {
     register,
@@ -27,16 +29,15 @@ export default function CompletedOrder(prop: CardProps) {
       createAt: '',
     },
   });
-
-  const [hover, setHover] = useState<number | null>(null);
+  
   const rating = watch('score');
-
   const onSubmit = async (data: CreateReviewInfo) => {
     const { message, score } = data;
     const status = await createReview(message, score);
     if (status) {
       toast?.setToast('success', 'Create review succeeded');
       window.location.href = '/buyer/review';
+      setReviewSubmitted(true);
     } else {
       toast?.setToast('error', 'Create review failed');
     }
@@ -47,11 +48,24 @@ export default function CompletedOrder(prop: CardProps) {
       <div className={"flex flex-col h-fit justify-center w-full gap-[10px] px-[18px] py-[20px] rounded-xl border-[2px] border-green-600"}>
         <div className="font-bold text-[24px]-">Thank you for your order!</div>
       </div>
-      <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mt-6"
-          >
-            <h2 className="text-lg font-bold">Add Seller Review</h2>
+      <h2 className="text-lg font-bold mt-6">Add Seller Review</h2>
+      {reviewSubmitted ? (
+        <div className="flex flex-col items-center mt-14">
+          <div className="bg-green-100 p-4 rounded-full">
+            <CircleCheck />
+          </div>
+          <h2 className="text-lg font-bold mt-2">Your review added!</h2>
+          <p className="text-sm text-gray-500 mb-12">We truly value your opinion, thanks.</p>
+          <div className="mt-4 flex gap-2">
+            <button className="bg-green-500 text-white px-4 py-2 rounded-md">Edit review</button>
+            <button className="bg-red-500 text-white px-4 py-2 rounded-md">Delete review</button>
+          </div>
+        </div>
+      ) : (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-6"
+        >
 
             <div className="mt-2">
               <span className="text-sm font-medium">Rating</span>
@@ -101,6 +115,7 @@ export default function CompletedOrder(prop: CardProps) {
               </button>
             </div>
           </form>
+      )}
     </div>
   );
 }
