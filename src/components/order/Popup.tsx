@@ -6,8 +6,10 @@ import WristWatch from '@/../public/wrist-watch.png';
 import Image from 'next/image';
 import { Product } from '@/types/product';
 import Review from './Review';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Popup(prop: CardProps) {
+  const { user } = useAuth();
   const status: { [key: number]: string } = {
     0: 'Waiting For Seller',
     1: 'Waiting For Buyer',
@@ -94,8 +96,8 @@ export default function Popup(prop: CardProps) {
           </div>
         </div>
       </div>
-      {prop.status <= 2 && <Appointment {...prop} />}
-      {prop.status === 3 && <Review {...prop} />}
+      {prop.status < 3 && <Appointment {...prop} />}
+      {prop.status === 3 && user?.userType === 'buyer' && <Review {...prop} />}
     </div>
   );
 }

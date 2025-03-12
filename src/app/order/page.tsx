@@ -7,7 +7,6 @@ import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
 import { Order } from '@/types/order';
 import Card from '@/components/order/Card';
-import PendingPayment from '@/components/order/PendingPayment';
 import { getOrder } from '@/utils/order';
 import { useToast } from '@/context/ToastContext';
 
@@ -63,8 +62,9 @@ export default function Orders() {
                 .map((order: Order) => (
                   <Card
                     key={order.orderID}
-                    products={order.products}
-                    order={order}
+                    // products={order.products}
+                    orderId={order.orderID}
+                    orderDate={order.createdAt}
                     price={order.totalPrice}
                     status={0}
                     setOrder={() => setSelectedOrder(order)}
