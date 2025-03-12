@@ -64,8 +64,7 @@ export default function Orders() {
                   <Card
                     key={order.orderID}
                     products={order.products}
-                    orderId={order.orderID}
-                    orderDate={order.createdAt}
+                    order={order}
                     price={order.totalPrice}
                     status={0}
                     setOrder={() => setSelectedOrder(order)}
@@ -90,8 +89,7 @@ export default function Orders() {
                 .map((order: Order) => (
                   <Card
                     key={order.orderID}
-                    orderId={order.orderID}
-                    orderDate={order.createdAt}
+                    order={order}
                     price={order.totalPrice}
                     products={order.products}
                     status={order.status}
@@ -111,8 +109,7 @@ export default function Orders() {
                 .map((order: Order) => (
                   <Card
                     key={order.orderID}
-                    orderId={order.orderID}
-                    orderDate={order.createdAt}
+                    order={order}
                     price={order.totalPrice}
                     products={order.products}
                     status={3}

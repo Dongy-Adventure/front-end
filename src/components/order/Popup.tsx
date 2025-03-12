@@ -46,13 +46,13 @@ export default function Popup(prop: CardProps) {
             {status[prop.status]}
           </div>
           <div className="w-fit h-fit font-bold text-[24px] absolute left-[20px] bottom-[12px]">
-            Order #{prop.orderId}
+            Order #{prop.order.orderID}
           </div>
         </div>
         <div className="w-full h-fit grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-1 w-fit">
             <div className="text-[16px] font-normal">Order Date</div>
-            <div className="text-[16px] font-bold">{prop.orderDate}</div>
+            <div className="text-[16px] font-bold">{prop.order.createdAt}</div>
           </div>
           <div className="flex flex-col gap-1">
             <div className="text-[16px] font-normal">Buyer</div>
@@ -60,7 +60,7 @@ export default function Popup(prop: CardProps) {
           </div>
           <div className="flex flex-col gap-1">
             <div className="text-[16px] font-normal">Payment Method</div>
-            <div className="text-[16px] font-bold">ddd</div>
+            <div className="text-[16px] font-bold">Promptpay</div>
           </div>
           <div className="flex flex-col gap-1 w-fit">
             <div className="text-[16px] font-normal">Total</div>

@@ -95,10 +95,10 @@ import { useState } from 'react';
 import { set } from 'zod';
 import { Product } from '@/types/product';
 import { changeOrderStatus } from '@/utils/order';
+import { Order } from '@/types/order';
 
 export interface CardProps {
-  orderId: string;
-  orderDate: string;
+  order: Order;
   price: number;
   status: number;
   products: Product[];
@@ -106,12 +106,12 @@ export interface CardProps {
 }
 
 export default function Card(props: CardProps) {
-  const { orderId, orderDate, price, products, status } = props;
+  const { order, price, products, status } = props;
   const [loadView, setLoadView] = useState(false);
   const [hidden, setHidden] = useState(false);
 
   const changeStatus = async () => {
-    const res = await changeOrderStatus(3, orderId);
+    const res = await changeOrderStatus(3, order.orderID);
     if (res) {
       window.location.href = '/order';
     } else {
@@ -144,10 +144,10 @@ export default function Card(props: CardProps) {
       <section className="p-2 gap-2">
         <div className="flex justify-between font-medium text-sm">
           <h4>Order</h4>
-          <h4>#{orderId}</h4>
+          <h4>#{order.orderID}</h4>
         </div>
         <div className="flex justify-between font-bold text-md">
-          <h4>{new Date(orderDate).toLocaleDateString('en-GB')}</h4>
+          <h4>{new Date(order.createdAt).toLocaleDateString('en-GB')}</h4>
           <h4>${price}</h4>
         </div>
         <div className="flex justify-between font-bold text-md pt-1">
@@ -157,7 +157,7 @@ export default function Card(props: CardProps) {
                 <Image
                   key={p.productID}
                   src={WristWatch}
-                  alt={orderId}
+                  alt={order.orderID}
                   className="w-12 h-12 object-cover rounded-md"
                 />
               );
