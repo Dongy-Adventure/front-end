@@ -14,6 +14,7 @@ export default function Appointment(prop: CardProps) {
   const [address, setAddress] = useState('');
   const [district, setDistrict] = useState('');
   const [province, setProvince] = useState('');
+  const [zipcode, setZipcode] = useState('');
   useEffect(() => {
     if (prop.status == 2) {
       setSelectedDate(new Date());
@@ -86,7 +87,7 @@ export default function Appointment(prop: CardProps) {
         Add Appointment Date & Time
       </div>
       {/* calenda */}
-      {/* <div className="w-full h-fit justify-center items-center shadow-lg mt-2 rounded-2xl p-3 ">
+      (<div className="w-full h-fit justify-center items-center shadow-lg mt-2 rounded-2xl p-3 ">
         <div className="w-fit ml-auto mr-auto">
           <style>{css}</style>
           <DayPicker
@@ -116,9 +117,9 @@ export default function Appointment(prop: CardProps) {
             {time}
           </div>
         ))}
-      </div> */}
+      </div>)
       {/* address */}
-      <div className="flex flex-col h-fit w-full gap-3">
+      (<div className="flex flex-col h-fit w-full gap-3">
         <div className="flex flex-col gap-3 w-full h-fit ">
           <div className="flex text-[13px] font-normal">Address*</div>
           <input
@@ -131,27 +132,27 @@ export default function Appointment(prop: CardProps) {
           <div className="flex text-[13px] font-normal">District*</div>
           <input
             className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            value={district}
+            onChange={(e) => setDistrict(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-3 w-full h-fit">
           <div className="flex text-[13px] font-normal">Province*</div>
           <input
             className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            value={province}
+            onChange={(e) => setProvince(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-3 w-full h-fit">
           <div className="flex text-[13px] font-normal">Zipcode*</div>
           <input
             className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            value={zipcode}
+            onChange={(e) => setZipcode(e.target.value)}
           />
         </div>
-      </div>
+      </div>)
 
       <div className="flex mt-4 h-fit items-center">
         <div className="color-[#777777] text-[14px] font-normal">

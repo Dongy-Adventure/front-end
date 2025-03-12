@@ -13,7 +13,7 @@ export default function Home() {
     const fetchProducts = async () => {
       try {
         const res: Product[] | null = await getAllProducts();
-        setProducts(res ?? []);
+        setProducts(res?.filter((p) => p.amount > 0) ?? []);
       } catch (error) {
         console.error('Failed to fetch products:', error);
       }

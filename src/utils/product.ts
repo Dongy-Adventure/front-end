@@ -11,7 +11,8 @@ export const createProduct = async (
   description: string,
   image: string,
   color: string,
-  tag: string[]
+  tag: string[],
+  amount: number
 ): Promise<boolean> => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
@@ -24,6 +25,7 @@ export const createProduct = async (
     const res: AxiosResponse<ProductDTO> = await apiClient.post(
       `/product/`,
       {
+        amount: amount,
         sellerID: userId,
         productName: name,
         price: price,
@@ -62,7 +64,6 @@ export const getProductById = async (pid: string): Promise<Product | null> => {
       console.error(res.data.message);
       return null;
     }
-
     return res.data.data;
   } catch (err) {
     console.error(err);
@@ -94,6 +95,7 @@ export const getSellerProducts = async (): Promise<Product[] | null> => {
     if (!productData) return [];
     const products: Product[] = productData.map((p: ProductDataDTO) => {
       return {
+        amount: p.amount,
         sellerID: p.sellerID,
         color: p.color,
         createdAt: p.createdAt,
@@ -124,8 +126,13 @@ export const getAllProducts = async (): Promise<Product[] | null> => {
 
     const productData: ProductDataDTO[] = res.data.data;
 
+    if (!productData) {
+      return [];
+    }
+
     const products: Product[] = productData.map((p: ProductDataDTO) => {
       return {
+        amount: p.amount,
         sellerID: p.sellerID,
         color: p.color,
         createdAt: p.createdAt,
@@ -142,6 +149,54 @@ export const getAllProducts = async (): Promise<Product[] | null> => {
   } catch (err) {
     console.error(err);
     return null;
+  }
+};
+
+export const updateProduct = async (
+  pid: string,
+  color: string,
+  name: string,
+  desc: string,
+  price: number,
+  tag: string[],
+  amount: number
+): Promise<boolean> => {
+  const accessToken = await getAccessToken();
+  const userId = await getUserId();
+
+  if (!accessToken || !userId) {
+    return false;
+  }
+
+  try {
+    const res = await apiClient.put(
+      `/product/${pid}`,
+      {
+        amount: amount,
+        productName: name,
+        productID: pid,
+        tag: tag,
+        color: color,
+        price: price,
+        description: desc,
+        imageURL: '',
+        createdAt: new Date().toISOString(),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
   }
 };
 

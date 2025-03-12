@@ -9,4 +9,6 @@ export type Order = {
   sellerID: string;
   status: number;
   totalPrice: number;
+  buyerName: string;
+  sellerName: string;
 };
