@@ -52,11 +52,13 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const toggleChanges = useCallback(
     (pid: string) => {
-      setSelectedCartItem((prev) =>
-        prev.includes(pid)
+      setSelectedCartItem((prev) => {
+        const updated = prev.includes(pid)
           ? prev.filter((item) => item !== pid)
-          : [...prev, pid]
-      );
+          : [...prev, pid];
+
+        return updated;
+      });
     },
     [user]
   );

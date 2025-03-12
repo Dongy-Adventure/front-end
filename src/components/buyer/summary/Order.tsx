@@ -10,8 +10,6 @@ function Order({
   handleSubmit: (products: Product[]) => void;
   products: Product[];
 }) {
-  const { selectedItemCart } = useCart();
-
   return (
     <section className="border-1 bg-gray-100 w-96 h-60 rounded-xl p-6 flex flex-col justify-between">
       <div>

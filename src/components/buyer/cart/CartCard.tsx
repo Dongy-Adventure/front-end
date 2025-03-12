@@ -14,7 +14,7 @@ interface CartCardProps {
 }
 
 function CartCard(props: CartCardProps) {
-  const { toggleChanges, selectedItemCart, setAmountCart, cart } = useCart();
+  const { toggleChanges, selectedItemCart, setAmountCart } = useCart();
   const { product, handleDelete } = props;
   const [count, setCount] = useState<number>(1);
 
@@ -66,7 +66,7 @@ function CartCard(props: CartCardProps) {
           </button>
         </div>
       </td>
-      <td>${product.price * count}</td>
+      <td>${(product.price * count).toFixed(2)}</td>
       <td className="p-3 items-center">
         <button
           className="items-center"

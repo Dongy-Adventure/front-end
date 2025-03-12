@@ -5,7 +5,6 @@ import { Product } from '@/types/product';
 import { ItemCart, useCart } from '@/context/CartContext';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { getProductById } from '@/utils/product';
 import Card from '@/components/buyer/summary/Cart';
 import Order from '@/components/buyer/summary/Order';
 import { createOrder } from '@/utils/order';
@@ -16,7 +15,6 @@ export default function SummaryCart() {
   const toast = useToast();
   const router = useRouter();
   const { user } = useAuth();
-  const { resetContext } = useCart();
   const [products, setProducts] = useState<ItemCart[]>([]);
 
   const postOrder = async (products: Product[]) => {
@@ -29,11 +27,25 @@ export default function SummaryCart() {
       {} as Record<string, Product[]>
     );
 
+    const cartObj: ItemCart[] = JSON.parse(
+      localStorage.getItem('cartProduct') ?? '[]'
+    );
+
     try {
       await Promise.all(
         Object.entries(ordersBySeller).map(
           async ([sellerID, sellerProducts]) => {
-            const res = await createOrder(sellerProducts, sellerID);
+            const updatedSellerProducts = sellerProducts.map((product) => {
+              const cartItem = cartObj.find(
+                (item) => item.product.productID === product.productID
+              );
+              return {
+                ...product,
+                amount: cartItem ? cartItem.amount : 1,
+              };
+            });
+
+            const res = await createOrder(updatedSellerProducts, sellerID);
 
             if (res) {
               toast?.setToast(
@@ -54,8 +66,6 @@ export default function SummaryCart() {
     } catch (error) {
       console.error('Error placing orders:', error);
       toast?.setToast('error', 'There was an error processing your order.');
-    } finally {
-      resetContext();
     }
   };
 
