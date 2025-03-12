@@ -7,7 +7,6 @@ import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
 import { Order } from '@/types/order';
 import Card from '@/components/order/Card';
-import PendingPayment from '@/components/order/PendingPayment';
 
 export const dummyOrders: Order[] = [
   {
@@ -194,15 +193,13 @@ export const dummyOrders: Order[] = [
 export default function Orders() {
   const { user } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
-  const [isPopup, setIsPopup] = useState<number | null>(null);
 
   useEffect(() => {
     setOrders(dummyOrders);
   }, []);
 
   return (
-    <div className="p-12 md:px-20 md:pt-16 flex flex-col">
-      {isPopup !== null && <PendingPayment closeTab={() => setIsPopup(null)} />}
+    <div className="p-12 md:px-20 md:pt-16 flex flex-col bg-white">
       <div className="flex gap-2 pb-12">
         <Link
           href="/home"
@@ -238,7 +235,6 @@ export default function Orders() {
                     orderDate={order.createdAt}
                     price={order.totalPrice}
                     status={0}
-                    setState={(n) => setIsPopup(n)}
                   />
                 ))}
             </section>
@@ -264,7 +260,6 @@ export default function Orders() {
                     orderDate={order.createdAt}
                     price={order.totalPrice}
                     status={order.status}
-                    setState={(n) => setIsPopup(n)}
                   />
                 ))}
             </section>
@@ -284,7 +279,6 @@ export default function Orders() {
                     orderDate={order.createdAt}
                     price={order.totalPrice}
                     status={3}
-                    setState={(n) => setIsPopup(n)}
                   />
                 ))}
             </section>

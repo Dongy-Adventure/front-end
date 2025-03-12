@@ -43,7 +43,7 @@ export default function ProductOnDisplay() {
   };
 
   return (
-    <div className="p-12 md:px-20 md:pt-16 flex flex-col">
+    <div className="p-12 md:px-20 md:pt-16 flex flex-col ">
       {onProductPage && <AddProduct closing={() => setOnProductPage(false)} />}
       {onEditPage && (
         <EditProduct
