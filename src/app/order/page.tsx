@@ -52,13 +52,19 @@ export default function Orders() {
           <div className="flex overflow-x-scroll gap-4 h-full w-full mb-12 font-bold">
             <section>
               <div className="bg-white mb-8 w-full min-w-72 max-w-72 h-28 border-gray-300 border-2 rounded-2xl px-8">
-                <p className="pt-10 font-semibold">Pending Payment</p>
+                <p className="pt-8 font-semibold">Waiting For Appointment</p>
                 <p className="font-semibold text-2xl">
-                  {orders.filter((order) => order.status === 0).length}
+                  {
+                    orders.filter(
+                      (order) => order.status === 0 || order.status === 1
+                    ).length
+                  }
                 </p>
               </div>
               {orders
-                .filter((order: Order) => order.status === 0)
+                .filter(
+                  (order: Order) => order.status === 0 || order.status === 1
+                )
                 .map((order: Order) => (
                   <Card
                     key={order.orderID}
@@ -72,19 +78,13 @@ export default function Orders() {
             </section>
             <section>
               <div className="w-full mb-8 min-w-72 max-w-72 h-28 rounded-2xl border-gray-300 border-2 px-8">
-                <p className="pt-10 font-semibold">Prepare for delivery</p>
+                <p className="pt-8 font-semibold">Prepare for delivery</p>
                 <p className="font-semibold text-2xl">
-                  {
-                    orders.filter(
-                      (order) => order.status === 1 || order.status === 2
-                    ).length
-                  }
+                  {orders.filter((order) => order.status === 2).length}
                 </p>
               </div>
               {orders
-                .filter(
-                  (order: Order) => order.status === 1 || order.status === 2
-                )
+                .filter((order: Order) => order.status === 2)
                 .map((order: Order) => (
                   <Card
                     key={order.orderID}
@@ -98,7 +98,7 @@ export default function Orders() {
             </section>
             <section>
               <div className="w-full mb-8 min-w-72 max-w-72 h-28 rounded-2xl border-gray-300 border-2 px-8">
-                <p className="pt-10 font-semibold">Completed</p>
+                <p className="pt-8 font-semibold">Completed</p>
                 <p className="font-semibold text-2xl">
                   {orders.filter((order) => order.status === 3).length}
                 </p>

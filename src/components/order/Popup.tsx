@@ -8,14 +8,15 @@ import { Product } from '@/types/product';
 import Review from './Review';
 import { useAuth } from '@/context/AuthContext';
 
+export const status: { [key: number]: string } = {
+  0: 'Waiting For Seller',
+  1: 'Waiting For Buyer',
+  2: 'Waiting For Delivery',
+  3: 'Completed',
+};
+
 export default function Popup(prop: CardProps) {
   const { user } = useAuth();
-  const status: { [key: number]: string } = {
-    0: 'Waiting For Seller',
-    1: 'Waiting For Buyer',
-    2: 'Waiting For Delivery'
-    3: 'Completed',
-  };
 
   const BgColorCode: { [key: number]: string } = {
     0: 'bg-project-lightpink border-project-lightpink',
@@ -54,7 +55,9 @@ export default function Popup(prop: CardProps) {
         <div className="w-full h-fit grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-1 w-fit">
             <div className="text-[16px] font-normal">Order Date</div>
-            <div className="text-[16px] font-bold">{prop.order.createdAt}</div>
+            <div className="text-[16px] font-bold">
+              {prop.order.createdAt.slice(0, 10)}
+            </div>
           </div>
           <div className="flex flex-col gap-1">
             <div className="text-[16px] font-normal">Buyer</div>
