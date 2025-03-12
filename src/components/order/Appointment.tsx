@@ -3,14 +3,17 @@ import { Product } from '@/types/product';
 import { CardProps } from './Card';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
+import ProfileForm from '../ProfileForm';
 
 export default function Appointment(prop: CardProps) {
   const [appointmentTime, setAppointmentTime] = useState('-');
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
   const [color, setColor] = useState('bg-[#003FFD] text-white');
-  const [css, setCss] = useState("");
-
+  const [css, setCss] = useState('');
+  const [address, setAddress] = useState('');
+  const [district, setDistrict] = useState('');
+  const [province, setProvince] = useState('');
   useEffect(() => {
     if (prop.status == 2) {
       setSelectedDate(new Date());
@@ -83,7 +86,7 @@ export default function Appointment(prop: CardProps) {
         Add Appointment Date & Time
       </div>
       {/* calenda */}
-      <div className="w-full h-fit justify-center items-center shadow-lg mt-2 rounded-2xl p-3 ">
+      {/* <div className="w-full h-fit justify-center items-center shadow-lg mt-2 rounded-2xl p-3 ">
         <div className="w-fit ml-auto mr-auto">
           <style>{css}</style>
           <DayPicker
@@ -113,7 +116,43 @@ export default function Appointment(prop: CardProps) {
             {time}
           </div>
         ))}
+      </div> */}
+      {/* address */}
+      <div className="flex flex-col h-fit w-full gap-3">
+        <div className="flex flex-col gap-3 w-full h-fit ">
+          <div className="flex text-[13px] font-normal">Address*</div>
+          <input
+            className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 no- focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col gap-3 w-full h-fit">
+          <div className="flex text-[13px] font-normal">District*</div>
+          <input
+            className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col gap-3 w-full h-fit">
+          <div className="flex text-[13px] font-normal">Province*</div>
+          <input
+            className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col gap-3 w-full h-fit">
+          <div className="flex text-[13px] font-normal">Zipcode*</div>
+          <input
+            className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
       </div>
+
       <div className="flex mt-4 h-fit items-center">
         <div className="color-[#777777] text-[14px] font-normal">
           You choose

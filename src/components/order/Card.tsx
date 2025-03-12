@@ -3,7 +3,7 @@ import Image from 'next/image';
 import WristWatch from '@/../public/wrist-watch.png';
 import Popup from './Popup';
 import { useState } from 'react';
-import { set } from 'zod';
+// import { set } from 'zod';
 
 export interface CardProps {
   orderId: string;
