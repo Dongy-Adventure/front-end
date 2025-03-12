@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useToast } from '@/context/ToastContext';
 import CartCard from '@/components/buyer/cart/CartCard';
-import { Product } from '@/types/product';
 import Summary from '@/components/buyer/cart/Summary';
 import { updateCart } from '@/utils/buyer';
 import { ItemCart, useCart } from '@/context/CartContext';

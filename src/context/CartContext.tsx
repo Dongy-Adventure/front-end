@@ -38,7 +38,9 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const setAmountCart = (pid: string, n: number) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.product.productID === pid ? { ...item, amount: n } : item
+        item.product.productID === pid
+          ? { ...item, amount: item.amount + n }
+          : item
       )
     );
   };

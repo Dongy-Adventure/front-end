@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Product } from '@/types/product';
-import { useCart } from '@/context/CartContext';
+import { ItemCart, useCart } from '@/context/CartContext';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { getProductById } from '@/utils/product';
@@ -16,8 +16,8 @@ export default function SummaryCart() {
   const toast = useToast();
   const router = useRouter();
   const { user } = useAuth();
-  const { totalPrice, resetContext } = useCart();
-  const [products, setProducts] = useState<Product[]>([]);
+  const { resetContext } = useCart();
+  const [products, setProducts] = useState<ItemCart[]>([]);
 
   const postOrder = async (products: Product[]) => {
     const ordersBySeller = products.reduce(
@@ -61,23 +61,23 @@ export default function SummaryCart() {
 
   useEffect(() => {
     const productIds = localStorage.getItem('selectedProduct');
-    const productIdsObj = productIds ? JSON.parse(productIds) : [];
+    const cartProducts = localStorage.getItem('cartProduct');
+
+    const productIdsObj: string[] = productIds ? JSON.parse(productIds) : [];
+    const cartObj: ItemCart[] = cartProducts ? JSON.parse(cartProducts) : [];
 
     const fetchSelectedProducts = async () => {
       if (!user || !('cart' in user)) return;
 
-      const productList = await Promise.all(
-        productIdsObj.map(async (productId: string) => {
-          const product = await getProductById(productId);
-          return product;
-        })
+      const cartProductLists = cartObj.filter((cartItem) =>
+        productIdsObj.includes(cartItem.product.productID)
       );
 
-      setProducts(productList.filter((p): p is Product => p !== null));
+      setProducts(cartProductLists);
     };
 
     fetchSelectedProducts();
-  }, []);
+  }, [user]);
 
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
@@ -107,18 +107,25 @@ export default function SummaryCart() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
-                {products.map((cart: Product) => (
+                {products.map((cart: ItemCart) => (
                   <Card
-                    key={cart.productID}
-                    product={cart}
+                    key={cart.product.productID}
+                    product={cart.product}
+                    amount={cart.amount}
                   />
                 ))}
               </tbody>
             </table>
             <Order
-              total={totalPrice}
+              total={products
+                .filter((c) =>
+                  JSON.parse(
+                    localStorage.getItem('selectedProduct') ?? ''
+                  ).includes(c.product.productID)
+                )
+                .reduce((sum, c) => sum + c.product.price * c.amount, 0)}
               handleSubmit={postOrder}
-              products={products}
+              products={products.map((p: ItemCart) => p.product)}
             />
           </main>
         </div>

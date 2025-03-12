@@ -8,10 +8,11 @@ import { useCart } from '@/context/CartContext';
 
 interface CardProps {
   product: Product;
+  amount: number;
 }
 
 function Card(props: CardProps) {
-  const { product } = props;
+  const { product, amount } = props;
   const { selectedItemCart } = useCart();
 
   return (
@@ -33,10 +34,10 @@ function Card(props: CardProps) {
       <td className="p-3">${product.price}</td>
       <td>
         <div className="flex items-center justify-center w-16 h-6">
-          <span className="w-1/3 text-center text-lg">{1}</span>
+          <span className="w-1/3 text-center text-lg">{amount}</span>
         </div>
       </td>
-      <td>${product.price}</td>
+      <td>${product.price * amount}</td>
     </tr>
   );
 }
