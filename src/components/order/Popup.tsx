@@ -2,113 +2,16 @@
 // import { cn } from '@/lib/utils';
 import { CardProps } from './Card';
 import Appointment from './Appointment';
+import WristWatch from '@/../public/wrist-watch.png';
+import Image from 'next/image';
 import { Product } from '@/types/product';
-import { Order } from '@/types/order';
 import Review from './Review';
 
 export default function Popup(prop: CardProps) {
-  interface Product {
-    amount: number;
-    color: string;
-    createdAt: string;
-    description: string;
-    imageURL: string;
-    price: number;
-    productID: string;
-    productName: string;
-    sellerID: string;
-    tag: string[];
-  }
-
-  interface Order {
-    buyerID: string;
-    products: Product[];
-    sellerID: string;
-  }
-  const mockOrder: Order = {
-    buyerID: '6531314921',
-    products: [
-      {
-        amount: 2,
-        color: 'Midnight Black',
-        createdAt: '2025-03-12T10:00:00Z',
-        description:
-          'A high-end smartphone with an amazing camera and long battery life.',
-        imageURL: '@/../public/wrist-watch.png',
-        price: 999.99,
-        productID: 'prod12345',
-        productName: 'Smartphone Pro Max',
-        sellerID: 'seller001',
-        tag: ['electronics', 'smartphone', 'technology'],
-      },
-      {
-        amount: 1,
-        color: 'Silver',
-        createdAt: '2025-03-12T10:30:00Z',
-        description: 'Noise-canceling wireless headphones with a sleek design.',
-        imageURL: '@/../public/wrist-watch.png',
-        price: 199.99,
-        productID: 'prod67890',
-        productName: 'Wireless Headphones',
-        sellerID: 'seller002',
-        tag: ['audio', 'headphones', 'wireless'],
-      },
-      {
-        amount: 3,
-        color: 'Ocean Blue',
-        createdAt: '2025-03-12T11:00:00Z',
-        description: 'Portable Bluetooth speaker with excellent sound quality.',
-        imageURL: '@/../public/wrist-watch.png',
-        price: 89.99,
-        productID: 'prod11121',
-        productName: 'Bluetooth Speaker',
-        sellerID: 'seller003',
-        tag: ['audio', 'speaker', 'portable'],
-      },
-      {
-        amount: 3,
-        color: 'Ocean Blue',
-        createdAt: '2025-03-12T11:00:00Z',
-        description: 'Portable Bluetooth speaker with excellent sound quality.',
-        imageURL: '@/../public/wrist-watch.png',
-        price: 89.99,
-        productID: 'prod11121',
-        productName: 'Bluetooth Speaker',
-        sellerID: 'seller003',
-        tag: ['audio', 'speaker', 'portable'],
-      },
-      {
-        amount: 3,
-        color: 'Ocean Blue',
-        createdAt: '2025-03-12T11:00:00Z',
-        description: 'Portable Bluetooth speaker with excellent sound quality.',
-        imageURL: '@/../public/wrist-watch.png',
-        price: 89.99,
-        productID: 'prod11121',
-        productName: 'Bluetooth Speaker',
-        sellerID: 'seller003',
-        tag: ['audio', 'speaker', 'portable'],
-      },
-      {
-        amount: 3,
-        color: 'Ocean Blue',
-        createdAt: '2025-03-12T11:00:00Z',
-        description: 'Portable Bluetooth speaker with excellent sound quality.',
-        imageURL: '@/../public/wrist-watch.png',
-        price: 89.99,
-        productID: 'prod11121',
-        productName: 'Bluetooth Speaker',
-        sellerID: 'seller003',
-        tag: ['audio', 'speaker', 'portable'],
-      },
-    ],
-    sellerID: 'seller000',
-  };
-
   const status: { [key: number]: string } = {
-    0: 'Pending payment',
-    1: 'Add appointment',
-    2: 'Edit appointment',
+    0: 'Waiting For Seller',
+    1: 'Waiting For Buyer',
+    2: 'Waiting For Delivery',
     3: 'Completed',
   };
 
@@ -127,11 +30,10 @@ export default function Popup(prop: CardProps) {
   return (
     <div
       onClick={(e) => {
-        e.stopPropagation(); // Prevent parent from triggering
+        e.stopPropagation();
       }}
       className="w-fit h-[800px] bg-white rounded-2xl flex flex-col lg:flex-row shadow-2xl z-40"
     >
-      {/* left */}
       <div
         className={`w-[500px] gap-5 h-full flex flex-col p-[30px] rounded-2xl items-center `}
       >
@@ -162,7 +64,7 @@ export default function Popup(prop: CardProps) {
           </div>
           <div className="flex flex-col gap-1 w-fit">
             <div className="text-[16px] font-normal">Total</div>
-            <div className="text-[16px] font-bold">$price</div>
+            <div className="text-[16px] font-bold">${prop.price}</div>
           </div>
         </div>
         <div className="w-full h-fit flex flex-col gap-2 justify-center ">
@@ -171,16 +73,17 @@ export default function Popup(prop: CardProps) {
             <div className="ml-auto mr-4">Quantity</div>
           </div>
           <div className="flex flex-col w-full overflow-y-scroll h-[350px] gap-3">
-            {mockOrder.products.map((product: Product) => (
+            {prop.products.map((product: Product) => (
               <div
                 className="flex relative items-center min-h-[85px] w-full gap-3 shadow-md rounded-xl"
                 key={product.productID}
               >
-                <img
-                  src={product.imageURL}
-                  className="h-[50px] min-w-[50px] mx-4 mt-auto mr-auto"
+                <Image
+                  src={WristWatch}
+                  alt="Dummy"
+                  className="absolute w-12 h-12"
                 />
-                <div className="text-[14px]  absolute mt-auto mr-auto left-[80px] font-normal">
+                <div className="text-[14px] absolute mt-auto mr-auto left-[80px] font-normal">
                   {product.productName}
                 </div>
                 <div className="ml-auto mr-12 text-[14px]">
@@ -191,8 +94,7 @@ export default function Popup(prop: CardProps) {
           </div>
         </div>
       </div>
-      {/* right */}
-      {prop.status === 1 || prop.status === 2 && <Appointment {...prop} />}
+      {prop.status === 1 || (prop.status === 2 && <Appointment {...prop} />)}
       {prop.status === 3 && <Review {...prop} />}
     </div>
   );
