@@ -32,7 +32,7 @@ export default function Popup(prop: CardProps) {
     className="w-fit h-[800px] bg-white rounded-2xl flex flex-col lg:flex-row shadow-2xl z-40">
       {/* left */}
       <div
-        className={`w-[500px] gap-5 h-full flex flex-col p-[30px] rounded-2xl items-center `}
+        className={`w-[500px] gap-5 h-full flex flex-col p-[30px] rounded-2xl items-center mt-6`}
       >
         <div
           className={`w-full h-[105px] relative rounded-xl ${BgColorCode[prop.status]}`}

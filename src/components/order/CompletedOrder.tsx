@@ -45,7 +45,7 @@ export default function CompletedOrder(prop: CardProps) {
 
   return (
     <div className="flex-col bg-white flex border-3 w-[500px] border-[30px] border-white h-full">
-      <div className={"flex flex-col h-fit justify-center w-full gap-[10px] px-[18px] py-[20px] rounded-xl border-[2px] border-green-600"}>
+      <div className={"flex flex-col h-fit justify-center w-full gap-[10px] px-[18px] py-[20px] rounded-xl border-[2px] border-green-600 mt-8"}>
         <div className="font-bold text-[24px]-">Thank you for your order!</div>
       </div>
       <h2 className="text-lg font-bold mt-6">Add Seller Review</h2>

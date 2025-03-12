@@ -72,7 +72,7 @@ export default function Appointment(prop: CardProps) {
   return (
     <div className="flex-col bg-white flex border-3 w-[500px] border-[30px] border-white h-full">
       <div
-        className={`flex flex-col h-fit justify-center w-full gap-[10px] px-[18px] py-[20px] rounded-xl border-[2px]  
+        className={`flex flex-col h-fit justify-center w-full gap-[10px] px-[18px] py-[20px] rounded-xl border-[2px] mt-6
         
         ${prop.status == 2 ? 'border-[#CC731B]' : 'border-[#003FFD]'}`}
       >
