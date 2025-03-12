@@ -2,6 +2,7 @@ import { useAuth } from '@/context/AuthContext';
 import trash from '@/../public/trash.png';
 import Image from 'next/image';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { Star } from 'lucide-react';
 
 export interface ReviewProps {
   reviewId: string;
@@ -37,7 +38,19 @@ export default function ReviewCard(props: ReviewProps) {
         <span>{date}</span>
       </td>
       <td className="p-3">{user?.userType === 'buyer' ? reviewee : name}</td>
-      <td className="p-3">{score}</td>
+      <td className="p-3">
+        <div className="flex">
+          {[...Array(5)].map((_, i) => (
+            <Star
+              key={i}
+              size={16}
+              className={
+                i < score ? 'fill-yellow-500 text-yellow-500' : 'text-gray-300'
+              }
+            />
+          ))}
+        </div>
+      </td>
       <td className="p-3 items-center">{message}</td>
       {user?.userType === 'buyer' && (
         <td className="p-3 items-center flex gap-4">

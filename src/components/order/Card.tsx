@@ -92,7 +92,6 @@ import Image from 'next/image';
 import WristWatch from '@/../public/wrist-watch.png';
 import Popup from './Popup';
 import { useState } from 'react';
-import { set } from 'zod';
 import { Product } from '@/types/product';
 import { changeOrderStatus } from '@/utils/order';
 import { Order } from '@/types/order';
@@ -110,13 +109,6 @@ export default function Card(props: CardProps) {
   const [loadView, setLoadView] = useState(false);
   const [hidden, setHidden] = useState(false);
 
-  const changeStatus = async () => {
-    const res = await changeOrderStatus(3, order.orderID);
-    if (res) {
-      window.location.href = '/order';
-    } else {
-    }
-  };
   return (
     <div
       className={cn(
@@ -164,29 +156,21 @@ export default function Card(props: CardProps) {
             })}
           </div>
           <div className="flex flex-col gap-2">
-            {status !== 3 && (
-              <button
-                className={cn(
-                  'w-14 h-6 text-sm rounded-md bg-white',
-                  status === 0
-                    ? 'text-project-pinkred'
-                    : status === 1
-                      ? 'text-project-seablue'
-                      : status === 2
-                        ? 'text-project-orange'
-                        : 'text-project-forest'
-                )}
-                onClick={changeStatus}
-              >
-                Add
-              </button>
-            )}
+            <button
+              className={cn(
+                'w-14 h-6 text-sm rounded-md bg-white invisible',
+                status === 0
+                  ? 'text-project-pinkred'
+                  : status === 1
+                    ? 'text-project-seablue'
+                    : status === 2
+                      ? 'text-project-orange'
+                      : 'text-project-forest'
+              )}
+            >
+              Add
+            </button>
 
-            {status === 2 && (
-              <button className="bg-white w-14 h-6 text-sm rounded-md text-project-orange">
-                Edit
-              </button>
-            )}
             <button
               className={cn(
                 'bg-white w-14 h-6 text-sm rounded-md',
@@ -203,7 +187,7 @@ export default function Card(props: CardProps) {
                 setHidden(false);
               }}
             >
-              View
+              {status === 3 ? 'View' : 'Edit'}
             </button>
           </div>
         </div>

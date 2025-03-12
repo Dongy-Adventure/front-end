@@ -6,6 +6,7 @@ import { Review } from '@/types/review';
 import ProfileBadge from '@/components/ProfileBadge';
 import Sidebar from '@/components/Sidebar';
 import Link from 'next/link';
+import { Star } from 'lucide-react';
 
 export default function Reviews() {
   const { user } = useAuth();
@@ -60,7 +61,21 @@ export default function Reviews() {
                       <span>{review.date}</span>
                     </td>
                     <td className="p-3">{review.reviewer}</td>
-                    <td className="p-3">{review.score}</td>
+                    <td className="p-3">
+                      <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            size={16}
+                            className={
+                              i < review.score
+                                ? 'fill-yellow-500 text-yellow-500'
+                                : 'text-gray-300'
+                            }
+                          />
+                        ))}
+                      </div>
+                    </td>
                     <td className="p-3 items-center text-project-green font-bold">
                       {review.message}
                     </td>

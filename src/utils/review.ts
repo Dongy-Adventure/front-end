@@ -3,6 +3,7 @@ import { apiClient } from './axios';
 import { AxiosResponse } from 'axios';
 import { ReviewDataDTO, ReviewDTO } from '@/dtos/reviewDTO';
 import { getAccessToken } from './auth';
+import { getUser, getUserId } from './user';
 
 export const getReviews = async (
   id: string,
@@ -115,14 +116,17 @@ export const updateReview = async (
 
 export const createReview = async (
   message: string,
-  score: number
+  score: number,
+  sellerId: string,
+  sellerName: string
 ): Promise<boolean> => {
   const accessToken = await getAccessToken();
-  
-  if (!accessToken) {
+  const user = await getUser();
+  const userId = await getUserId();
+
+  if (!accessToken || !user) {
     return false;
   }
-
   try {
     const res = await apiClient.post(
       '/review/',
@@ -130,6 +134,10 @@ export const createReview = async (
         message: message,
         score: score,
         createdAt: new Date().toISOString(),
+        buyerID: userId,
+        buyerName: user.username,
+        sellerID: sellerId,
+        sellerName: sellerName,
       },
       {
         headers: {
