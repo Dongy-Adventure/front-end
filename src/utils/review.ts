@@ -74,3 +74,79 @@ export const deleteReview = async (id: string): Promise<boolean> => {
     return false;
   }
 };
+
+export const updateReview = async (
+  rid: string,
+  message: string,
+  score: number
+): Promise<boolean> => {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return false;
+  }
+
+  try {
+    const res = await apiClient.put(
+      `/review/${rid}`,
+      {
+        image: '',
+        message: message,
+        score: score,
+        createdAt: new Date().toISOString(),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+export const createReview = async (
+  message: string,
+  score: number
+): Promise<boolean> => {
+  const accessToken = await getAccessToken();
+  
+  if (!accessToken) {
+    return false;
+  }
+
+  try {
+    const res = await apiClient.post(
+      `/review`,
+      {
+        message: message,
+        score: score,
+        createdAt: new Date().toISOString(),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+

@@ -2,6 +2,7 @@
 // import { cn } from '@/lib/utils';
 import { CardProps } from './Card';
 import Appointment from './Appointment';
+import CompletedDelivery from './CompletedOrder';
 
 export default function Popup(prop: CardProps) {
   const status: { [key: number]: string } = {
@@ -21,7 +22,7 @@ export default function Popup(prop: CardProps) {
     0: 'text-[#F33CB4]',
     1: 'text-project-lightblue',
     2: 'text-[#CC731B]',
-    3: 'text-project-lightgreen',
+    3: 'text-project-green',
   };
   return (
     <div 
@@ -76,7 +77,9 @@ export default function Popup(prop: CardProps) {
         </div>
       </div>
       {/* right */}
-      <Appointment {...prop} />
+      {prop.status === 2 || prop.status === 1 && <Appointment {...prop} />}
+      {prop.status === 3 && <CompletedDelivery {...prop} />}
+      
       </div>
   );
 }
