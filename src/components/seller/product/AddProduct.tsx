@@ -250,7 +250,7 @@ export default function AddProduct(props: { closing: () => void }) {
             />
           </div>
 
-          <div className="flex justify-end px-4 py-4">
+          <div className="flex justify-end">
             <button
               type="submit"
               className="bg-project-primary hover:bg-project-dark text-white font-bold py-1 px-8 rounded"

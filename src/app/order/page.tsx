@@ -15,7 +15,6 @@ export default function Orders() {
   const { user } = useAuth();
   const toast = useToast();
   const [orders, setOrders] = useState<Order[]>([]);
-  const [isPopup, setIsPopup] = useState<number | null>(null);
   const [selecteOrder, setSelectedOrder] = useState<Order | null>(null);
 
   useEffect(() => {
@@ -32,18 +31,7 @@ export default function Orders() {
   }, []);
 
   return (
-    <div className="p-12 md:px-20 md:pt-16 flex flex-col">
-      {isPopup !== null && (
-        <PendingPayment
-          date={selecteOrder?.createdAt ?? '0000'}
-          orderId={selecteOrder?.orderID ?? ''}
-          products={selecteOrder?.products ?? []}
-          buyerName={selecteOrder?.buyerName ?? ''}
-          paymentMethod="PromtPay"
-          price={selecteOrder?.totalPrice ?? 0}
-          closeTab={() => setIsPopup(null)}
-        />
-      )}
+    <div className="p-12 md:px-20 md:pt-16 flex flex-col bg-white">
       <div className="flex gap-2 pb-12">
         <Link
           href="/home"
@@ -80,7 +68,6 @@ export default function Orders() {
                     orderDate={order.createdAt}
                     price={order.totalPrice}
                     status={0}
-                    setState={(n) => setIsPopup(n)}
                     setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
@@ -108,7 +95,6 @@ export default function Orders() {
                     price={order.totalPrice}
                     products={order.products}
                     status={order.status}
-                    setState={(n) => setIsPopup(n)}
                     setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
@@ -130,7 +116,6 @@ export default function Orders() {
                     price={order.totalPrice}
                     products={order.products}
                     status={3}
-                    setState={(n) => setIsPopup(n)}
                     setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
