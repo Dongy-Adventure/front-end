@@ -3,35 +3,46 @@ import { getAccessToken } from './auth';
 import { apiClient } from './axios';
 import { getUserId } from './user';
 import { Product } from '@/types/product';
+import { AxiosResponse } from 'axios';
+import { OrderDTO } from '@/dtos/orderDTO';
 
 export const getOrder = async (): Promise<Order[] | null> => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
+  const userType = localStorage.getItem('userType') === 'buyer' ? 0 : 1;
+
 
   if (!accessToken || !userId) {
     return null;
   }
 
   try {
-    const res = await apiClient.get(`/order/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const res: AxiosResponse<OrderDTO> = await apiClient.get(
+      `/order/${userId}/${userType}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
 
     if (!res.data.status) {
       console.error(res.data.message);
-      return null; //false
+      return null;
     }
+    console.log(res.data.data);
 
-    return null; //true
+    return res.data.data;
   } catch (err) {
     console.error(err);
     return null;
   }
 };
 
-export const createOrder = async (product: Product[]): Promise<boolean> => {
+export const createOrder = async (
+  product: Product[],
+  sellerId: string
+): Promise<boolean> => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
 
@@ -45,7 +56,7 @@ export const createOrder = async (product: Product[]): Promise<boolean> => {
       {
         products: product,
         buyerID: userId,
-        sellerID: '67ac79f76eaaa6f91afc0425',
+        sellerID: sellerId,
       },
       {
         headers: {
@@ -56,6 +67,40 @@ export const createOrder = async (product: Product[]): Promise<boolean> => {
 
     if (!res.data.status) {
       console.error(res.data.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+export const changeOrderStatus = async (
+  n: number,
+  orderId: string
+): Promise<boolean> => {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return false;
+  }
+
+  try {
+    const res = await apiClient.patch(
+      `/order/${orderId}`,
+      {
+        orderStatus: n,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
       return false;
     }
 

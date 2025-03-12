@@ -1,8 +1,5 @@
 import { useCart } from '@/context/CartContext';
-import { useToast } from '@/context/ToastContext';
 import { Product } from '@/types/product';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 function Order({
   total,
@@ -13,12 +10,6 @@ function Order({
   handleSubmit: (products: Product[]) => void;
   products: Product[];
 }) {
-  const { setPrice, selectedItemCart } = useCart();
-
-  useEffect(() => {
-    setPrice(total);
-  }, []);
-
   return (
     <section className="border-1 bg-gray-100 w-96 h-60 rounded-xl p-6 flex flex-col justify-between">
       <div>

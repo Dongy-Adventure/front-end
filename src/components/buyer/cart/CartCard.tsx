@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import tempProductImage from '@/../public/placeholder200.avif';
+import tempProductImage from '@/../public/placeholder200.jpeg';
 import trash from '@/../public/trash.png';
 import { Product } from '@/types/product';
 import { useState } from 'react';
@@ -14,7 +14,7 @@ interface CartCardProps {
 }
 
 function CartCard(props: CartCardProps) {
-  const { toggleChanges, selectedItemCart } = useCart();
+  const { toggleChanges, selectedItemCart, setAmountCart } = useCart();
   const { product, handleDelete } = props;
   const [count, setCount] = useState<number>(1);
 
@@ -47,20 +47,26 @@ function CartCard(props: CartCardProps) {
         <div className="flex items-center justify-between w-16 h-6 border rounded-lg bg-gray-100">
           <button
             className="w-1/3 h-full flex items-center justify-center text-lg text-gray-700 hover:bg-gray-200"
-            onClick={() => setCount((prev) => Math.max(1, prev - 1))}
+            onClick={() => {
+              setCount((prev) => Math.max(1, prev - 1));
+              setAmountCart(product.productID, -1);
+            }}
           >
             -
           </button>
           <span className="w-1/3 text-center text-lg">{count}</span>
           <button
             className="w-1/3 h-full flex items-center justify-center text-lg text-gray-700 hover:bg-gray-200"
-            onClick={() => setCount((prev) => prev + 1)}
+            onClick={() => {
+              setCount((prev) => Math.min(prev + 1, product.amount));
+              setAmountCart(product.productID, 1);
+            }}
           >
             +
           </button>
         </div>
       </td>
-      <td>${product.price}</td>
+      <td>${(product.price * count).toFixed(2)}</td>
       <td className="p-3 items-center">
         <button
           className="items-center"

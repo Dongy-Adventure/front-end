@@ -11,11 +11,15 @@ import trash from '@/../public/trash.png';
 import { deleteProduct, getSellerProducts } from '@/utils/product';
 import { Product } from '@/types/product';
 import AddProduct from '@/components/seller/product/AddProduct';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import EditProduct from '@/components/seller/product/EditProduct';
 
 export default function ProductOnDisplay() {
   const toast = useToast();
   const [products, setProducts] = useState<Product[]>([]);
   const [onProductPage, setOnProductPage] = useState<boolean>(false);
+  const [onEditPage, setOnEditPage] = useState<boolean>(false);
+  const [selectedEdit, setSelectedEdit] = useState<Product | null>(null);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -41,6 +45,18 @@ export default function ProductOnDisplay() {
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col ">
       {onProductPage && <AddProduct closing={() => setOnProductPage(false)} />}
+      {onEditPage && (
+        <EditProduct
+          productDescription={selectedEdit?.description ?? ''}
+          productName={selectedEdit?.productName ?? ''}
+          productId={selectedEdit?.productID ?? ''}
+          price={selectedEdit?.price ?? 0}
+          color={selectedEdit?.color ?? ''}
+          tag={selectedEdit?.tag ?? []}
+          amount={selectedEdit?.amount ?? 1}
+          closing={() => setOnEditPage(false)}
+        />
+      )}
       <div className="flex gap-2 pb-12">
         <Link
           href="/home"
@@ -71,7 +87,8 @@ export default function ProductOnDisplay() {
                 <tr>
                   <th>Product</th>
                   <th>Product ID</th>
-                  <th>Total</th>
+                  <th>Amount</th>
+                  <th>Price</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -90,11 +107,24 @@ export default function ProductOnDisplay() {
                       <span>{product.productName}</span>
                     </td>
                     <td className="p-3">{product.productID}</td>
+                    <td className="p-3">{product.amount}</td>
                     <td className="p-3">${product.price}</td>
                     <td className="p-3 items-center">
                       <button
+                        className="px-1"
+                        onClick={() => {
+                          setOnEditPage(true);
+                          setSelectedEdit(product);
+                        }}
+                      >
+                        <Icon
+                          icon="pepicons-pencil:color-picker"
+                          className="w-5 h-5"
+                        />
+                      </button>
+                      <button
                         onClick={() => onDelete(product.productID)}
-                        className="items-canter"
+                        className="items-center"
                       >
                         <Image
                           src={trash}

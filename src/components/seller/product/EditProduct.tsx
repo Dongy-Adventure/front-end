@@ -1,11 +1,10 @@
 import { COLORS } from '@/constants/color';
 import { useToast } from '@/context/ToastContext';
-import { createProduct } from '@/utils/product';
+import { updateProduct } from '@/utils/product';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 interface ProductInfo {
-  amount: number;
   sellerName: string;
   sellerSurname: string;
   productName: string;
@@ -13,12 +12,33 @@ interface ProductInfo {
   description: string;
   productImage: string;
   color: string;
+  amount: number;
   tag: string[];
 }
 
-export default function AddProduct(props: { closing: () => void }) {
+interface CurrentDataProps {
+  productName: string;
+  productDescription: string;
+  price: number;
+  color: string;
+  tag: string[];
+  productId: string;
+  amount: number;
+  closing: () => void;
+}
+
+export default function EditProduct(props: CurrentDataProps) {
+  const {
+    productName,
+    productDescription,
+    price,
+    color,
+    tag,
+    amount,
+    productId,
+  } = props;
   const toast = useToast();
-  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedColor, setSelectedColor] = useState<string>('');
 
   const tags = ['Clothing', 'Gadget', 'Sport', 'Beauty', 'Book'];
 
@@ -32,13 +52,13 @@ export default function AddProduct(props: { closing: () => void }) {
 
   const { control, handleSubmit, setValue, getValues } = useForm<ProductInfo>({
     defaultValues: {
-      amount: 0,
-      productName: '',
-      price: 0.0,
-      description: '',
+      amount: amount,
+      productName: productName,
+      price: price,
+      description: productDescription,
       productImage: '',
-      color: '',
-      tag: [] as string[],
+      color: color,
+      tag: tag,
     },
   });
 
@@ -60,31 +80,27 @@ export default function AddProduct(props: { closing: () => void }) {
   };
 
   const onSubmit = async (data: ProductInfo) => {
-    const {
-      productName,
-      price,
-      description,
-      productImage,
+    const { productName, price, description, color, tag, amount } = data;
+    const status = await updateProduct(
+      productId,
       color,
-      tag,
-      amount,
-    } = data;
-    const status = await createProduct(
       productName,
+      description,
       Number(price),
-      description,
-      productImage,
-      color,
       tag,
       Number(amount)
     );
     if (status) {
-      toast?.setToast('success', 'Post product succeeded');
+      toast?.setToast('success', 'Edit product succeeded');
       window.location.href = '/seller/product-on-display';
     } else {
       toast?.setToast('error', 'Post product failed');
     }
   };
+
+  useEffect(() => {
+    setSelectedColor(color);
+  }, []);
 
   return (
     <main className="absolute top-0 left-0 w-screen h-screen grid place-items-center z-50 bg-black/30 backdrop-blur-sm">
@@ -94,11 +110,11 @@ export default function AddProduct(props: { closing: () => void }) {
       >
         <div className="w-1/2 bg-white p-6 rounded-lg shadow-md">
           <div className="bg-purple-100 p-4 rounded-md text-lg font-semibold">
-            Add new product
+            Edit product
           </div>
 
           <div className="mt-6">
-            <p className="mb-2 text-sm font-medium">Insert product picture</p>
+            <p className="mb-2 text-sm font-medium">Insert product picture *</p>
             <div className="border border-gray-300 w-full h-52 flex items-center justify-center text-gray-500">
               description
             </div>
@@ -154,6 +170,7 @@ export default function AddProduct(props: { closing: () => void }) {
               )}
             />
           </div>
+
           <div className="mt-4">
             <label className="block text-sm font-medium">Amount *</label>
             <Controller
@@ -169,6 +186,7 @@ export default function AddProduct(props: { closing: () => void }) {
               )}
             />
           </div>
+
           <div className="mt-4">
             <label className="block text-sm font-medium">Price *</label>
             <Controller
@@ -240,9 +258,14 @@ export default function AddProduct(props: { closing: () => void }) {
                   {COLORS.map((color) => (
                     <div
                       key={color}
-                      className={`w-6 h-6 rounded-full border ${color === selectedColor ? 'ring-2 ring-black' : ''}`}
+                      className={`w-6 h-6 rounded-full border cursor-pointer ${
+                        field.value === color ? 'ring-2 ring-black' : ''
+                      }`}
                       style={{ backgroundColor: color }}
-                      onClick={() => setSelectedColor(color)}
+                      onClick={() => {
+                        field.onChange(color);
+                        setSelectedColor(color);
+                      }}
                     ></div>
                   ))}
                 </div>
@@ -250,7 +273,7 @@ export default function AddProduct(props: { closing: () => void }) {
             />
           </div>
 
-          <div className="flex justify-end px-4 py-4">
+          <div className="flex justify-end px-4 py-8">
             <button
               type="submit"
               className="bg-project-primary hover:bg-project-dark text-white font-bold py-1 px-8 rounded"

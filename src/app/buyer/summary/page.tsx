@@ -2,11 +2,9 @@
 
 import Link from 'next/link';
 import { Product } from '@/types/product';
-import Summary from '@/components/buyer/cart/Summary';
-import { useCart } from '@/context/CartContext';
+import { ItemCart, useCart } from '@/context/CartContext';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { getProductById } from '@/utils/product';
 import Card from '@/components/buyer/summary/Cart';
 import Order from '@/components/buyer/summary/Order';
 import { createOrder } from '@/utils/order';
@@ -17,39 +15,79 @@ export default function SummaryCart() {
   const toast = useToast();
   const router = useRouter();
   const { user } = useAuth();
-  const { totalPrice, resetContext } = useCart();
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ItemCart[]>([]);
 
   const postOrder = async (products: Product[]) => {
-    const res = await createOrder(products);
-    if (res) {
-      toast?.setToast('success', 'Your order has been placed!');
-      router.push('/order');
-    } else {
-      toast?.setToast('error', 'There is an error, please try again later!');
+    const ordersBySeller = products.reduce(
+      (acc, product) => {
+        if (!acc[product.sellerID]) acc[product.sellerID] = [];
+        acc[product.sellerID].push(product);
+        return acc;
+      },
+      {} as Record<string, Product[]>
+    );
+
+    const cartObj: ItemCart[] = JSON.parse(
+      localStorage.getItem('cartProduct') ?? '[]'
+    );
+
+    try {
+      await Promise.all(
+        Object.entries(ordersBySeller).map(
+          async ([sellerID, sellerProducts]) => {
+            const updatedSellerProducts = sellerProducts.map((product) => {
+              const cartItem = cartObj.find(
+                (item) => item.product.productID === product.productID
+              );
+              return {
+                ...product,
+                amount: cartItem ? cartItem.amount : 1,
+              };
+            });
+
+            const res = await createOrder(updatedSellerProducts, sellerID);
+
+            if (res) {
+              toast?.setToast(
+                'success',
+                `Order for seller ${sellerID} has been placed!`
+              );
+            } else {
+              toast?.setToast(
+                'error',
+                `Failed to create order for seller ${sellerID}.`
+              );
+            }
+          }
+        )
+      );
+
+      router.push('/buyer/summary/complete');
+    } catch (error) {
+      console.error('Error placing orders:', error);
+      toast?.setToast('error', 'There was an error processing your order.');
     }
-    resetContext();
   };
 
   useEffect(() => {
     const productIds = localStorage.getItem('selectedProduct');
-    const productIdsObj = productIds ? JSON.parse(productIds) : [];
+    const cartProducts = localStorage.getItem('cartProduct');
+
+    const productIdsObj: string[] = productIds ? JSON.parse(productIds) : [];
+    const cartObj: ItemCart[] = cartProducts ? JSON.parse(cartProducts) : [];
 
     const fetchSelectedProducts = async () => {
       if (!user || !('cart' in user)) return;
 
-      const productList = await Promise.all(
-        productIdsObj.map(async (productId: string) => {
-          const product = await getProductById(productId);
-          return product;
-        })
+      const cartProductLists = cartObj.filter((cartItem) =>
+        productIdsObj.includes(cartItem.product.productID)
       );
 
-      setProducts(productList.filter((p): p is Product => p !== null));
+      setProducts(cartProductLists);
     };
 
     fetchSelectedProducts();
-  }, []);
+  }, [user]);
 
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
@@ -79,18 +117,25 @@ export default function SummaryCart() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
-                {products.map((cart: Product) => (
+                {products.map((cart: ItemCart) => (
                   <Card
-                    key={cart.productID}
-                    product={cart}
+                    key={cart.product.productID}
+                    product={cart.product}
+                    amount={cart.amount}
                   />
                 ))}
               </tbody>
             </table>
             <Order
-              total={totalPrice}
+              total={products
+                .filter((c) =>
+                  JSON.parse(
+                    localStorage.getItem('selectedProduct') ?? ''
+                  ).includes(c.product.productID)
+                )
+                .reduce((sum, c) => sum + c.product.price * c.amount, 0)}
               handleSubmit={postOrder}
-              products={products}
+              products={products.map((p: ItemCart) => p.product)}
             />
           </main>
         </div>
