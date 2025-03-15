@@ -5,6 +5,7 @@ import { Star, CircleCheck } from 'lucide-react';
 import { useToast } from '@/context/ToastContext';
 import { createReview } from '@/utils/review';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 interface CreateReviewInfo {
   message: string;
@@ -16,6 +17,7 @@ export default function Review(prop: CardProps) {
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
   const [hover, setHover] = useState<number | null>(null);
   const toast = useToast();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -61,7 +63,10 @@ export default function Review(prop: CardProps) {
             We truly value your opinion, thanks.
           </p>
           <div className="mt-4 flex gap-2">
-            <button className="bg-green-500 text-white px-4 py-2 rounded-md">
+            <button
+              className="bg-green-500 text-white px-4 py-2 rounded-md"
+              onClick={() => router.push('buyer/review')}
+            >
               Edit review
             </button>
             <button className="bg-red-500 text-white px-4 py-2 rounded-md">

@@ -8,6 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { updatePlace, updateTime } from '@/utils/appointment';
 import { changeOrderStatus } from '@/utils/order';
 import { useToast } from '@/context/ToastContext';
+import { cn } from '@/lib/utils';
 
 export default function Appointment(prop: CardProps) {
   const toast = useToast();
@@ -137,9 +138,17 @@ export default function Appointment(prop: CardProps) {
   return (
     <div className="flex-col bg-white flex border-3 w-[500px] border-[30px] border-white h-full">
       <div
-        className={`flex flex-col h-fit justify-center w-full gap-[10px] px-[18px] py-[20px] rounded-xl border-[2px]  
-        
-        ${prop.order.status == 2 ? 'border-[#CC731B]' : 'border-[#003FFD]'}`}
+        className={cn(
+          'flex flex-col h-fit justify-center w-full gap-[10px] px-[18px] py-[20px] rounded-xl border-[2px]',
+
+          prop.order.status == 0
+            ? 'border-project-pink'
+            : prop.order.status == 1
+              ? 'border-[#003FFD]'
+              : prop.order.status == 2
+                ? 'border-project-brown'
+                : 'border-project-green'
+        )}
       >
         <div className="flex text-[13px] font-normal">Appointment Place</div>
         <div className="font-bold text-[24px]-">
@@ -179,7 +188,10 @@ export default function Appointment(prop: CardProps) {
           <div className="grid grid-cols-5 gap-[12px] mt-4 ">
             {timeAvilable.map((time: string) => (
               <div
-                className={`w-[80px] h-[35px] flex text-[14px] font-semibold justify-center items-center rounded-lg ${appointmentTime === time ? color : 'bg-[#F3F4F6] text-black'}`}
+                className={cn(
+                  'w-[80px] h-[35px] flex text-[14px] font-semibold justify-center items-center rounded-lg',
+                  appointmentTime === time ? color : 'bg-[#F3F4F6] text-black'
+                )}
                 key={time}
                 onClick={() => setAppointmentTime(time)}
               >

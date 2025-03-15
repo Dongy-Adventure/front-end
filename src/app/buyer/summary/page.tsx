@@ -10,6 +10,7 @@ import Order from '@/components/buyer/summary/Order';
 import { createOrder } from '@/utils/order';
 import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
+import { updateCart } from '@/utils/buyer';
 
 export default function SummaryCart() {
   const toast = useToast();
@@ -46,6 +47,9 @@ export default function SummaryCart() {
             });
 
             const res = await createOrder(updatedSellerProducts, sellerID);
+            for (const product of updatedSellerProducts) {
+              await updateCart(product.productID);
+            }
 
             if (res) {
               toast?.setToast(

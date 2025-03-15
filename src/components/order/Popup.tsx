@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Product } from '@/types/product';
 import Review from './Review';
 import { useAuth } from '@/context/AuthContext';
+import { cn } from '@/lib/utils';
 
 export const status: { [key: number]: string } = {
   0: 'Waiting For Seller',
@@ -41,12 +42,18 @@ export default function Popup(prop: CardProps) {
         className={`w-[500px] gap-5 h-full flex flex-col p-[30px] rounded-2xl items-center `}
       >
         <div
-          className={`w-full h-[105px] relative rounded-xl ${BgColorCode[prop.status]}`}
+          className={cn(
+            'w-full h-[105px] relative rounded-xl',
+            BgColorCode[prop.order.status]
+          )}
         >
           <div
-            className={`bg-white  flex h-[20px] rounded-[8px] w-fit font-bold px-5 justify-center items-center absolute top-3 right-3 ${textColor[prop.status]}`}
+            className={cn(
+              'bg-white  flex h-[20px] rounded-[8px] w-fit font-bold px-5 justify-center items-center absolute top-3 right-3',
+              textColor[prop.order.status]
+            )}
           >
-            {status[prop.status]}
+            {status[prop.order.status]}
           </div>
           <div className="w-fit h-fit font-bold text-[24px] absolute left-[20px] bottom-[12px]">
             Order #{prop.order.orderID}
@@ -99,8 +106,10 @@ export default function Popup(prop: CardProps) {
           </div>
         </div>
       </div>
-      {prop.status < 3 && <Appointment {...prop} />}
-      {prop.status === 3 && user?.userType === 'buyer' && <Review {...prop} />}
+      {prop.order.status < 3 && <Appointment {...prop} />}
+      {prop.order.status === 3 && user?.userType === 'buyer' && (
+        <Review {...prop} />
+      )}
     </div>
   );
 }
