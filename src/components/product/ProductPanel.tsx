@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import ProductSellerCard from '@/components/product/ProductSellerCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Product } from '@/types/product';
 import Image from 'next/image';
@@ -13,49 +13,7 @@ import { Review } from '@/types/review';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { updateCart } from '@/utils/buyer';
-
-const exampleProducts = [
-  {
-    pid: '1001',
-    category: 'Dried fruit',
-    productName: 'Mango',
-    price: 150,
-    discountedPrice: 100,
-    image: 'public/placeholder2.jpg',
-  },
-  {
-    pid: '1002',
-    category: 'Dried fruit',
-    productName: 'Pineapple',
-    price: 130,
-    discountedPrice: 90,
-    image: 'public/placeholder2.jpg',
-  },
-  {
-    pid: '1003',
-    category: 'Dried fruit',
-    productName: 'Banana',
-    price: 110,
-    discountedPrice: 80,
-    image: 'public/placeholder2.jpg',
-  },
-  {
-    pid: '1004',
-    category: 'Dried fruit',
-    productName: 'Apple',
-    price: 140,
-    discountedPrice: 95,
-    image: 'public/placeholder2.jpg',
-  },
-  {
-    pid: '1005',
-    category: 'Dried fruit',
-    productName: 'Peach',
-    price: 160,
-    discountedPrice: 120,
-    image: 'public/placeholder2.jpg',
-  },
-];
+import { getAllProducts } from '@/utils/product';
 
 export default function ProductPanel({
   product,
@@ -70,6 +28,20 @@ export default function ProductPanel({
   const toast = useToast();
   const [count, setCount] = useState(1);
   const router = useRouter();
+  const [products, setProducts] = useState<Product[]>();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res: Product[] | null = await getAllProducts();
+        setProducts(res?.filter((p) => p.amount > 0) ?? []);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleAddToCart = async () => {
     if (user?.userType !== 'buyer') {
@@ -161,17 +133,23 @@ export default function ProductPanel({
       </div>
       <div className="flex justify-center">
         <div className="flex overflow-x-auto gap-4 py-8 justify-start">
-          {exampleProducts.map((product) => (
-            <ProductCard
-              key={product.pid}
-              pid={product.pid}
-              category={product.category}
-              productName={product.productName}
-              price={product.price}
-              discountedPrice={product.discountedPrice}
-              image={product.image}
-            />
-          ))}
+          {products
+            ?.filter((p: Product) => p.productID !== product.productID)
+            .map((product: Product) => (
+              <ProductCard
+                key={product.productID}
+                pid={product.productID}
+                category={
+                  product.tag?.length
+                    ? product.tag.join(', ')
+                    : 'Not Categorized'
+                }
+                productName={product.productName}
+                price={product.price}
+                discountedPrice={product.price * 0.8}
+                image=""
+              />
+            ))}
         </div>
       </div>
       pid: {product.productID}
