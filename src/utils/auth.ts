@@ -40,7 +40,6 @@ export const refreshAccessToken = async (
 
     return token.accessToken;
   } catch (err) {
-    console.error(err);
     return null;
   }
 };

@@ -62,6 +62,10 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({
       }
 
       const userObj: Buyer | Seller | null = await getUser();
+      if (!userObj) {
+        router.push('/');
+      }
+
       setUser(userObj);
 
       const userType: 'buyer' | 'seller' | '' = userObj?.userType ?? '';
