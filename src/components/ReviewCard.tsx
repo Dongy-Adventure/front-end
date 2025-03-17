@@ -35,7 +35,7 @@ export default function ReviewCard(props: ReviewProps) {
       className="hover:bg-gray-50"
     >
       <td className="p-3 flex items-center space-x-3">
-        <span>{date}</span>
+        <span>{date.slice(0, 10)}</span>
       </td>
       <td className="p-3">{user?.userType === 'buyer' ? reviewee : name}</td>
       <td className="p-3">

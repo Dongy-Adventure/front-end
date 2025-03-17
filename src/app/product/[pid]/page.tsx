@@ -1,6 +1,4 @@
 import ProductPanel from '@/components/product/ProductPanel';
-import { Product } from '@/types/product';
-import { Review } from '@/types/review';
 import { Seller } from '@/types/user';
 import { getProductById } from '@/utils/product';
 import { getReviews } from '@/utils/review';
@@ -22,9 +20,16 @@ const tempSeller: Seller = {
   transaction: [],
 };
 
-export default async function page({ params }: { params: { pid: string } }) {
-  const product: Product | null = await getProductById(params.pid);
+export default async function Page({ params }: { params: { pid?: string } }) {
+  if (!params?.pid) {
+    return (
+      <div className="flex items-center justify-center h-screen text-gray-600">
+        <p>Invalid product ID.</p>
+      </div>
+    );
+  }
 
+  const product = await getProductById(params.pid);
   if (!product) {
     return (
       <div className="flex items-center justify-center h-screen text-gray-600">
@@ -33,27 +38,16 @@ export default async function page({ params }: { params: { pid: string } }) {
     );
   }
 
-  const seller: Seller | null = await getSellerById(product.sellerID);
-  const reviews: Review[] | null = await getReviews(
-    product?.sellerID ?? '',
-    'seller'
-  );
-
-  if (!seller || !reviews) {
-    return (
-      <ProductPanel
-        product={product}
-        seller={tempSeller}
-        reviews={[]}
-      />
-    );
-  }
+  const [seller, reviews] = await Promise.all([
+    getSellerById(product.sellerID),
+    getReviews(product.sellerID ?? '', 'seller'),
+  ]);
 
   return (
     <ProductPanel
       product={product}
-      seller={seller}
-      reviews={reviews}
+      seller={seller || tempSeller}
+      reviews={reviews || []}
     />
   );
 }

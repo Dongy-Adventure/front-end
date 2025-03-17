@@ -7,6 +7,7 @@ import ProfileBadge from '@/components/ProfileBadge';
 import Sidebar from '@/components/Sidebar';
 import Link from 'next/link';
 import { Star } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function Reviews() {
   const { user } = useAuth();
@@ -58,7 +59,7 @@ export default function Reviews() {
                     className="hover:bg-gray-50"
                   >
                     <td className="p-3 flex items-center space-x-3">
-                      <span>{review.date}</span>
+                      <span>{review.date.slice(0, 10)}</span>
                     </td>
                     <td className="p-3">{review.reviewer}</td>
                     <td className="p-3">
@@ -76,7 +77,14 @@ export default function Reviews() {
                         ))}
                       </div>
                     </td>
-                    <td className="p-3 items-center text-project-green font-bold">
+                    <td
+                      className={cn(
+                        'p-3 items-center font-bold',
+                        review.score >= 3
+                          ? 'text-project-green'
+                          : 'text-project-pink'
+                      )}
+                    >
                       {review.message}
                     </td>
                   </tr>
