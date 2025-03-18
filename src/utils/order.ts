@@ -39,7 +39,9 @@ export const getOrder = async (): Promise<Order[] | null> => {
 
 export const createOrder = async (
   product: Product[],
-  sellerId: string
+  sellerId: string,
+  sellerName: string,
+  buyerName: string
 ): Promise<boolean> => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
@@ -55,6 +57,8 @@ export const createOrder = async (
         products: product,
         buyerID: userId,
         sellerID: sellerId,
+        buyerName: buyerName,
+        sellerName: sellerName,
       },
       {
         headers: {

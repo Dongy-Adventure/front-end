@@ -1,11 +1,12 @@
 import 'react-day-picker/style.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CardProps } from './Card';
 import { Star, CircleCheck } from 'lucide-react';
 import { useToast } from '@/context/ToastContext';
 import { createReview } from '@/utils/review';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { getSellerById } from '@/utils/seller';
 
 interface CreateReviewInfo {
   message: string;
@@ -32,14 +33,17 @@ export default function Review(prop: CardProps) {
     },
   });
 
+  useEffect(() => {}, []);
+
   const rating = watch('score');
   const onSubmit = async (data: CreateReviewInfo) => {
     const { message, score } = data;
+    const sellerName = await getSellerById(prop.order.sellerID);
     const status = await createReview(
       message,
       score,
       prop.order.sellerID,
-      prop.order.sellerName
+      sellerName?.name ?? ''
     );
     if (status) {
       toast?.setToast('success', 'Create review succeeded');
@@ -67,10 +71,7 @@ export default function Review(prop: CardProps) {
               className="bg-green-500 text-white px-4 py-2 rounded-md"
               onClick={() => router.push('buyer/review')}
             >
-              Edit review
-            </button>
-            <button className="bg-red-500 text-white px-4 py-2 rounded-md">
-              Delete review
+              See My Review
             </button>
           </div>
         </div>

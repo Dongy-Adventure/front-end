@@ -11,6 +11,7 @@ import { createOrder } from '@/utils/order';
 import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
 import { updateCart } from '@/utils/buyer';
+import { getSellerById } from '@/utils/seller';
 
 export default function SummaryCart() {
   const toast = useToast();
@@ -46,7 +47,14 @@ export default function SummaryCart() {
               };
             });
 
-            const res = await createOrder(updatedSellerProducts, sellerID);
+            const seller = await getSellerById(sellerID);
+
+            const res = await createOrder(
+              updatedSellerProducts,
+              sellerID,
+              seller?.username ?? '',
+              user?.username ?? ''
+            );
             for (const product of updatedSellerProducts) {
               await updateCart(product.productID);
             }

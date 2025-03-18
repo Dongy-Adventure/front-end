@@ -67,8 +67,14 @@ export default function Popup(prop: CardProps) {
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <div className="text-[16px] font-normal">Buyer</div>
-            <div className="text-[16px] font-bold"></div>
+            <div className="text-[16px] font-normal">
+              {user?.userType === 'seller' ? 'Buyer' : 'Seller'}
+            </div>
+            <div className="text-[16px] font-bold">
+              {user?.userType === 'seller'
+                ? prop.order.buyerName
+                : prop.order.sellerName}
+            </div>
           </div>
           <div className="flex flex-col gap-1">
             <div className="text-[16px] font-normal">Payment Method</div>
@@ -76,7 +82,9 @@ export default function Popup(prop: CardProps) {
           </div>
           <div className="flex flex-col gap-1 w-fit">
             <div className="text-[16px] font-normal">Total</div>
-            <div className="text-[16px] font-bold">${prop.price}</div>
+            <div className="text-[16px] font-bold">
+              ${prop.order.totalPrice}
+            </div>
           </div>
         </div>
         <div className="w-full h-fit flex flex-col gap-2 justify-center ">
