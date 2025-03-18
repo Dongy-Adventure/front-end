@@ -13,8 +13,9 @@ export default function Navbar() {
   const { user } = useAuth();
 
   const handleSearch = () => {
-    if (query != '') {
-      router.push(`/search?q=${query}`);
+    const trimmedQuery = query.trim();
+    if (trimmedQuery) {
+      router.push(`/search?q=${encodeURIComponent(trimmedQuery)}`);
     }
   };
 
