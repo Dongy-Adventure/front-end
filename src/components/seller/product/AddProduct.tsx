@@ -1,4 +1,5 @@
 import { COLORS } from '@/constants/color';
+import { TAGS } from '@/constants/tags';
 import { useToast } from '@/context/ToastContext';
 import { createProduct } from '@/utils/product';
 import { useEffect, useState } from 'react';
@@ -19,8 +20,6 @@ interface ProductInfo {
 export default function AddProduct(props: { closing: () => void }) {
   const toast = useToast();
   const [selectedColor, setSelectedColor] = useState('');
-
-  const tags = ['Clothing', 'Gadget', 'Sport', 'Beauty', 'Book'];
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -192,7 +191,7 @@ export default function AddProduct(props: { closing: () => void }) {
               control={control}
               render={({ field }) => (
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {tags.map((tag) => {
+                  {TAGS.map((tag) => {
                     const isSelected = field.value.includes(tag);
                     return (
                       <span

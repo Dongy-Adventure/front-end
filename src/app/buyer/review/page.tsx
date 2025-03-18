@@ -54,7 +54,7 @@ export default function Reviews() {
         <UpdatePanel
           comment={selectedEdit?.message ?? ''}
           ratings={selectedEdit?.score ?? 0}
-          createdAt={selectedEdit?.date ?? '0000'}
+          createdAt={selectedEdit?.date ?? '01/01/2025'}
           sellerName={selectedEdit?.reviewee ?? 'John Doe'}
           reviewId={selectedEdit?.reviewId ?? ''}
         />

@@ -1,4 +1,5 @@
 import { COLORS } from '@/constants/color';
+import { TAGS } from '@/constants/tags';
 import { useToast } from '@/context/ToastContext';
 import { updateProduct } from '@/utils/product';
 import { useEffect, useState } from 'react';
@@ -40,17 +41,16 @@ export default function EditProduct(props: CurrentDataProps) {
   const toast = useToast();
   const [selectedColor, setSelectedColor] = useState<string>('');
 
-  const tags = ['Clothing', 'Gadget', 'Sport', 'Beauty', 'Book'];
-
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+    setSelectedColor(color);
 
     return () => {
       document.body.style.overflow = 'auto';
     };
   }, []);
 
-  const { control, handleSubmit, setValue, getValues } = useForm<ProductInfo>({
+  const { control, handleSubmit, setValue } = useForm<ProductInfo>({
     defaultValues: {
       amount: amount,
       productName: productName,
@@ -210,7 +210,7 @@ export default function EditProduct(props: CurrentDataProps) {
               control={control}
               render={({ field }) => (
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {tags.map((tag) => {
+                  {TAGS.map((tag) => {
                     const isSelected = field.value.includes(tag);
                     return (
                       <span

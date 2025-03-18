@@ -1,1 +1,9 @@
-export const TAGS = ['Clothing', 'Electronics', 'Furniture', 'Toys', 'Books'];
+export const TAGS = [
+  'Clothing',
+  'Gadget',
+  'Sport',
+  'Beauty',
+  'Book',
+  'Food',
+  'Electronics',
+];
