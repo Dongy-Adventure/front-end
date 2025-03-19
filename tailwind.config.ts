@@ -27,6 +27,7 @@ export default {
           seablue: '#003FFD',
           orange: '#CC731B',
           forest: '#0D9C72',
+          solitude: '#E5E7EB',
         },
       },
       fontFamily: {
