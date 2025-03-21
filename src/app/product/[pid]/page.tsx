@@ -28,7 +28,6 @@ export default async function Page({ params }: { params: { pid?: string } }) {
       </div>
     );
   }
-
   const product = await getProductById(params.pid);
   if (!product) {
     return (

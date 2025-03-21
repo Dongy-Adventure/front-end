@@ -4,19 +4,24 @@ import Image from 'next/image';
 import tempProductImage from '@/../public/placeholder200.jpeg';
 import trash from '@/../public/trash.png';
 import { Product } from '@/types/product';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
 
 interface CartCardProps {
   product: Product;
+  total: number;
   handleDelete: (pid: string) => void;
 }
 
 function CartCard(props: CartCardProps) {
   const { toggleChanges, selectedItemCart, setAmountCart } = useCart();
-  const { product, handleDelete } = props;
+  const { product, total, handleDelete } = props;
   const [count, setCount] = useState<number>(1);
+
+  useEffect(() => {
+    setCount(total);
+  }, []);
 
   return (
     <tr

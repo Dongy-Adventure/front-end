@@ -10,6 +10,7 @@ import React, {
   useState,
 } from 'react';
 import { getProductById } from '@/utils/product';
+import { OrderCart } from '@/types/order';
 
 export interface ItemCart {
   product: Product;
@@ -68,19 +69,14 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       if (!user || !('cart' in user)) return;
 
       const productList = await Promise.all(
-        user.cart.map(async (productId: string) => {
-          const product = await getProductById(productId);
-          return product;
+        user.cart.map(async (orderCart: OrderCart) => {
+          const product = await getProductById(orderCart.productID);
+          return product ? { product, amount: orderCart.amount } : undefined;
         })
       );
 
       setCart(
-        productList
-          .filter((p): p is Product => p !== null)
-          .map((product) => ({
-            product,
-            amount: 1,
-          }))
+        productList.filter((item): item is ItemCart => item !== undefined)
       );
     };
 

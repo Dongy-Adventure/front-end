@@ -48,7 +48,7 @@ export default function ProductPanel({
       toast?.setToast('error', 'Seller cannot access this!');
       return;
     }
-    const res = await updateCart(product.productID);
+    const res = await updateCart(product.productID, count);
     if (res) {
       toast?.setToast('success', 'Successfully added a product to your cart!');
       router.push('/buyer/cart');

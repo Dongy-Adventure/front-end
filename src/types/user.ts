@@ -1,3 +1,4 @@
+import { OrderCart } from './order';
 import { Transaction } from './wallet';
 
 export type Buyer = {
@@ -10,7 +11,7 @@ export type Buyer = {
   buyerID: string;
   surname: string;
   username: string;
-  cart: string[];
+  cart: OrderCart[];
   userType: 'buyer';
 };
 

@@ -1,3 +1,4 @@
+import { OrderCart } from '@/types/order';
 import { Buyer, Seller } from '@/types/user';
 
 export type BuyerDTO = {
@@ -8,7 +9,7 @@ export type BuyerDTO = {
   refreshToken: string;
   refreshTokenExpiredin: number;
   status: number;
-  cart: string[];
+  cart: OrderCart[];
   success: boolean;
 };
 

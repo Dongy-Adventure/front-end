@@ -10,7 +10,7 @@ import Order from '@/components/buyer/summary/Order';
 import { createOrder } from '@/utils/order';
 import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
-import { updateCart } from '@/utils/buyer';
+import { deleteCart } from '@/utils/buyer';
 import { getSellerById } from '@/utils/seller';
 
 export default function SummaryCart() {
@@ -18,6 +18,7 @@ export default function SummaryCart() {
   const router = useRouter();
   const { user } = useAuth();
   const [products, setProducts] = useState<ItemCart[]>([]);
+  const [paymentType, setPaymentType] = useState<string>('');
 
   const postOrder = async (products: Product[]) => {
     const ordersBySeller = products.reduce(
@@ -51,12 +52,13 @@ export default function SummaryCart() {
 
             const res = await createOrder(
               updatedSellerProducts,
+              paymentType,
               sellerID,
               seller?.username ?? '',
               user?.username ?? ''
             );
             for (const product of updatedSellerProducts) {
-              await updateCart(product.productID);
+              await deleteCart(product.productID);
             }
 
             if (res) {
@@ -148,6 +150,8 @@ export default function SummaryCart() {
                 .reduce((sum, c) => sum + c.product.price * c.amount, 0)}
               handleSubmit={postOrder}
               products={products.map((p: ItemCart) => p.product)}
+              payBy={paymentType}
+              setPayBy={(s: string) => setPaymentType(s)}
             />
           </main>
         </div>

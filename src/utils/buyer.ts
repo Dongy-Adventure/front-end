@@ -78,7 +78,10 @@ export const updateBuyer = async (
   }
 };
 
-export const updateCart = async (pid: string): Promise<boolean> => {
+export const updateCart = async (
+  pid: string,
+  amount: number
+): Promise<boolean> => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
 
@@ -87,10 +90,11 @@ export const updateCart = async (pid: string): Promise<boolean> => {
   }
 
   try {
-    const res = await apiClient.patch(
+    const res = await apiClient.post(
       `/buyer/${userId}/cart`,
       {
         productID: pid,
+        amount: amount,
       },
       {
         headers: {
@@ -106,6 +110,32 @@ export const updateCart = async (pid: string): Promise<boolean> => {
     return true;
   } catch (err) {
     console.error(err);
+    return false;
+  }
+};
+
+export const deleteCart = async (pid: string): Promise<boolean> => {
+  const userId = await getUserId();
+  const accessToken = await getAccessToken();
+
+  if (!userId || !accessToken) {
+    return false;
+  }
+
+  try {
+    const res = await apiClient.delete(`/buyer/${userId}/cart/${pid}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!res.data.success) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
     return false;
   }
 };

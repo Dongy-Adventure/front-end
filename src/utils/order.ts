@@ -39,6 +39,7 @@ export const getOrder = async (): Promise<Order[] | null> => {
 
 export const createOrder = async (
   product: Product[],
+  payment: string,
   sellerId: string,
   sellerName: string,
   buyerName: string
@@ -58,6 +59,7 @@ export const createOrder = async (
         buyerID: userId,
         sellerID: sellerId,
         buyerName: buyerName,
+        payment: payment,
         sellerName: sellerName,
       },
       {

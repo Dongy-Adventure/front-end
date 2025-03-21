@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useToast } from '@/context/ToastContext';
 import CartCard from '@/components/buyer/cart/CartCard';
 import Summary from '@/components/buyer/cart/Summary';
-import { updateCart } from '@/utils/buyer';
+import { deleteCart, updateCart } from '@/utils/buyer';
 import { ItemCart, useCart } from '@/context/CartContext';
 
 export default function Cart() {
@@ -12,7 +12,7 @@ export default function Cart() {
   const toast = useToast();
 
   const deleteItem = async (pid: string) => {
-    const res = await updateCart(pid);
+    const res = await deleteCart(pid);
 
     if (res) {
       toast?.setToast('success', 'Item removed from cart successfully!');
@@ -53,6 +53,7 @@ export default function Cart() {
                   <CartCard
                     product={cart.product}
                     handleDelete={deleteItem}
+                    total={cart.amount}
                     key={cart.product.productID}
                   />
                 ))}

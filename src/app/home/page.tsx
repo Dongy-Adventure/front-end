@@ -36,7 +36,7 @@ export default function Home() {
             Don&apos;t wait. The time will never be just right.
           </p>
           <div className="flex overflow-scroll gap-4 py-8">
-            {products.map((product) => (
+            {products.map((product: Product) => (
               <ProductCard
                 key={product.productID}
                 pid={product.productID}

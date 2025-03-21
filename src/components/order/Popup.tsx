@@ -78,7 +78,7 @@ export default function Popup(prop: CardProps) {
           </div>
           <div className="flex flex-col gap-1">
             <div className="text-[16px] font-normal">Payment Method</div>
-            <div className="text-[16px] font-bold">Promptpay</div>
+            <div className="text-[16px] font-bold">{prop.order.payment}</div>
           </div>
           <div className="flex flex-col gap-1 w-fit">
             <div className="text-[16px] font-normal">Total</div>
