@@ -5,7 +5,6 @@ const paymentOptions = [
   { id: 'Promptpay', label: 'PromptPay' },
   { id: 'Debit', label: 'Debit Card' },
   { id: 'Credit', label: 'Credit Card' },
-  { id: 'Cash', label: 'Pay On Cash' },
 ];
 
 function Order({

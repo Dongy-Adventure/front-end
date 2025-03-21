@@ -17,14 +17,11 @@ export default function AppointmentComponent(prop: CardProps) {
         toast?.setToast('error', 'There is an error fetching the appointment!');
       } else {
         setAppointment(res);
+        console.log(res);
       }
     };
-  // 0 -> wait for seller
-  // 1 -> wait for buyer
-  // 2 -> wait for deliver
-  // 3 -> complete
     getUserOrders();
-  }, [prop.order.orderID]);  // Add prop.order.orderID to the dependency array
+  }, [prop.order.orderID]);
 
   const BorderColorCode: { [key: number]: string } = {
     0: 'border-pink-500',
@@ -43,7 +40,9 @@ export default function AppointmentComponent(prop: CardProps) {
   return (
     <div className="px-6 gap-6 flex flex-col items-center justify-center">
       <div className="flex flex-col">
-        <h1 className="text-2xl font-bold text-black mt-4">Appointment Summary</h1>
+        <h1 className="text-2xl font-bold text-black mt-4">
+          Appointment Summary
+        </h1>
         <p className="text-m font-normal text-gray-600 mt-2">
           We appreciate your punctuality for a seamless experience.
         </p>
@@ -52,32 +51,44 @@ export default function AppointmentComponent(prop: CardProps) {
         </p>
       </div>
 
-      <div className={`w-full h-[150px] p-4 rounded-lg border-2 relative ${BorderColorCode[prop.status]}`}>
+      <div
+        className={`w-full h-[150px] p-4 rounded-lg border-2 relative ${BorderColorCode[prop.order.status]}`}
+      >
         <p className="text-m font-bold text-gray-600">Appointment Date</p>
         {appointment?.address ? (
-          <p className="text-m font-normal text-gray-600">{appointment.address}</p>
+          <p className="text-m font-normal text-gray-600">
+            {appointment.address}
+          </p>
         ) : (
-          <p className="text-m font-normal text-gray-600">No Data - Waiting For Buyer</p>
+          <p className="text-m font-normal text-gray-600">
+            No Data - Waiting For Buyer
+          </p>
         )}
         {user?.userType === 'buyer' && (
           <button
-            className={`rounded-lg absolute bottom-2 right-2 text-white px-4 py-2 ${BGColorCode[prop.status]}`}
+            className={`rounded-lg absolute bottom-2 right-2 text-white px-4 py-2 ${BGColorCode[prop.order.status]}`}
           >
             Edit
           </button>
         )}
       </div>
 
-      <div className={`w-full h-[150px] p-4 rounded-lg border-2 relative ${BorderColorCode[prop.status]}`}>
+      <div
+        className={`w-full h-[150px] p-4 rounded-lg border-2 relative ${BorderColorCode[prop.order.status]}`}
+      >
         <p className="text-m font-bold text-gray-600">Appointment Place</p>
         {appointment?.address ? (
-          <p className="text-m font-normal text-gray-600">{appointment.address}</p>
+          <p className="text-m font-normal text-gray-600">
+            {appointment.address}
+          </p>
         ) : (
-          <p className="text-m font-normal text-gray-600">No Data - Waiting For Seller</p>
+          <p className="text-m font-normal text-gray-600">
+            No Data - Waiting For Seller
+          </p>
         )}
         {user?.userType === 'seller' && (
           <button
-            className={`rounded-lg absolute bottom-2 right-2 text-white px-4 py-2 ${BGColorCode[prop.status]}`}
+            className={`rounded-lg absolute bottom-2 right-2 text-white px-4 py-2 ${BGColorCode[prop.order.status]}`}
           >
             Edit
           </button>

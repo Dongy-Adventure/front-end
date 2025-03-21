@@ -43,16 +43,16 @@ export default function TransactionHistory() {
                 {hasTransactions ? (
                   user.transaction.map((transaction: Transaction) => (
                     <tr
-                      key={transaction.orderId}
+                      key={transaction.orderID}
                       className="hover:bg-gray-50"
                     >
                       <td className="p-3 flex items-center space-x-3">
-                        <span>{transaction.date}</span>
+                        <span>{transaction.date.slice(0, 10)}</span>
                       </td>
-                      <td className="p-3">{transaction.orderId}</td>
-                      <td className="p-3">{transaction.paymentMethod}</td>
+                      <td className="p-3">{transaction.orderID}</td>
+                      <td className="p-3">{transaction.payment}</td>
                       <td className="p-3 items-center text-project-green font-bold">
-                        ${transaction.total}
+                        ${transaction.amount}
                       </td>
                     </tr>
                   ))

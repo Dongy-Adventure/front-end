@@ -5,12 +5,17 @@ import 'react-day-picker/style.css';
 import moment from 'moment';
 import { status } from './Popup';
 import { useAuth } from '@/context/AuthContext';
-import { updatePlace, updateTime } from '@/utils/appointment';
+import {
+  getAppointmentByOrderID,
+  updatePlace,
+  updateTime,
+} from '@/utils/appointment';
 import { changeOrderStatus } from '@/utils/order';
 import { useToast } from '@/context/ToastContext';
 import { cn } from '@/lib/utils';
+import { Appointment } from '@/types/appointment';
 
-export default function Appointment(prop: CardProps) {
+export default function AppointmentPage(prop: CardProps) {
   const toast = useToast();
   const [appointmentTime, setAppointmentTime] = useState('-');
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -70,6 +75,22 @@ export default function Appointment(prop: CardProps) {
     '16.00',
     '17.00',
   ];
+
+  useEffect(() => {
+    const fetchAppointment = async () => {
+      const res: Appointment | null = await getAppointmentByOrderID(
+        prop.order.orderID
+      );
+      if (!res) {
+        return;
+      }
+      setAddress(res.address);
+      setDistrict(res.city);
+      setProvince(res.province);
+    };
+
+    fetchAppointment();
+  });
 
   const saveAppointment = () => {
     if (prop.order.status === 2) {
@@ -152,7 +173,13 @@ export default function Appointment(prop: CardProps) {
       >
         <div className="flex text-[13px] font-normal">Appointment Place</div>
         <div className="font-bold text-[24px]-">
-          {status[prop.order.status]}
+          {prop.order.status === 1
+            ? address
+            : prop.order.status === 0
+              ? status[prop.order.status]
+              : prop.order.status === 2
+                ? 'Waiting For Delivery'
+                : 'Completed'}
         </div>
       </div>
       <div className="font-bold text-[24px] w-full">
