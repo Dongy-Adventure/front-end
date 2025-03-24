@@ -6,19 +6,27 @@ import { Review } from '@/types/review';
 import ProfileBadge from '@/components/ProfileBadge';
 import Sidebar from '@/components/Sidebar';
 import Link from 'next/link';
-import { Star } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import ReviewCard, { ReviewProps } from '@/components/ReviewCard';
 
 export default function Reviews() {
   const { user } = useAuth();
-  const [reviews, setReview] = useState<Review[]>([]);
+  const [reviews, setReview] = useState<ReviewProps[]>([]);
 
   useEffect(() => {
     const isSeller = user && 'sellerID' in user;
     const getAllReview = async () => {
       if (isSeller) {
-        const reviews = await getReviews(user.sellerID as string, 'seller');
-        setReview(reviews ?? []);
+        const res: Review[] | null = await getReviews(user.sellerID as string, 'seller');
+        if (!res) return;
+        const rev: ReviewProps[] = res.map((r: Review) => ({
+          reviewee: r.reviewee,
+          reviewId: r.reviewId,
+          name: r.reviewer,
+          score: r.score,
+          message: r.message,
+          date: r.date,
+        }));
+        setReview(rev);
       }
     };
 
@@ -46,48 +54,20 @@ export default function Reviews() {
             <table className="w-full">
               <thead className="border-b border-gray-300 p-3 font-semibold text-left">
                 <tr>
-                  <th>Date</th>
-                  <th>Reviewer</th>
-                  <th>Rating</th>
-                  <th>Message</th>
+                  <th className="font-medium">Date</th>
+                  <th className="font-medium">
+                    {user?.userType === 'seller' ? 'Reviewer' : 'Seller'}{' '}
+                  </th>
+                  <th className="font-medium">Rating</th>
+                  <th className="font-medium">Review Text</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
-                {reviews.map((review: Review) => (
-                  <tr
+                {reviews.map((review: ReviewProps) => (
+                  <ReviewCard
                     key={review.reviewId}
-                    className="hover:bg-gray-50"
-                  >
-                    <td className="p-3 flex items-center space-x-3">
-                      <span>{review.date.slice(0, 10)}</span>
-                    </td>
-                    <td className="p-3">{review.reviewer}</td>
-                    <td className="p-3">
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            size={16}
-                            className={
-                              i < review.score
-                                ? 'fill-yellow-500 text-yellow-500'
-                                : 'text-gray-300'
-                            }
-                          />
-                        ))}
-                      </div>
-                    </td>
-                    <td
-                      className={cn(
-                        'p-3 items-center font-bold',
-                        review.score >= 3
-                          ? 'text-project-green'
-                          : 'text-project-pink'
-                      )}
-                    >
-                      {review.message}
-                    </td>
-                  </tr>
+                    {...review}
+                  />
                 ))}
               </tbody>
             </table>

@@ -78,12 +78,12 @@ export default function Reviews() {
             <table className="w-full">
               <thead className="border-b border-gray-300 p-3 font-semibold text-left">
                 <tr>
-                  <th>Date</th>
-                  <th>
+                  <th className="font-medium">Date</th>
+                  <th className="font-medium">
                     {user?.userType === 'seller' ? 'Reviewer' : 'Seller'}{' '}
                   </th>
-                  <th>Rating</th>
-                  <th>Message</th>
+                  <th className="font-medium">Rating</th>
+                  <th className="font-medium">Review Text</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
