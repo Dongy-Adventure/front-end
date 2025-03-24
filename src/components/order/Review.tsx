@@ -1,5 +1,5 @@
 import 'react-day-picker/style.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CardProps } from './Card';
 import { Star, CircleCheck } from 'lucide-react';
 import { useToast } from '@/context/ToastContext';
@@ -32,8 +32,6 @@ export default function Review(prop: CardProps) {
       createAt: '',
     },
   });
-
-  useEffect(() => {}, []);
 
   const rating = watch('score');
   const onSubmit = async (data: CreateReviewInfo) => {
