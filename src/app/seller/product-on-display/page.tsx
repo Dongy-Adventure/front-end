@@ -7,7 +7,6 @@ import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
 import Image from 'next/image';
 import wristWatch from '@/../public/wrist-watch.png';
-import trash from '@/../public/trash.png';
 import { deleteProduct, getSellerProducts } from '@/utils/product';
 import { Product } from '@/types/product';
 import AddProduct from '@/components/seller/product/AddProduct';

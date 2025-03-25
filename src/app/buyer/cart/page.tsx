@@ -37,15 +37,15 @@ export default function Cart() {
         <div className="flex flex-col w-full">
           <h1 className="text-3xl font-bold pb-4 text-project-primary">Cart</h1>
           <main className="overflow-x-auto p-8 flex gap-8">
-            <table className="w-full">
+            <table className="table-fixed w-full">
               <thead className="border-b border-gray-300 p-3 font-semibold text-left">
                 <tr>
-                  <th>Status</th>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Total</th>
-                  <th>Action</th>
+                  <th className="font-medium">Status</th>
+                  <th className="font-medium">Product</th>
+                  <th className="font-medium">Price</th>
+                  <th className="font-medium">Quantity</th>
+                  <th className="font-medium">Total</th>
+                  <th className="font-medium">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
