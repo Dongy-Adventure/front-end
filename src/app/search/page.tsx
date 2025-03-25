@@ -25,6 +25,17 @@ export default function Search() {
   const [maxPrice, setMaxPrice] = useState(price.split('-')[1] || '');
   const [maxAvailablePrice, setMaxAvailablePrice] = useState(0);
 
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>(
+    {}
+  );
+  const [colorCounts, setColorCounts] = useState<Record<string, number>>({});
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    categories ? categories.split(',') : []
+  );
+  const [selectedColors, setSelectedColors] = useState<string[]>(
+    color ? color.split(',') : []
+  );
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -49,6 +60,26 @@ export default function Search() {
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!allProducts) return;
+
+    const categoryMap: Record<string, number> = {};
+    const colorMap: Record<string, number> = {};
+
+    allProducts.forEach((product) => {
+      product.tag.forEach((tag) => {
+        categoryMap[tag] = (categoryMap[tag] || 0) + 1;
+      });
+
+      if (product.color) {
+        colorMap[product.color] = (colorMap[product.color] || 0) + 1;
+      }
+    });
+
+    setCategoryCounts(categoryMap);
+    setColorCounts(colorMap);
+  }, [allProducts]);
 
   useEffect(() => {
     if (!allProducts) return;
@@ -78,37 +109,51 @@ export default function Search() {
       );
     }
 
-    if (categories) {
-      const categoryList = categories.split(',');
+    if (selectedCategories.length) {
       filtered = filtered.filter((product) =>
-        categoryList.includes(product.tag[0])
+        product.tag.some((tag) => selectedCategories.includes(tag))
       );
     }
 
-    if (color) {
-      filtered = filtered.filter((product) => product.color === color);
+    if (selectedColors.length) {
+      filtered = filtered.filter((product) =>
+        selectedColors.includes(product.color)
+      );
     }
 
     setFilteredProducts(filtered);
-  }, [q, price, categories, color, allProducts]);
+
+    // **Dynamically update category and color counts**
+    const categoryMap: Record<string, number> = {};
+    const colorMap: Record<string, number> = {};
+
+    filtered.forEach((product) => {
+      product.tag.forEach((tag) => {
+        categoryMap[tag] = (categoryMap[tag] || 0) + 1;
+      });
+
+      if (product.color) {
+        colorMap[product.color] = (colorMap[product.color] || 0) + 1;
+      }
+    });
+
+    setCategoryCounts(categoryMap);
+    setColorCounts(colorMap);
+  }, [q, price, selectedCategories, selectedColors, allProducts]);
 
   const handleFilter = () => {
     const params = new URLSearchParams();
 
     if (q) params.set('q', q);
-    if (categories) params.set('categories', categories);
-    if (color) params.set('color', color);
+    if (selectedCategories.length)
+      params.set('categories', selectedCategories.join(','));
+    if (selectedColors.length) params.set('color', selectedColors.join(','));
 
     if (minPrice && maxPrice) {
       params.set('price', `${minPrice}-${maxPrice}`);
     }
 
     router.push(`/search?${params.toString()}`);
-  };
-
-  const handleClearPrice = () => {
-    setMinPrice('0');
-    setMaxPrice(maxAvailablePrice.toString());
   };
 
   return (
@@ -131,6 +176,7 @@ export default function Search() {
 
       <div className="flex pt-4 gap-16 text-black">
         <div className="flex flex-col max-w-96 h-auto bg-project-secondary rounded-xl py-12 px-8 gap-12">
+          {/* Price Filter */}
           <div>
             <p className="font-semibold pb-4">Price Filter</p>
             <div className="flex gap-2">
@@ -140,18 +186,18 @@ export default function Search() {
                   type="number"
                   value={minPrice}
                   onChange={(e) => setMinPrice(e.target.value)}
-                  className="w-28 h-8 rounded-md border p-1"
+                  className="w-28 h-10 rounded-md border p-2"
                   placeholder="Min"
                 />
               </div>
-              <span className="pt-7">&ndash;</span>
+              <span className="pt-8">&ndash;</span>
               <div className="flex flex-col">
                 <p className="text-sm pb-1">Max Price</p>
                 <input
                   type="number"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(e.target.value)}
-                  className="w-28 h-8 rounded-md border p-1"
+                  className="w-28 h-10 rounded-md border p-2"
                   placeholder="Max"
                 />
               </div>
@@ -167,61 +213,92 @@ export default function Search() {
                 Filter
               </button>
             </div>
-            <button
-              onClick={handleClearPrice}
-              className="underline"
-            >
-              clear
-            </button>
           </div>
 
+          {/* Category Filter */}
           <div>
-            <p className="font-semibold">Product Categories</p>
+            <p className="font-semibold pb-2">Product Categories</p>
+            <ul>
+              {Object.entries(categoryCounts).map(([category, count]) => (
+                <li
+                  key={category}
+                  className="flex items-center gap-2"
+                >
+                  <input
+                    type="checkbox"
+                    className="accent-project-primary"
+                    checked={selectedCategories.includes(category)}
+                    onChange={() =>
+                      setSelectedCategories((prev) =>
+                        prev.includes(category)
+                          ? prev.filter((c) => c !== category)
+                          : [...prev, category]
+                      )
+                    }
+                  />
+                  <label className="flex justify-between w-full">
+                    <span>{category}</span>{' '}
+                    <span className="text-gray-400">({count})</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
           </div>
+
+          {/* Color Filter */}
           <div>
-            <p className="font-semibold">Filter by Color</p>
+            <p className="font-semibold pb-2">Filter by Color</p>
+            <ul>
+              {Object.entries(colorCounts).map(([color, count]) => (
+                <li
+                  key={color}
+                  className="flex items-center gap-2"
+                >
+                  <input
+                    type="checkbox"
+                    className="accent-project-primary"
+                    checked={selectedColors.includes(color)}
+                    onChange={() =>
+                      setSelectedColors((prev) =>
+                        prev.includes(color)
+                          ? prev.filter((c) => c !== color)
+                          : [...prev, color]
+                      )
+                    }
+                  />
+                  <label className="flex justify-between w-full">
+                    <span>{color}</span>{' '}
+                    <span className="text-gray-400">({count})</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
         <div className="flex flex-col gap-8 w-full max-w-5xl">
-          <div className="h-40 w-full bg-black text-white rounded-md">
-            temp banner
-          </div>
           {loading ? (
-            <p className="text-gray-500">Loading products...</p>
-          ) : allProducts?.length === 0 ? (
-            <p className="text-gray-500">No products available.</p>
+            <p>Loading products...</p>
+          ) : filteredProducts.length === 0 ? (
+            <p>No matching results found.</p>
           ) : (
-            <div className="flex flex-col">
-              {filteredProducts.length === 0 ? (
-                <p className="text-gray-500">No matching results found.</p>
-              ) : (
-                <ul className="flex gap-y-8 gap-x-6 flex-wrap">
-                  {filteredProducts.map((product) => (
-                    <ProductCard
-                      key={product.productID}
-                      pid={product.productID}
-                      category={
-                        product.tag?.length
-                          ? product.tag.join(', ')
-                          : 'Not Categorized'
-                      }
-                      productName={product.productName}
-                      price={product.price}
-                      discountedPrice={product.price * 1.0}
-                      image={product.imageURL}
-                    />
-                  ))}
-                </ul>
-              )}
-
-              <div className="mt-4">
-                *for debugging*
-                <p>Price: {price || 'Any'}</p>
-                <p>Categories: {categories || 'All'}</p>
-                <p>Color: {color || 'Any'}</p>
-              </div>
-            </div>
+            <ul className="flex gap-y-8 gap-x-6 flex-wrap">
+              {filteredProducts.map((product) => (
+                <ProductCard
+                  key={product.productID}
+                  pid={product.productID}
+                  category={
+                    product.tag?.length
+                      ? product.tag.join(', ')
+                      : 'Not Categorized'
+                  }
+                  productName={product.productName}
+                  price={product.price}
+                  discountedPrice={product.price * 1.0}
+                  image={product.imageURL}
+                />
+              ))}
+            </ul>
           )}
         </div>
       </div>
