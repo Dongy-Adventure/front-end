@@ -13,7 +13,7 @@ function Summary({ total }: { total: number }) {
         <h1 className="font-bold">Your Order</h1>
         <div className="flex justify-between">
           <h1>Total</h1>
-          <h1>${total.toFixed(2)}</h1>
+          <h1>฿{total.toFixed(2)}</h1>
         </div>
       </div>
       <button
