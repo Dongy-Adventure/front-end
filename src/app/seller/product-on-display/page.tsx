@@ -91,47 +91,49 @@ export default function ProductOnDisplay() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
-                {products.map((product: Product) => (
-                  <tr
-                    key={product.productID}
-                    className="hover:bg-gray-50"
-                  >
-                    <td className="py-3 flex items-center space-x-3">
-                      <Image
-                        src={wristWatch}
-                        alt={product.productName}
-                        className="w-12 h-12 object-cover rounded-md"
-                      />
-                      <span>{product.productName}</span>
-                    </td>
-                    <td className="py-3 ">{product.productID}</td>
-                    <td className="py-3">{product.amount}</td>
-                    <td className="py-3">${product.price}</td>
-                    <td className="py-3 items-center">
-                      <button
-                        className="py-1 items-center"
-                        onClick={() => {
-                          setOnEditPage(true);
-                          setSelectedEdit(product);
-                        }}
-                      >
-                        <Icon
-                          icon="mdi-light:pencil"
-                          className="w-6 h-6"
+                {products
+                  .filter((p: Product) => p.amount > 0)
+                  .map((product: Product) => (
+                    <tr
+                      key={product.productID}
+                      className="hover:bg-gray-50"
+                    >
+                      <td className="py-3 flex items-center space-x-3">
+                        <Image
+                          src={wristWatch}
+                          alt={product.productName}
+                          className="w-12 h-12 object-cover rounded-md"
                         />
-                      </button>
-                      <button
-                        onClick={() => onDelete(product.productID)}
-                        className="p-1 items-center"
-                      >
-                        <Icon
-                          icon="mdi-light:delete"
-                          className="w-6 h-6 text-red-500"
-                        />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                        <span>{product.productName}</span>
+                      </td>
+                      <td className="py-3 ">{product.productID}</td>
+                      <td className="py-3">{product.amount}</td>
+                      <td className="py-3">${product.price}</td>
+                      <td className="py-3 items-center">
+                        <button
+                          className="py-1 items-center"
+                          onClick={() => {
+                            setOnEditPage(true);
+                            setSelectedEdit(product);
+                          }}
+                        >
+                          <Icon
+                            icon="mdi-light:pencil"
+                            className="w-6 h-6"
+                          />
+                        </button>
+                        <button
+                          onClick={() => onDelete(product.productID)}
+                          className="p-1 items-center"
+                        >
+                          <Icon
+                            icon="mdi-light:delete"
+                            className="w-6 h-6 text-red-500"
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

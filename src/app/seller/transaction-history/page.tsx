@@ -45,9 +45,13 @@ export default function TransactionHistory() {
                     <tr
                       key={transaction.orderID}
                       className="hover:bg-gray-50"
+                      onClick={() => {}}
                     >
                       <td className="py-3 flex items-center space-x-3">
-                        <span>{transaction.date.slice(0, 10)} {transaction.date.slice(11, 16)}</span>
+                        <span>
+                          {transaction.date.slice(0, 10)}{' '}
+                          {transaction.date.slice(11, 16)}
+                        </span>
                       </td>
                       <td className="py-3">{transaction.orderID}</td>
                       <td className="py-3">{transaction.payment}</td>
