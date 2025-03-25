@@ -7,7 +7,6 @@ import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
 import Image from 'next/image';
 import wristWatch from '@/../public/wrist-watch.png';
-import trash from '@/../public/trash.png';
 import { deleteProduct, getSellerProducts } from '@/utils/product';
 import { Product } from '@/types/product';
 import AddProduct from '@/components/seller/product/AddProduct';
@@ -80,16 +79,15 @@ export default function ProductOnDisplay() {
               + Add new product
             </button>
           </div>
-
           <div className="overflow-x-auto p-4">
-            <table className="w-full">
+            <table className="table-fixed w-full">
               <thead className="border-b border-gray-300 p-3 font-semibold text-left">
                 <tr>
-                  <th>Product</th>
-                  <th>Product ID</th>
-                  <th>Amount</th>
-                  <th>Price</th>
-                  <th>Action</th>
+                  <th className="font-medium w-60">Product</th>
+                  <th className="font-medium w-80">Product ID</th>
+                  <th className="font-medium w-50">Amount</th>
+                  <th className="font-medium w-50">Price</th>
+                  <th className="font-medium">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
@@ -98,7 +96,7 @@ export default function ProductOnDisplay() {
                     key={product.productID}
                     className="hover:bg-gray-50"
                   >
-                    <td className="p-3 flex items-center space-x-3">
+                    <td className="py-3 flex items-center space-x-3">
                       <Image
                         src={wristWatch}
                         alt={product.productName}
@@ -106,31 +104,29 @@ export default function ProductOnDisplay() {
                       />
                       <span>{product.productName}</span>
                     </td>
-                    <td className="p-3">{product.productID}</td>
-                    <td className="p-3">{product.amount}</td>
-                    <td className="p-3">${product.price}</td>
-                    <td className="p-3 items-center">
+                    <td className="py-3 ">{product.productID}</td>
+                    <td className="py-3">{product.amount}</td>
+                    <td className="py-3">${product.price}</td>
+                    <td className="py-3 items-center">
                       <button
-                        className="px-1"
+                        className="py-1 items-center"
                         onClick={() => {
                           setOnEditPage(true);
                           setSelectedEdit(product);
                         }}
                       >
                         <Icon
-                          icon="pepicons-pencil:color-picker"
-                          className="w-5 h-5"
+                          icon="mdi-light:pencil"
+                          className="w-6 h-6"
                         />
                       </button>
                       <button
                         onClick={() => onDelete(product.productID)}
-                        className="items-center"
+                        className="p-1 items-center"
                       >
-                        <Image
-                          src={trash}
-                          alt="Delete"
-                          width={20}
-                          height={20}
+                        <Icon
+                          icon="mdi-light:delete"
+                          className="w-6 h-6 text-red-500"
                         />
                       </button>
                     </td>
