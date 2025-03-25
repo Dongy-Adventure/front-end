@@ -36,7 +36,7 @@ export default function Cart() {
       <div className="flex gap-16 text-black">
         <div className="flex flex-col w-full">
           <h1 className="text-3xl font-bold pb-4 text-project-primary">Cart</h1>
-          <main className="overflow-x-auto p-8 flex gap-8">
+          
             <table className="w-full">
               <thead className="border-b border-gray-300 p-3 font-semibold text-left">
                 <tr>
@@ -48,7 +48,7 @@ export default function Cart() {
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-300">
+              <tbody className="divide-gray-300">
                 {cart.map((cart: ItemCart) => (
                   <CartCard
                     product={cart.product}
@@ -64,7 +64,7 @@ export default function Cart() {
                 .filter((c) => selectedItemCart.includes(c.product.productID))
                 .reduce((sum, c) => sum + c.product.price * c.amount, 0)}
             />
-          </main>
+          
         </div>
       </div>
     </div>
