@@ -21,7 +21,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="z-40 hidden md:flex justify-stretch p-2 bg-white shadow-md fixed top-0 bottom-auto left-0 transform translate-x-0 w-screen">
+      <nav className="z-40 hidden md:flex justify-evenly p-2 bg-white shadow-md fixed top-0 bottom-auto left-0 transform translate-x-0 w-screen">
         <div
           className="flex align-center justify-center w-full cursor-pointer"
           onClick={() => router.push('/home')}

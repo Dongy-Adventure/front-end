@@ -1,76 +1,199 @@
 import { useToast } from '@/context/ToastContext';
+import { CardData } from '@/types/order';
 import { Product } from '@/types/product';
+import { UseFormReturn } from 'react-hook-form';
 
-const paymentOptions = [
-  { id: 'Promptpay', label: 'PromptPay' },
-  { id: 'Debit', label: 'Debit Card' },
-  { id: 'Credit', label: 'Credit Card' },
+const PAYMENTOPTIONS = [
+  { id: 'Debit/Credit', label: 'Debit/Credit Card' },
+  { id: 'Cash', label: 'Cash On Delivery' },
 ];
 
 function Order({
   total,
   handleSubmit,
   products,
-  payBy,
-  setPayBy,
+  totalAmount,
+  cardForm,
+  paymentType,
+  setPaymentType,
 }: {
   total: number;
-  handleSubmit: (products: Product[], paymentMethod: string) => void;
+  handleSubmit: (products: Product[], cardData?: CardData) => void;
   products: Product[];
-  payBy: string;
-  setPayBy: (s: string) => void;
+  totalAmount: number;
+  cardForm: UseFormReturn<CardData, any, undefined>;
+  paymentType: string;
+  setPaymentType: (s: string) => void;
 }) {
   const toast = useToast();
+  const {
+    register,
+    handleSubmit: formHandleSubmit,
+    formState: { errors },
+  } = cardForm;
+
+  const onSubmit = (data: CardData) => {
+    if (paymentType) {
+      handleSubmit(products, data);
+    } else {
+      toast?.setToast('error', 'Please add payment method');
+    }
+  };
+
   return (
-    <section className="border bg-gray-100 w-96 h-72 rounded-xl p-6 flex flex-col justify-between">
-      <div>
-        <h1 className="font-bold text-lg">Your Order</h1>
-        <h2 className="mt-2">Payment Method</h2>
-        <div className="flex flex-col gap-2 mt-2">
-          {paymentOptions.map((option) => (
-            <label
-              key={option.id}
-              className={`flex items-center gap-2 p-2 border rounded-md cursor-pointer ${
-                payBy === option.id ? 'bg-blue-100 border-blue-500' : ''
-              }`}
-            >
-              <input
-                type="radio"
-                name="paymentMethod"
-                value={option.id}
-                checked={payBy === option.id}
-                onChange={() => setPayBy(option.id)}
-                className="hidden"
-              />
-              <span className="w-5 h-5 border border-gray-400 rounded-full flex items-center justify-center">
-                {payBy === option.id && (
-                  <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+    <div className="flex gap-4 flex-col w-96">
+      <section className="border bg-gray-100 rounded-xl p-6 flex flex-col justify-between">
+        <div>
+          <h1 className="text-xl font-bold">Payment Method</h1>
+          <p>
+            Please select the preferred payment method to use on this order.
+          </p>
+          <div className="flex flex-col gap-2 mt-2">
+            {PAYMENTOPTIONS.map((option) => (
+              <div key={option.id}>
+                <label
+                  className={`flex items-center gap-2 p-2 border rounded-md cursor-pointer ${
+                    paymentType === option.id
+                      ? 'bg-blue-100 border-blue-500'
+                      : ''
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value={option.id}
+                    checked={paymentType === option.id}
+                    disabled={option.id === 'Debit/Credit' && totalAmount < 20}
+                    onChange={() => {
+                      setPaymentType(option.id);
+                    }}
+                    className="hidden"
+                  />
+                  <span className="w-5 h-5 border border-gray-400 rounded-full flex items-center justify-center">
+                    {paymentType === option.id && (
+                      <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                    )}
+                  </span>
+                  {option.label}
+                </label>
+                {option.id === 'Debit/Credit' && totalAmount < 20 && (
+                  <span className="text-red-500 text-sm">
+                    Debit/Credit Card Pay must be more than 20 bath!!
+                  </span>
                 )}
-              </span>
-              {option.label}
-            </label>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
+      </section>
+
+      <section className="border bg-gray-100 rounded-xl p-6 flex flex-col gap-4">
+        <h1 className="text-xl font-bold">Payment Method</h1>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium">Cardholder Name</label>
+          <input
+            type="text"
+            placeholder="John Doe"
+            className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+            disabled={paymentType === 'Cash'}
+            {...register('name')}
+          />
+          {errors.name && (
+            <span className="text-red-500 text-sm">{errors.name.message}</span>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium">Card Number</label>
+          <input
+            type="text"
+            placeholder="1234 5678 9012 3456"
+            className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+            disabled={paymentType === 'Cash'}
+            {...register('number')}
+            onInput={(e) => {
+              const input = e.target as HTMLInputElement;
+              const rawValue = input.value.replace(/\D/g, ''); // Keep only digits
+              const formattedValue = rawValue.replace(/(\d{4})(?=\d)/g, '$1 '); // Format with spaces
+              input.value = formattedValue; // Modify only the displayed value
+            }}
+          />
+          {errors.number && (
+            <span className="text-red-500 text-sm">
+              {errors.number.message}
+            </span>
+          )}
+        </div>
+
+        <div className="flex gap-2">
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium">Expiration Month</label>
+            <input
+              type="text"
+              placeholder="MM"
+              className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+              disabled={paymentType === 'Cash'}
+              {...register('expiryMonth')}
+            />
+            {errors.expiryMonth && (
+              <span className="text-red-500 text-sm">
+                {errors.expiryMonth.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium">Expiration Year</label>
+            <input
+              type="text"
+              placeholder="YY"
+              className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+              disabled={paymentType === 'Cash'}
+              {...register('expiryYear')}
+            />
+            {errors.expiryYear && (
+              <span className="text-red-500 text-sm">
+                {errors.expiryYear.message}
+              </span>
+            )}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium">CVV</label>
+          <input
+            type="password"
+            placeholder="123"
+            className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+            disabled={paymentType === 'Cash'}
+            {...register('securityCode')}
+          />
+          {errors.securityCode && (
+            <span className="text-red-500 text-sm">
+              {errors.securityCode.message}
+            </span>
+          )}
+        </div>
+      </section>
+      <section className="border bg-gray-100 rounded-xl p-6 flex flex-col justify-between">
+        <h1 className="font-bold text-lg">Your Order</h1>
         <div className="flex justify-between mt-4">
           <h2 className="font-semibold">Total</h2>
           <h2 className="font-semibold">${total.toFixed(2)}</h2>
         </div>
-      </div>
-      <button
-        className={`w-full rounded-lg h-10 text-white font-bold mt-4 ${
-          payBy
-            ? 'bg-blue-600 hover:bg-blue-700'
-            : 'bg-gray-400 cursor-not-allowed'
-        }`}
-        disabled={!payBy}
-        onClick={() => {
-          if (payBy) handleSubmit(products, payBy);
-          else toast?.setToast('error', 'Please add payment method');
-        }}
-      >
-        Place Order
-      </button>
-    </section>
+        <button
+          className={`w-full rounded-lg h-10 text-white font-bold mt-4 ${
+            paymentType
+              ? 'bg-blue-600 hover:bg-blue-700'
+              : 'bg-gray-400 cursor-not-allowed'
+          }`}
+          disabled={!paymentType}
+          onClick={formHandleSubmit(onSubmit)} // use formHandleSubmit to handle submit with validation
+        >
+          Place Order
+        </button>
+      </section>
+    </div>
   );
 }
 

@@ -27,7 +27,7 @@ function Card(props: CardProps) {
         <Image
           src={tempProductImage}
           alt={product.productName}
-          className="w-12 h-12 object-cover rounded-md"
+          className="object-cover rounded-md aspect-square max-h-16 max-w-16"
         />
         <span className="items-center">{product.productName}</span>
       </td>
