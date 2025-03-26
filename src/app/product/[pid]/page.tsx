@@ -21,6 +21,7 @@ const tempSeller: Seller = {
 };
 
 export default async function Page({ params }: { params: { pid?: string } }) {
+  // console.log(params)
   if (!params?.pid) {
     return (
       <div className="flex items-center justify-center h-screen text-gray-600">

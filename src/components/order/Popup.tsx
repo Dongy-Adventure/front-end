@@ -27,9 +27,9 @@ export default function Popup(prop: CardProps) {
   };
   const textColor: { [key: number]: string } = {
     0: 'text-[#F33CB4]',
-    1: 'text-project-lightblue',
+    1: 'text-[#003FFD]',
     2: 'text-[#CC731B]',
-    3: 'text-project-lightgreen',
+    3: 'text-[#0D9C72]',
   };
   return (
     <div

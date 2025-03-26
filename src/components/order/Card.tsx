@@ -34,7 +34,7 @@ export default function Card(props: CardProps) {
       {loadView && (
         <div
           className={cn(
-            'absolute top-0 right-0 w-screen h-screen backdrop-blur-[3px] flex justify-center items-center',
+            'fixed top-0 right-0 w-screen h-screen backdrop-blur-[3px] flex justify-center items-center',
             hidden ? '-z-40' : 'z-40'
           )}
           onClick={() => {
@@ -48,7 +48,7 @@ export default function Card(props: CardProps) {
       <section className="p-2 gap-2">
         <div className="flex justify-between font-medium text-sm">
           <h4>Order</h4>
-          <h4>#{order.orderID}</h4>
+          <h4>#{order.orderID.slice(-5)}</h4>
         </div>
         <div className="flex justify-between font-bold text-md">
           <h4>{new Date(order.createdAt).toLocaleDateString('en-GB')}</h4>
@@ -60,7 +60,7 @@ export default function Card(props: CardProps) {
               return (
                 <Image
                   key={p.productID}
-                  src={WristWatch}
+                  src={p.imageURL||WristWatch}
                   alt={order.orderID}
                   className="w-12 h-12 object-cover rounded-md"
                 />
@@ -99,7 +99,7 @@ export default function Card(props: CardProps) {
                 setHidden(false);
               }}
             >
-              {order.status === 3 ? 'View' : 'Edit'}
+              {order.status === 3 || order.status === 2 || order.status===0 ? 'View' : 'Edit'}
             </button>
           </div>
         </div>

@@ -21,32 +21,13 @@ export default function AppointmentPage(prop: CardProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const { user } = useAuth();
   const [color, setColor] = useState('bg-[#003FFD] text-white');
-  const [css, setCss] = useState('');
   const [address, setAddress] = useState('');
   const [district, setDistrict] = useState('');
   const [province, setProvince] = useState('');
   const [zipcode, setZipcode] = useState('');
-  useEffect(() => {
-    if (prop.order.status == 1) {
-      setSelectedDate(new Date());
-      setColor('bg-[#CC731B] text-white');
-      setCss(`
-        .selected {
-          background-color: #CC731B;
-          color: white;
-          border-radius: 10px;
-        }
-        .today {
-          color: #CC731B;
-        }
-        .selected.today {
-          background-color: #CC731B !important;
-          color: white !important;
-        }
-      `);
-    } else {
-      setColor('bg-[#003FFD] text-white');
-      setCss(`
+  const [dateShow, setDateShow] = useState('');
+
+  const calendarBlueTheme = `
         .selected {
         background-color: #003FFD;
         color: white;
@@ -59,7 +40,20 @@ export default function AppointmentPage(prop: CardProps) {
         background-color: #003FFD !important;
         color: white !important;
         }
-        `);
+        `;
+
+  const bgColor: { [key: number]: string } = {
+    0: 'bg-[#F33CB4]',
+    1: 'bg-[#003FFD]',
+    2: 'bg-[#CC731B]',
+    3: 'bg-[#0D9C72]',
+  };
+  useEffect(() => {
+    if (prop.order.status == 1) {
+      setSelectedDate(new Date());
+      setColor('bg-[#003FFD] text-white');
+    } else {
+      setColor('bg-[#CC731B] text-white');
     }
   }, [prop.order.status]);
 
@@ -84,14 +78,20 @@ export default function AppointmentPage(prop: CardProps) {
       if (!res) {
         return;
       }
+
       setAddress(res.address);
       setDistrict(res.city);
       setProvince(res.province);
+      setAppointmentTime(res.timeSlot);
+
+      const dateOnly = new Date(res.date);
+      dateOnly.setHours(0, 0, 0, 0); // Reset time part
+
+      setDateShow(dateOnly.toLocaleDateString()); // This should be a Date object
     };
 
     fetchAppointment();
-  });
-
+  }, []); // Runs only once when component mounts
   const saveAppointment = () => {
     if (prop.order.status === 2) {
       doneDeliver();
@@ -171,14 +171,16 @@ export default function AppointmentPage(prop: CardProps) {
                 : 'border-project-green'
         )}
       >
-        <div className="flex text-[13px] font-normal">Appointment Place</div>
-        <div className="font-bold text-[24px]-">
+        <div className="flex text-[13px] font-normal">Appointment</div>
+        <div className="font-bold text-[24px]">
           {prop.order.status === 1
-            ? address
+            ? address != ''
+              ? `${address} ${district} ${province} `
+              : 'No Data - Waiting For Seller'
             : prop.order.status === 0
               ? status[prop.order.status]
               : prop.order.status === 2
-                ? 'Waiting For Delivery'
+                ? `${dateShow} ${appointmentTime}`
                 : 'Completed'}
         </div>
       </div>
@@ -187,28 +189,38 @@ export default function AppointmentPage(prop: CardProps) {
           ? 'Add Place'
           : prop.order.status === 1 && user?.userType === 'buyer'
             ? 'Add Appointment day and time'
-            : 'You have to wait'}
+            : prop.order.status === 2
+              ? `${address} ${district} ${province}`
+              : ''}
       </div>
+      {/* BUGGGGG FUCKKKKK calenda color cannot change */}
       {user?.userType === 'buyer' && prop.order.status === 1 && (
         <>
-          <div className="w-full h-fit justify-center items-center shadow-lg mt-2 rounded-2xl p-3 ">
+          <div className="w-full h-fit justify-center items-center  mt-2 rounded-2xl p-3 ">
             <div className="w-fit ml-auto mr-auto">
-              <style>{css}</style>
-              <DayPicker
-                animate
-                mode="single"
-                selected={selectedDate}
-                onSelect={setSelectedDate}
-                footer={
-                  selectedDate
-                    ? `Selected: ${selectedDate.toLocaleDateString()}`
-                    : 'Pick a day.'
-                }
-                modifiersClassNames={{
-                  selected: 'selected',
-                  today: 'today',
-                }}
-              />
+              <div className="relative">
+                <style>{calendarBlueTheme}</style>
+                {/* <style>{calendarOrangeTheme}</style> */}
+
+                {/* Blue Theme Calendar (Visible when status is 1) */}
+                <div className={prop.order.status === 1 ? 'flex' : 'hidden'}>
+                  <DayPicker
+                    animate
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    footer={
+                      selectedDate
+                        ? `Selected: ${selectedDate.toLocaleDateString()}`
+                        : 'Pick a day.'
+                    }
+                    modifiersClassNames={{
+                      selected: 'selected',
+                      today: 'today',
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -228,7 +240,7 @@ export default function AppointmentPage(prop: CardProps) {
           </div>
         </>
       )}
-      {user?.userType === 'seller' && prop.order.status === 0 && (
+      {user?.userType === 'seller' && prop.order.status === 1 && (
         <>
           <div className="flex flex-col h-fit w-full gap-3">
             <div className="flex flex-col gap-3 w-full h-fit ">
@@ -267,18 +279,19 @@ export default function AppointmentPage(prop: CardProps) {
         </>
       )}
 
-      {((user?.userType === 'seller' && prop.order.status === 0) ||
-        (user?.userType === 'buyer' && prop.order.status === 1) ||
-        prop.order.status === 2) && (
+      {((user?.userType === 'seller' &&
+        (prop.order.status === 1 || prop.order.status === 0)) ||
+        (user?.userType === 'buyer' &&
+          (prop.order.status === 2 || prop.order.status === 1))) && (
         <div className="flex mt-4 h-fit items-center">
-          <div className="text-[#777777] text-[14px] font-normal">
-            You choose
-          </div>
           <div
             onClick={saveAppointment}
-            className={`ml-auto flex justify-center items-center ${color} text-[16px] rounded-xl w-[107px] h-[41px] text-white`}
+            className={cn(
+              `ml-auto flex justify-center items-center text-[16px] rounded-xl w-[107px] h-[41px] text-white`,
+              bgColor[prop.order.status]
+            )}
           >
-            Save
+            {prop.order.status === 2 ? 'Completed':'Save'}
           </div>
         </div>
       )}

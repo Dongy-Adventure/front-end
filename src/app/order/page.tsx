@@ -56,7 +56,7 @@ export default function Orders() {
                 <p className="font-semibold text-2xl">
                   {
                     orders.filter(
-                      (order) => order.status === 0 || order.status === 1
+                      (order) => order.status === 0|| order.status === 1
                     ).length
                   }
                 </p>
