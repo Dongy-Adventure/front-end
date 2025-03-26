@@ -26,8 +26,13 @@ export const createBuyer = async (
 };
 
 export const getBuyerById = async (id: string): Promise<Buyer | null> => {
+  const accessToken = await getAccessToken();
   try {
-    const res: AxiosResponse<BuyerDTO> = await apiClient.get(`/buyer/${id}`);
+    const res: AxiosResponse<BuyerDTO> = await apiClient.get(`/buyer/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     if (!res.data.success) {
       return null;
     }
@@ -90,7 +95,7 @@ export const updateCart = async (
   }
 
   try {
-    const res = await apiClient.post(
+    const res = await apiClient.patch(
       `/buyer/${userId}/cart`,
       {
         productID: pid,

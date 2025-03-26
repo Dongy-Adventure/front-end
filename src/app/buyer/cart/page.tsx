@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useToast } from '@/context/ToastContext';
 import CartCard from '@/components/buyer/cart/CartCard';
 import Summary from '@/components/buyer/cart/Summary';
-import { deleteCart, updateCart } from '@/utils/buyer';
+import { deleteCart } from '@/utils/buyer';
 import { ItemCart, useCart } from '@/context/CartContext';
 
 export default function Cart() {

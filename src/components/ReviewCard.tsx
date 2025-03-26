@@ -1,6 +1,4 @@
 import { useAuth } from '@/context/AuthContext';
-import trash from '@/../public/trash.png';
-import Image from 'next/image';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Star } from 'lucide-react';
 
@@ -34,47 +32,45 @@ export default function ReviewCard(props: ReviewProps) {
       key={reviewId}
       className="hover:bg-gray-50"
     >
-      <td className="p-3 flex items-center space-x-3">
-        <span>{date.slice(0, 10)}</span>
+      <td className="py-3 flex items-center space-x-3">
+        <span>{date.slice(0, 10)} {date.slice(11, 16)}</span>
       </td>
-      <td className="p-3">{user?.userType === 'buyer' ? reviewee : name}</td>
-      <td className="p-3">
+      <td className="py-3">{user?.userType === 'buyer' ? reviewee : name}</td>
+      <td className="py-3">
         <div className="flex">
           {[...Array(5)].map((_, i) => (
             <Star
               key={i}
               size={16}
               className={
-                i < score ? 'fill-yellow-500 text-yellow-500' : 'text-gray-300'
+                i < score ? 'fill-orange-500 text-orange-500' : 'text-gray-300'
               }
             />
           ))}
         </div>
       </td>
-      <td className="p-3 items-center">{message}</td>
+      <td className="py-3 items-center">{message}</td>
       {user?.userType === 'buyer' && (
-        <td className="p-3 items-center flex gap-4">
+        <td className="py-3 items-center flex gap-4">
           <button
-            className="px-1"
+            className="items-center"
             onClick={() => {
               setEdit?.();
               setReview?.();
             }}
           >
             <Icon
-              icon="pepicons-pencil:color-picker"
-              className="w-5 h-5"
+              icon="mdi-light:pencil"
+              className="w-6 h-6"
             />
           </button>
           <button
             onClick={() => deleteReview?.(reviewId)}
             className="items-center"
           >
-            <Image
-              src={trash}
-              alt="Delete"
-              width={20}
-              height={20}
+            <Icon
+              icon="mdi-light:delete"
+              className="w-6 h-6 text-red-500"
             />
           </button>
         </td>

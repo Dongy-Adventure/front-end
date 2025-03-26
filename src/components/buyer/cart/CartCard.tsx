@@ -2,11 +2,11 @@
 
 import Image from 'next/image';
 import tempProductImage from '@/../public/placeholder200.jpeg';
-import trash from '@/../public/trash.png';
 import { Product } from '@/types/product';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 interface CartCardProps {
   product: Product;
@@ -39,16 +39,16 @@ function CartCard(props: CartCardProps) {
           className="w-5 h-5 text-purple-600 bg-white border-gray-300 rounded focus:ring-2 focus:ring-purple-500"
         />
       </td>
-      <td className="p-3 flex items-center space-x-3">
+      <td className="py-3 items-center">
         <Image
           src={tempProductImage}
           alt={product.productName}
           className="w-12 h-12 object-cover rounded-md"
         />
-        <span>{product.productName}</span>
+        <span className="items-center">{product.productName}</span>
       </td>
-      <td className="p-3">${product.price}</td>
-      <td>
+      <td className="py-3 items-center">${product.price}</td>
+      <td className="py-3 items-center">
         <div className="flex items-center justify-between w-16 h-6 border rounded-lg bg-gray-100">
           <button
             className="w-1/3 h-full flex items-center justify-center text-lg text-gray-700 hover:bg-gray-200"
@@ -71,17 +71,15 @@ function CartCard(props: CartCardProps) {
           </button>
         </div>
       </td>
-      <td>${(product.price * count).toFixed(2)}</td>
+      <td className="py-3 items-center">฿{(product.price * count).toFixed(2)}</td>
       <td className="p-3 items-center">
         <button
           className="items-center"
           onClick={() => handleDelete(product.productID)}
         >
-          <Image
-            src={trash}
-            alt="Delete"
-            width={20}
-            height={20}
+          <Icon
+            icon="mdi-light:delete"
+            className="w-6 h-6 text-red-500"
           />
         </button>
       </td>
