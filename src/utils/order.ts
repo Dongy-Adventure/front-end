@@ -61,6 +61,7 @@ export const createOrder = async (
         buyerName: buyerName,
         payment: payment,
         sellerName: sellerName,
+        createdAt: new Date(),
       },
       {
         headers: {
