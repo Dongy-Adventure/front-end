@@ -126,13 +126,16 @@ function Order({
           )}
         </div>
 
-        <div className="flex gap-2">
-          <div className="flex flex-col gap-2">
+        <div className="flex gap-2 justify-between">
+          <div className="flex flex-col gap-2 flex-1">
             <label className="text-sm font-medium">Expiration Month</label>
             <input
-              type="text"
+              type="number"
               placeholder="MM"
               className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+              min="1"
+              max="12"
+              step="1"
               disabled={paymentType === 'Cash'}
               {...register('expiryMonth')}
             />
@@ -142,13 +145,16 @@ function Order({
               </span>
             )}
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 flex-1">
             <label className="text-sm font-medium">Expiration Year</label>
             <input
-              type="text"
+              type="number"
               placeholder="YY"
               className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
               disabled={paymentType === 'Cash'}
+              min="2025"
+              max="2035"
+              step="1"
               {...register('expiryYear')}
             />
             {errors.expiryYear && (

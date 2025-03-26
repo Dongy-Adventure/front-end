@@ -39,14 +39,15 @@ function CartCard(props: CartCardProps) {
           className="w-5 h-5 text-purple-600 bg-white border-gray-300 rounded focus:ring-2 focus:ring-purple-500"
         />
       </td>
-      <td className="py-3 items-center">
+      <td className="py-3 flex flex-col justify-center">
         <Image
           src={tempProductImage}
           alt={product.productName}
           className="w-12 h-12 object-cover rounded-md"
         />
-        <span className="items-center">{product.productName}</span>
+        <span className="pl-3">{product.productName}</span>
       </td>
+
       <td className="py-3 items-center">${product.price}</td>
       <td className="py-3 items-center">
         <div className="flex items-center justify-between w-16 h-6 border rounded-lg bg-gray-100">
@@ -71,7 +72,9 @@ function CartCard(props: CartCardProps) {
           </button>
         </div>
       </td>
-      <td className="py-3 items-center">฿{(product.price * count).toFixed(2)}</td>
+      <td className="py-3 items-center">
+        ฿{(product.price * count).toFixed(2)}
+      </td>
       <td className="p-3 items-center">
         <button
           className="items-center"
