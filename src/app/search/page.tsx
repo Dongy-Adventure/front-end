@@ -7,6 +7,8 @@ import { Product } from '@/types/product';
 import ProductCard from '@/components/product/ProductCard';
 import Link from 'next/link';
 import Fuse from 'fuse.js';
+import { TAGS } from '@/constants/tags';
+import { COLORS } from '@/constants/color';
 
 export default function Search() {
   const searchParams = useSearchParams();
@@ -64,19 +66,25 @@ export default function Search() {
   useEffect(() => {
     if (!allProducts) return;
 
-    const categoryMap: Record<string, number> = {};
-    const colorMap: Record<string, number> = {};
+    const categoryMap: Record<string, number> = Object.fromEntries(
+      TAGS.map((category) => [category, 0])
+    );
+
+    const colorMap: Record<string, number> = Object.fromEntries(
+      COLORS.map((color) => [color, 0])
+    );
 
     allProducts.forEach((product) => {
       product.tag.forEach((tag) => {
-        categoryMap[tag] = (categoryMap[tag] || 0) + 1;
+        if (categoryMap[tag] !== undefined) {
+          categoryMap[tag] += 1;
+        }
       });
 
-      if (product.color) {
-        colorMap[product.color] = (colorMap[product.color] || 0) + 1;
+      if (product.color && colorMap[product.color] !== undefined) {
+        colorMap[product.color] += 1;
       }
     });
-
     setCategoryCounts(categoryMap);
     setColorCounts(colorMap);
   }, [allProducts]);
@@ -88,14 +96,9 @@ export default function Search() {
 
     if (q) {
       const fuse = new Fuse(filtered, {
-        keys: [
-          { name: 'productName', weight: 0.5 },
-          { name: 'description', weight: 0.3 },
-          { name: 'tag', weight: 0.2 },
-          { name: 'color', weight: 0.1 },
-        ],
-        threshold: 0.5,
-        includeScore: true,
+        keys: ['productName'],
+        threshold: 0.3,
+        distance: 100,
       });
 
       const results = fuse.search(q);
@@ -123,9 +126,13 @@ export default function Search() {
 
     setFilteredProducts(filtered);
 
-    // **Dynamically update category and color counts**
-    const categoryMap: Record<string, number> = {};
-    const colorMap: Record<string, number> = {};
+    const categoryMap: Record<string, number> = Object.fromEntries(
+      TAGS.map((category) => [category, 0])
+    );
+
+    const colorMap: Record<string, number> = Object.fromEntries(
+      COLORS.map((color) => [color, 0])
+    );
 
     filtered.forEach((product) => {
       product.tag.forEach((tag) => {
@@ -155,10 +162,8 @@ export default function Search() {
 
     router.push(`/search?${params.toString()}`);
   };
-
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
-      {/* Breadcrumb Navigation */}
       <div className="flex gap-2 pb-8">
         <Link
           href="/home"
@@ -176,7 +181,6 @@ export default function Search() {
 
       <div className="flex pt-4 gap-16 text-black">
         <div className="flex flex-col max-w-96 h-auto bg-project-secondary rounded-xl py-12 px-8 gap-12">
-          {/* Price Filter */}
           <div>
             <p className="font-semibold pb-4">Price Filter</p>
             <div className="flex gap-2">
@@ -215,7 +219,6 @@ export default function Search() {
             </div>
           </div>
 
-          {/* Category Filter */}
           <div>
             <p className="font-semibold pb-2">Product Categories</p>
             <ul>
@@ -245,7 +248,6 @@ export default function Search() {
             </ul>
           </div>
 
-          {/* Color Filter */}
           <div>
             <p className="font-semibold pb-2">Filter by Color</p>
             <ul>

@@ -69,7 +69,6 @@ export const createOrder = async (
         },
       }
     );
-    console.log(res);
 
     if (!res.data.status) {
       console.error(res.data.message);

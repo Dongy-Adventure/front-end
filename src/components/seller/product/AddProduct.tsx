@@ -68,6 +68,7 @@ export default function AddProduct(props: { closing: () => void }) {
       tag,
       amount,
     } = data;
+    console.log(data);
     const status = await createProduct(
       productName,
       Number(price),
@@ -211,19 +212,6 @@ export default function AddProduct(props: { closing: () => void }) {
                       </span>
                     );
                   })}
-                  <button
-                    type="button"
-                    className="px-3 py-1 rounded-full border text-sm"
-                    onClick={() => {
-                      const newTag = prompt('Enter a new tag:');
-                      if (newTag && !field.value.includes(newTag)) {
-                        const updatedTags = [...field.value, newTag];
-                        setValue('tag', updatedTags);
-                      }
-                    }}
-                  >
-                    +
-                  </button>
                 </div>
               )}
             />
@@ -241,7 +229,10 @@ export default function AddProduct(props: { closing: () => void }) {
                       key={color}
                       className={`w-6 h-6 rounded-full border ${color === selectedColor ? 'ring-2 ring-black' : ''}`}
                       style={{ backgroundColor: color }}
-                      onClick={() => setSelectedColor(color)}
+                      onClick={() => {
+                        setSelectedColor(color);
+                        setValue('color', color);
+                      }}
                     ></div>
                   ))}
                 </div>
