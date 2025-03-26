@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation';
 import { deleteCart } from '@/utils/buyer';
 import { getSellerById } from '@/utils/seller';
 import useOmise from '@/hooks/useOmise';
-import axios from 'axios';
 import { CardData } from '@/types/order';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

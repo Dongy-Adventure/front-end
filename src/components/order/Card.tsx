@@ -33,10 +33,10 @@ export default function Card(props: CardProps) {
       <div
         className={cn(
           'absolute top-0 py-12 right-0 w-screen h-screen backdrop-blur-[3px] flex justify-center items-center',
-          hidden ? 'hidden' : 'z-40'
+          !hidden ? 'hidden' : 'z-40'
         )}
         onClick={() => {
-          setHidden(true);
+          setHidden(false);
         }}
       >
         <Popup {...props} />
@@ -92,7 +92,7 @@ export default function Card(props: CardProps) {
                       : 'text-project-forest'
               )}
               onClick={() => {
-                setHidden(false);
+                setHidden(true);
               }}
             >
               {order.status === 3 ? 'View' : 'Edit'}
