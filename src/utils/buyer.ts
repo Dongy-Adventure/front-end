@@ -6,13 +6,15 @@ import { AxiosResponse } from 'axios';
 import { getUserId } from './user';
 
 export const createBuyer = async (
+  name: string,
+  surname: string,
   password: string,
   username: string
 ): Promise<boolean | null> => {
   try {
     const res = await apiClient.post('/buyer/', {
-      name: 'John',
-      surname: 'Doe',
+      name: name,
+      surname: surname,
       password: password,
       username: username,
     });
