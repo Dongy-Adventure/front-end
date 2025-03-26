@@ -156,15 +156,16 @@ export default function SummaryCart() {
               seller?.username ?? '',
               user?.username ?? ''
             );
-            for (const product of updatedSellerProducts) {
-              await deleteCart(product.productID);
-            }
 
             if (res) {
               toast?.setToast(
                 'success',
                 `Order for seller ${sellerID} has been placed!`
               );
+              for (const product of updatedSellerProducts) {
+                await deleteCart(product.productID);
+              }
+              router.push('/buyer/summary/complete');
             } else {
               toast?.setToast(
                 'error',
@@ -174,8 +175,6 @@ export default function SummaryCart() {
           }
         )
       );
-
-      router.push('/buyer/summary/complete');
     } catch (error) {
       console.error('Error placing orders:', error);
       toast?.setToast('error', 'There was an error processing your order.');
