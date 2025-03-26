@@ -22,8 +22,7 @@ function RegisterPage() {
   const [isUploading, setIsUpLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>('Register');
-  const [usernameFilled, setUsernameFilled] = useState(false);
-  const [passwordFilled, setPasswordFilled] = useState(false);
+
   const [confirmPasswordFilled, setConfirmPasswordFilled] = useState(false);
 
   const {
@@ -43,16 +42,16 @@ function RegisterPage() {
 
   const onSubmit = async (data: AuthSchema) => {
     setIsUpLoading(true);
-    const { username, password } = data;
+    const { name, surname, username, password } = data;
 
     try {
       if (mode === 'Register') {
         let result: boolean | null;
         if (userType === 'Buyer') {
-          result = await createBuyer(password, username);
+          result = await createBuyer(name, surname, password, username);
           if (result) await buyerAuth(username, password);
         } else {
-          result = await createSeller(password, username);
+          result = await createSeller(name, surname, password, username);
           if (result) await sellerAuth(username, password);
         }
         if (result) {
@@ -132,14 +131,39 @@ function RegisterPage() {
           method="POST"
         >
           <p className="text-black text-left">
+            Name
+            <span className="text-black ml-1">*</span>
+          </p>
+          <input
+            type="text"
+            {...register('name')}
+            placeholder=""
+            className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
+          />
+          {errors.name && (
+            <p className="text-red-500 text-sm">{errors.name.message}</p>
+          )}
+          <p className="text-black text-left">
+            Surname
+            <span className="text-black ml-1">*</span>
+          </p>
+          <input
+            type="text"
+            {...register('surname')}
+            placeholder=""
+            className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
+          />
+          {errors.surname && (
+            <p className="text-red-500 text-sm">{errors.surname.message}</p>
+          )}
+          <p className="text-black text-left">
             Username
-            {!usernameFilled && <span className="text-black ml-1">*</span>}
+            <span className="text-black ml-1">*</span>
           </p>
           <input
             type="text"
             {...register('username')}
             placeholder=""
-            onChange={(e) => setUsernameFilled(e.target.value.length > 0)}
             className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
           />
           {errors.username && (
@@ -148,13 +172,12 @@ function RegisterPage() {
 
           <p className="text-black text-left mt-2">
             Password
-            {!passwordFilled && <span className="text-black ml-1">*</span>}
+            <span className="text-black ml-1">*</span>
           </p>
           <input
             type="password"
             {...register('password')}
             placeholder=""
-            onChange={(e) => setPasswordFilled(e.target.value.length > 0)}
             className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
           />
           {errors.password && (
@@ -165,17 +188,12 @@ function RegisterPage() {
             <>
               <p className="text-black text-left mt-2">
                 Confirm Password
-                {!confirmPasswordFilled && (
-                  <span className="text-black ml-1">*</span>
-                )}
+                <span className="text-black ml-1">*</span>
               </p>
               <input
                 type="password"
                 {...register('confirmPassword')}
                 placeholder=""
-                onChange={(e) =>
-                  setConfirmPasswordFilled(e.target.value.length > 0)
-                }
                 className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
               />
               {errors.confirmPassword && (

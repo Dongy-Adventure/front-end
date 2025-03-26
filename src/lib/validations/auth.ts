@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 export const authSchema = z
   .object({
+    name: z.string().nonempty('Name is required'),
+    surname: z.string().nonempty('Surname is required'),
     username: z
       .string()
       .min(3, 'Username is too short')
