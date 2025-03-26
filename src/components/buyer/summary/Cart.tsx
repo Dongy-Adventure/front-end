@@ -23,15 +23,15 @@ function Card(props: CardProps) {
         selectedItemCart.includes(product.productID) && 'bg-project-secondary'
       )}
     >
-      <td className="p-3 flex items-center space-x-3">
+      <td className="flex items-center h-24 space-x-3">
         <Image
           src={tempProductImage}
           alt={product.productName}
-          className="w-12 h-12 object-cover rounded-md"
+          className="object-cover rounded-md aspect-square max-h-16 max-w-16"
         />
         <span>{product.productName}</span>
       </td>
-      <td className="p-3">${product.price}</td>
+      <td>${product.price}</td>
       <td>
         <div className="flex items-center justify-center w-16 h-6">
           <span className="w-1/3 text-center text-lg">{amount}</span>

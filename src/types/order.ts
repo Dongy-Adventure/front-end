@@ -18,3 +18,11 @@ export type Order = {
   buyerName: string;
   sellerName: string;
 };
+
+export interface CardData {
+  number: string;
+  name: string;
+  expiryMonth: string;
+  expiryYear: string;
+  securityCode: string;
+}
