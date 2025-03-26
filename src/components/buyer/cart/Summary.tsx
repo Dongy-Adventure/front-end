@@ -17,7 +17,7 @@ function Summary({ total }: { total: number }) {
         </div>
       </div>
       <button
-        className="bg-project-primary w-72 rounded-lg h-8 text-white font-bold"
+        className="bg-project-primary rounded-lg h-8 text-white font-bold"
         onClick={() => {
           if (selectedItemCart.length === 0) {
             toast?.setToast(

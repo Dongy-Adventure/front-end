@@ -23,21 +23,23 @@ function Card(props: CardProps) {
         selectedItemCart.includes(product.productID) && 'bg-project-secondary'
       )}
     >
-      <td className="py-3 items-center">
+      <td className="py-3 flex flex-col justify-center">
         <Image
           src={tempProductImage}
           alt={product.productName}
           className="object-cover rounded-md aspect-square max-h-16 max-w-16"
         />
-        <span className="items-center">{product.productName}</span>
+        <span className="pl-3">{product.productName}</span>
       </td>
-      <td className="py-3 items-center">฿{(product.price).toFixed(2)}</td>
+      <td className="py-3 items-center">฿{product.price.toFixed(2)}</td>
       <td className="py-3 items-center">
         <div className="flex items-center justify-center w-16 h-6">
           <span className="w-1/3 text-center text-lg">{amount}</span>
         </div>
       </td>
-      <td className="py-3 items-center">฿{(product.price * amount).toFixed(2)}</td>
+      <td className="py-3 items-center">
+        ฿{(product.price * amount).toFixed(2)}
+      </td>
     </tr>
   );
 }
