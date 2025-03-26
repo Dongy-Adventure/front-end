@@ -24,8 +24,6 @@ export default function Popup(prop: CardProps) {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      if (!prop.order?.products) return; // Ensure `products` exists
-
       const p: Product[] = [];
       for (const orderCart of prop.order.products) {
         const res = await getProductById(orderCart.productID);
