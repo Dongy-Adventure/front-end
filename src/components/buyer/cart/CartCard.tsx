@@ -31,7 +31,7 @@ function CartCard(props: CartCardProps) {
         selectedItemCart.includes(product.productID) && 'bg-project-secondary'
       )}
     >
-      <td className="p-3 items-center">
+      <td className="p-3">
         <input
           type="checkbox"
           checked={selectedItemCart.includes(product.productID)}
