@@ -11,7 +11,7 @@ export type Order = {
   payment: string;
   createdAt: string;
   orderID: string;
-  products: Product[];
+  products: OrderCart[];
   sellerID: string;
   status: number;
   totalPrice: number;

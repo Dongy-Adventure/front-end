@@ -4,10 +4,12 @@ import { CardProps } from './Card';
 import Appointment from './Appointment';
 import WristWatch from '@/../public/wrist-watch.png';
 import Image from 'next/image';
-import { Product } from '@/types/product';
 import Review from './Review';
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
+import { Product } from '@/types/product';
+import { getProductById } from '@/utils/product';
 
 export const status: { [key: number]: string } = {
   0: 'Waiting For Seller',
@@ -18,6 +20,24 @@ export const status: { [key: number]: string } = {
 
 export default function Popup(prop: CardProps) {
   const { user } = useAuth();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (!prop.order?.products) return; // Ensure `products` exists
+
+      const p: Product[] = [];
+      for (const orderCart of prop.order.products) {
+        const res = await getProductById(orderCart.productID);
+        if (res) {
+          p.push(res);
+        }
+      }
+      setProducts(p);
+    };
+
+    fetchProducts();
+  }, []);
 
   const BgColorCode: { [key: number]: string } = {
     0: 'bg-project-lightpink border-project-lightpink',
@@ -93,7 +113,7 @@ export default function Popup(prop: CardProps) {
             <div className="ml-auto mr-4">Quantity</div>
           </div>
           <div className="flex flex-col w-full overflow-y-scroll h-[350px] gap-3">
-            {prop.order.products.map((product: Product) => (
+            {products.map((product: Product) => (
               <div
                 className="flex relative items-center min-h-[85px] w-full gap-3 shadow-md border rounded-xl"
                 key={product.productID}

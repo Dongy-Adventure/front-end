@@ -3,13 +3,12 @@ import Image from 'next/image';
 import WristWatch from '@/../public/wrist-watch.png';
 import Popup from './Popup';
 import { useState } from 'react';
-import { Product } from '@/types/product';
-import { Order } from '@/types/order';
+import { Order, OrderCart } from '@/types/order';
 
 export interface CardProps {
   order: Order;
   price: number;
-  products: Product[];
+  products: OrderCart[];
   setOrder: () => void;
 }
 
@@ -53,7 +52,7 @@ export default function Card(props: CardProps) {
         </div>
         <div className="flex justify-between font-bold text-md pt-1">
           <div className="grid grid-cols-3">
-            {products.map((p: Product) => {
+            {products.map((p: OrderCart) => {
               return (
                 <Image
                   key={p.productID}
