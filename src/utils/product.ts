@@ -179,6 +179,7 @@ export const updateProduct = async (
         color: color,
         price: price,
         description: desc,
+        sellerID: userId,
         imageURL: '',
         createdAt: new Date().toISOString(),
       },
