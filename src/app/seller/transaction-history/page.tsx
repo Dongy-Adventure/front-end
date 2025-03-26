@@ -30,13 +30,13 @@ export default function TransactionHistory() {
         <div className="flex flex-col w-full">
           <h1 className="text-xl font-bold pb-4">Transaction History</h1>
           <div className="overflow-x-auto p-4">
-            <table className="w-full">
+            <table className="table-fixed w-full">
               <thead className="border-b border-gray-300 p-3 font-semibold text-left">
                 <tr>
-                  <th>Date</th>
-                  <th>Order ID</th>
-                  <th>Payment Method</th>
-                  <th>Total</th>
+                  <th className="font-medium w-50">Date</th>
+                  <th className="font-medium w-80">Order ID</th>
+                  <th className="font-medium w-50">Payment Method</th>
+                  <th className="font-medium">Total</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
@@ -45,14 +45,18 @@ export default function TransactionHistory() {
                     <tr
                       key={transaction.orderID}
                       className="hover:bg-gray-50"
+                      onClick={() => {}}
                     >
-                      <td className="p-3 flex items-center space-x-3">
-                        <span>{transaction.date.slice(0, 10)}</span>
+                      <td className="py-3 flex items-center space-x-3">
+                        <span>
+                          {transaction.date.slice(0, 10)}{' '}
+                          {transaction.date.slice(11, 16)}
+                        </span>
                       </td>
-                      <td className="p-3">{transaction.orderID}</td>
-                      <td className="p-3">{transaction.payment}</td>
-                      <td className="p-3 items-center text-project-green font-bold">
-                        ${transaction.amount}
+                      <td className="py-3">{transaction.orderID}</td>
+                      <td className="py-3">{transaction.payment}</td>
+                      <td className="py-3 items-center text-project-green font-semibold">
+                        + ฿{transaction.amount}
                       </td>
                     </tr>
                   ))

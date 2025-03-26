@@ -71,7 +71,6 @@ export default function Orders() {
                     products={order.products}
                     order={order}
                     price={order.totalPrice}
-                    status={0}
                     setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
@@ -91,7 +90,6 @@ export default function Orders() {
                     order={order}
                     price={order.totalPrice}
                     products={order.products}
-                    status={order.status}
                     setOrder={() => setSelectedOrder(order)}
                   />
                 ))}
@@ -111,7 +109,6 @@ export default function Orders() {
                     order={order}
                     price={order.totalPrice}
                     products={order.products}
-                    status={3}
                     setOrder={() => setSelectedOrder(order)}
                   />
                 ))}

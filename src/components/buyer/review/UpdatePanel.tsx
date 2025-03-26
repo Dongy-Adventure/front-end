@@ -59,7 +59,7 @@ export default function UpdatePanel(props: CurrentDataReview) {
           <div className="mt-4 space-y-2">
             <div className="flex justify-between">
               <span className="text-sm font-medium">Review Date</span>
-              <span className="text-sm">{createdAt}</span>
+              <span className="text-sm">{createdAt.slice(0, 10)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm font-medium">Seller</span>

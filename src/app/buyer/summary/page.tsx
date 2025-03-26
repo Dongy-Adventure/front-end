@@ -222,10 +222,10 @@ export default function SummaryCart() {
             <table className="w-full">
               <thead className="border-b border-gray-300 p-3 font-semibold text-left">
                 <tr>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Total</th>
+                  <th className="font-medium">Product</th>
+                  <th className="font-medium">Price</th>
+                  <th className="font-medium">Quantity</th>
+                  <th className="font-medium">Total</th>
                 </tr>
               </thead>
               <tbody className="divide-y h-1 divide-gray-300">

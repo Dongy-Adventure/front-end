@@ -95,7 +95,7 @@ export const updateCart = async (
   }
 
   try {
-    const res = await apiClient.post(
+    const res = await apiClient.patch(
       `/buyer/${userId}/cart`,
       {
         productID: pid,

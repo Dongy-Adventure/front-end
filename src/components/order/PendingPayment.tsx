@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import WristWatch from '@/../public/wrist-watch.png';
 import { Product } from '@/types/product';
-import { getBuyerById } from '@/utils/buyer';
 import { changeOrderStatus } from '@/utils/order';
 import { useToast } from '@/context/ToastContext';
 
