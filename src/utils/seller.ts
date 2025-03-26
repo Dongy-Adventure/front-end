@@ -94,10 +94,7 @@ export const getSellerBalance = async (): Promise<number | null> => {
 
 export const getSellerById = async (sid: string): Promise<Seller | null> => {
   try {
-    const res: AxiosResponse<SellerDTO> = await apiClient.get(
-      `/seller/${sid}`,
-      {}
-    );
+    const res: AxiosResponse<SellerDTO> = await apiClient.get(`/seller/${sid}`);
 
     if (!res.data.success) {
       console.error(res.data.message);

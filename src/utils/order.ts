@@ -61,7 +61,7 @@ export const createOrder = async (
         buyerName: buyerName,
         payment: payment,
         sellerName: sellerName,
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
       },
       {
         headers: {
@@ -69,6 +69,7 @@ export const createOrder = async (
         },
       }
     );
+    console.log(res);
 
     if (!res.data.status) {
       console.error(res.data.message);

@@ -174,12 +174,12 @@ export const updateProduct = async (
       {
         amount: amount,
         productName: name,
+        sellerID: userId,
         productID: pid,
         tag: tag,
         color: color,
         price: price,
         description: desc,
-        sellerID: userId,
         imageURL: '',
         createdAt: new Date().toISOString(),
       },
