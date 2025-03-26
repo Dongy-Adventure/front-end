@@ -52,7 +52,7 @@ export default function Review(prop: CardProps) {
   };
 
   return (
-    <div className="flex-col bg-white flex border-3 w-[500px] border-[30px] border-white h-full">
+    <div className="flex-col bg-white flex border-3 w-[500px] border-[30px] rounded-full border-white h-full">
       <div className="font-bold text-2xl mt-20">Thank you for your order!</div>
       <h2 className="text-lg font-bold mt-6">Add Seller Review</h2>
       {reviewSubmitted ? (

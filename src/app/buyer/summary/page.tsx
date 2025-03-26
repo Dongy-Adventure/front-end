@@ -18,12 +18,14 @@ import { CardData } from '@/types/order';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { cardSchema } from '@/lib/validations/card';
+import { apiClient } from '@/utils/axios';
 
 export default function SummaryCart() {
   const toast = useToast();
   const router = useRouter();
   const { user } = useAuth();
   const [products, setProducts] = useState<ItemCart[]>([]);
+  const [paymentType, setPaymentType] = useState<string>('Debit/Credit Card');
   const totalAmount = products
     .filter((c) =>
       JSON.parse(localStorage.getItem('selectedProduct') ?? '').includes(
@@ -32,9 +34,9 @@ export default function SummaryCart() {
     )
     .reduce((sum, c) => sum + c.product.price * c.amount, 0);
   const cardForm = useForm<CardData>({
-    resolver: zodResolver(cardSchema),
+    resolver:
+      paymentType === 'Debit/Credit Card' ? zodResolver(cardSchema) : undefined,
   });
-  const [paymentType, setPaymentType] = useState<string>('Debit/Credit Card');
   const { token, error, loading, createToken } = useOmise();
   // const cardData: CardData = {
   //   number: '4242424242424242', // Test card number
@@ -46,7 +48,7 @@ export default function SummaryCart() {
 
   const waitForPaymentStatus = (chargeID: string) => {
     return new Promise<boolean>((resolve, reject) => {
-      const url = `http://localhost:3001/api/v1/payment/sse/${chargeID}`;
+      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/payment/sse/${chargeID}`;
 
       const eventSource = new EventSource(url);
 
@@ -75,8 +77,8 @@ export default function SummaryCart() {
     try {
       await createToken(cardData);
       const userId = localStorage.getItem('userId');
-      const response = await axios.post(
-        'http://localhost:3001/api/v1/payment/',
+      const response = await apiClient.post(
+        '/payment/',
         {
           amount: totalAmount,
           buyerID: userId,
@@ -242,7 +244,7 @@ export default function SummaryCart() {
               total={totalAmount}
               handleSubmit={postOrder}
               cardForm={cardForm}
-              totalAmount={10}
+              totalAmount={totalAmount}
               products={products.map((p: ItemCart) => p.product)}
               paymentType={paymentType}
               setPaymentType={setPaymentType}

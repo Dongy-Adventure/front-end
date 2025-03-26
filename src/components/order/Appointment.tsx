@@ -20,7 +20,7 @@ export default function AppointmentPage(prop: CardProps) {
   const [appointmentTime, setAppointmentTime] = useState('-');
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const { user } = useAuth();
-  const [color, setColor] = useState('bg-[#003FFD] text-white');
+  const [color, setColor] = useState('bg-project-seablue text-white');
   const [css, setCss] = useState('');
   const [address, setAddress] = useState('');
   const [district, setDistrict] = useState('');
@@ -45,7 +45,7 @@ export default function AppointmentPage(prop: CardProps) {
         }
       `);
     } else {
-      setColor('bg-[#003FFD] text-white');
+      setColor('bg-project-seablue text-white');
       setCss(`
         .selected {
         background-color: #003FFD;
@@ -94,7 +94,7 @@ export default function AppointmentPage(prop: CardProps) {
 
   const saveAppointment = () => {
     if (prop.order.status === 2) {
-      doneDeliver();
+      deliverDone();
     } else {
       if (user?.userType === 'buyer') {
         updateBuyer();
@@ -146,7 +146,7 @@ export default function AppointmentPage(prop: CardProps) {
     }
   };
 
-  const doneDeliver = async () => {
+  const deliverDone = async () => {
     const updatePatch = await changeOrderStatus(3, prop.order.orderID);
     if (updatePatch) {
       toast?.setToast('success', 'Add appointment successfully!');
@@ -165,13 +165,13 @@ export default function AppointmentPage(prop: CardProps) {
           prop.order.status == 0
             ? 'border-project-pink'
             : prop.order.status == 1
-              ? 'border-[#003FFD]'
+              ? 'border-project-seablue'
               : prop.order.status == 2
                 ? 'border-project-brown'
                 : 'border-project-green'
         )}
       >
-        <div className="flex text-[13px] font-normal">Appointment Place</div>
+        <div className="flex text-sm font-normal">Appointment Place</div>
         <div className="font-bold text-[24px]-">
           {prop.order.status === 1
             ? address
@@ -232,33 +232,33 @@ export default function AppointmentPage(prop: CardProps) {
         <>
           <div className="flex flex-col h-fit w-full gap-3">
             <div className="flex flex-col gap-3 w-full h-fit ">
-              <div className="flex text-[13px] font-normal">Address*</div>
+              <div className="flex text-sm font-normal">Address*</div>
               <input
-                className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 no- focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+                className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-sm font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
             </div>
             <div className="flex flex-col gap-3 w-full h-fit">
-              <div className="flex text-[13px] font-normal">District*</div>
+              <div className="flex text-sm font-normal">District*</div>
               <input
-                className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+                className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-sm font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
               />
             </div>
             <div className="flex flex-col gap-3 w-full h-fit">
-              <div className="flex text-[13px] font-normal">Province*</div>
+              <div className="flex text-sm font-normal">Province*</div>
               <input
-                className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+                className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-sm font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
                 value={province}
                 onChange={(e) => setProvince(e.target.value)}
               />
             </div>
             <div className="flex flex-col gap-3 w-full h-fit">
-              <div className="flex text-[13px] font-normal">Zipcode*</div>
+              <div className="flex text-sm font-normal">Zipcode*</div>
               <input
-                className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-[15px] font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+                className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-sm font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
                 value={zipcode}
                 onChange={(e) => setZipcode(e.target.value)}
               />

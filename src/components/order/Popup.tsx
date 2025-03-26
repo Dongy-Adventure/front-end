@@ -29,7 +29,7 @@ export default function Popup(prop: CardProps) {
     0: 'text-[#F33CB4]',
     1: 'text-project-lightblue',
     2: 'text-[#CC731B]',
-    3: 'text-project-lightgreen',
+    3: 'text-project-green',
   };
   return (
     <div
@@ -88,14 +88,14 @@ export default function Popup(prop: CardProps) {
           </div>
         </div>
         <div className="w-full h-fit flex flex-col gap-2 justify-center ">
-          <div className="flex shadow-md font-[15px] h-[40px] color-[#485966] items-center justify-center w-full">
+          <div className="flex shadow-md font-[15px] h-[40px] color-[#485966] items-center border rounded-xl justify-center w-full">
             <div className="ml-4">Product</div>
             <div className="ml-auto mr-4">Quantity</div>
           </div>
           <div className="flex flex-col w-full overflow-y-scroll h-[350px] gap-3">
             {prop.order.products.map((product: Product) => (
               <div
-                className="flex relative items-center min-h-[85px] w-full gap-3 shadow-md rounded-xl"
+                className="flex relative items-center min-h-[85px] w-full gap-3 shadow-md border rounded-xl"
                 key={product.productID}
               >
                 <Image

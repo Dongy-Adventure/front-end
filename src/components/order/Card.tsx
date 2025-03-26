@@ -15,7 +15,6 @@ export interface CardProps {
 
 export default function Card(props: CardProps) {
   const { order, price, products } = props;
-  const [loadView, setLoadView] = useState(false);
   const [hidden, setHidden] = useState(false);
 
   return (
@@ -31,19 +30,17 @@ export default function Card(props: CardProps) {
               : 'bg-project-lightgreen'
       )}
     >
-      {loadView && (
-        <div
-          className={cn(
-            'absolute top-0 right-0 w-screen h-screen backdrop-blur-[3px] flex justify-center items-center',
-            hidden ? '-z-40' : 'z-40'
-          )}
-          onClick={() => {
-            setHidden(true);
-          }}
-        >
-          <Popup {...props} />
-        </div>
-      )}
+      <div
+        className={cn(
+          'absolute top-0 py-12 right-0 w-screen h-screen backdrop-blur-[3px] flex justify-center items-center',
+          hidden ? 'hidden' : 'z-40'
+        )}
+        onClick={() => {
+          setHidden(true);
+        }}
+      >
+        <Popup {...props} />
+      </div>
 
       <section className="p-2 gap-2">
         <div className="flex justify-between font-medium text-sm">
@@ -95,7 +92,6 @@ export default function Card(props: CardProps) {
                       : 'text-project-forest'
               )}
               onClick={() => {
-                setLoadView(true);
                 setHidden(false);
               }}
             >
