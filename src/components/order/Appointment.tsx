@@ -249,7 +249,7 @@ export default function AppointmentPage(prop: CardProps) {
             </div>
           </>
         )}
-        {user?.userType === 'seller' && prop.order.status === 2 && (
+        {user?.userType === 'seller' && prop.order.status === 0 && (
           <>
             <div className="flex flex-col h-fit w-full gap-3">
               <div className="flex flex-col gap-3 w-full h-fit ">
