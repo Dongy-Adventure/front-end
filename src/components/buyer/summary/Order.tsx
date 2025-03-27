@@ -4,8 +4,8 @@ import { Product } from '@/types/product';
 import { UseFormReturn } from 'react-hook-form';
 
 const PAYMENTOPTIONS = [
-  { id: 'Debit/Credit', label: 'Debit/Credit Card' },
-  { id: 'Cash', label: 'Cash On Delivery' },
+  // { id: 'Debit/Credit', label: 'Debit/Credit Card' },
+  { id: 'Cash', label: 'Pay On Delivery' },
 ];
 
 function Order({
@@ -87,7 +87,7 @@ function Order({
         </div>
       </section>
 
-      <section className="border bg-gray-100 rounded-xl p-6 flex flex-col gap-4">
+      {/* <section className="border bg-gray-100 rounded-xl p-6 flex flex-col gap-4">
         <h1 className="text-xl font-bold">Payment Method</h1>
 
         <div className="flex flex-col gap-2">
@@ -180,7 +180,7 @@ function Order({
             </span>
           )}
         </div>
-      </section>
+      </section> */}
       <section className="border bg-gray-100 rounded-xl p-6 flex flex-col justify-between">
         <h1 className="font-bold text-lg">Your Order</h1>
         <div className="flex justify-between mt-4">

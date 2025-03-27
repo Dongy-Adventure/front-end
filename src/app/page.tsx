@@ -130,29 +130,35 @@ function RegisterPage() {
           className="flex flex-col"
           method="POST"
         >
-          <p className="text-black text-left">
-            Name
-            <span className="text-black ml-1">*</span>
-          </p>
-          <input
-            type="text"
-            {...register('name')}
-            placeholder=""
-            className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
-          />
-          {errors.name && (
-            <p className="text-red-500 text-sm">{errors.name.message}</p>
+          {mode === 'Register' && (
+            <>
+              {' '}
+              <p className="text-black text-left">
+                Name
+                <span className="text-black ml-1">*</span>
+              </p>
+              <input
+                type="text"
+                {...register('name')}
+                placeholder=""
+                className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
+              />
+              {errors.name && (
+                <p className="text-red-500 text-sm">{errors.name.message}</p>
+              )}
+              <p className="text-black text-left">
+                Surname
+                <span className="text-black ml-1">*</span>
+              </p>
+              <input
+                type="text"
+                {...register('surname')}
+                placeholder=""
+                className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
+              />
+            </>
           )}
-          <p className="text-black text-left">
-            Surname
-            <span className="text-black ml-1">*</span>
-          </p>
-          <input
-            type="text"
-            {...register('surname')}
-            placeholder=""
-            className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
-          />
+
           {errors.surname && (
             <p className="text-red-500 text-sm">{errors.surname.message}</p>
           )}

@@ -109,3 +109,33 @@ export const getSellerById = async (sid: string): Promise<Seller | null> => {
     return null;
   }
 };
+
+export const withdrawMoney = async (amount: number): Promise<boolean> => {
+  const userId = await getUserId();
+  const accessToken = await getAccessToken();
+
+  try {
+    const res = await apiClient.post(
+      `/seller/${userId}/withdraw`,
+      {
+        amount: amount,
+        payment: 'Cash',
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};

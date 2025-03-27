@@ -24,7 +24,7 @@ export default function SummaryCart() {
   const router = useRouter();
   const { user } = useAuth();
   const [products, setProducts] = useState<ItemCart[]>([]);
-  const [paymentType, setPaymentType] = useState<string>('Debit/Credit Card');
+  const [paymentType, setPaymentType] = useState<string>('Cash');
   const totalAmount = products
     .filter((c) =>
       JSON.parse(localStorage.getItem('selectedProduct') ?? '').includes(

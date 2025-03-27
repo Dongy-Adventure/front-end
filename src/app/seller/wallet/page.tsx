@@ -3,7 +3,7 @@
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getSellerBalance } from '@/utils/seller';
+import { getSellerBalance, withdrawMoney } from '@/utils/seller';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Sidebar from '@/components/Sidebar';
@@ -12,10 +12,12 @@ import {
   PaymentSchema,
   PaymentFormValues,
 } from '@/lib/validations/seller/withdraw';
+import { useToast } from '@/context/ToastContext';
 
 export default function Wallet() {
   const { user } = useAuth();
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
+  const toast = useToast();
 
   const {
     register,
@@ -42,8 +44,12 @@ export default function Wallet() {
     }
   }, []);
 
-  const onSubmit = (data: PaymentFormValues) => {
-    console.log('Payment submitted:', data);
+  const onSubmit = async (data: PaymentFormValues) => {
+    const res = await withdrawMoney(data.amount);
+    if (res) {
+      toast?.setToast('success', 'Withdraw Completed!');
+      window.location.href = '/seller/wallet';
+    } else [toast?.setToast('error', 'Error Withdraw')];
   };
 
   return (

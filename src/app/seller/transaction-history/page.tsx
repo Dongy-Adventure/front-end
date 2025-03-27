@@ -3,6 +3,7 @@
 import ProfileBadge from '@/components/ProfileBadge';
 import Sidebar from '@/components/Sidebar';
 import { useAuth } from '@/context/AuthContext';
+import { cn } from '@/lib/utils';
 import { Transaction } from '@/types/wallet';
 import Link from 'next/link';
 
@@ -41,25 +42,36 @@ export default function TransactionHistory() {
               </thead>
               <tbody className="divide-y divide-gray-300">
                 {hasTransactions ? (
-                  user.transaction.map((transaction: Transaction) => (
-                    <tr
-                      key={transaction.orderID}
-                      className="hover:bg-gray-50"
-                      onClick={() => {}}
-                    >
-                      <td className="py-3 flex items-center space-x-3">
-                        <span>
-                          {transaction.date.slice(0, 10)}{' '}
-                          {transaction.date.slice(11, 16)}
-                        </span>
-                      </td>
-                      <td className="py-3">{transaction.orderID}</td>
-                      <td className="py-3">{transaction.payment}</td>
-                      <td className="py-3 items-center text-project-green font-semibold">
-                        + ฿{transaction.amount}
-                      </td>
-                    </tr>
-                  ))
+                  user.transaction.map(
+                    (transaction: Transaction, index: number) => (
+                      <tr
+                        key={transaction.orderID + index}
+                        className="hover:bg-gray-50"
+                        onClick={() => {}}
+                      >
+                        <td className="py-3 flex items-center space-x-3">
+                          <span>
+                            {transaction.date.slice(0, 10)}{' '}
+                            {transaction.date.slice(11, 16)}
+                          </span>
+                        </td>
+                        <td className="py-3">
+                          {transaction.amount > 0 ? transaction.orderID : '-'}
+                        </td>
+                        <td className="py-3">{transaction.payment}</td>
+                        <td
+                          className={cn(
+                            `py-3 items-center font-semibold`,
+                            transaction.amount > 0
+                              ? 'text-project-green'
+                              : 'text-red-600'
+                          )}
+                        >
+                          ฿{transaction.amount}
+                        </td>
+                      </tr>
+                    )
+                  )
                 ) : (
                   <tr>
                     <td
