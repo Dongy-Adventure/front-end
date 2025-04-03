@@ -4,8 +4,8 @@ import { Product } from '@/types/product';
 import { UseFormReturn } from 'react-hook-form';
 
 const PAYMENTOPTIONS = [
-  // { id: 'Debit/Credit', label: 'Debit/Credit Card' },
-  { id: 'Cash', label: 'Pay On Delivery' },
+  { id: 'Debit/Credit', label: 'Debit/Credit Card' },
+  { id: 'Cash', label: 'Cash On Delivery' },
 ];
 
 function Order({
@@ -87,7 +87,7 @@ function Order({
         </div>
       </section>
 
-      {/* <section className="border bg-gray-100 rounded-xl p-6 flex flex-col gap-4">
+      <form className="border bg-gray-100 rounded-xl p-6 flex flex-col gap-4">
         <h1 className="text-xl font-bold">Payment Method</h1>
 
         <div className="flex flex-col gap-2">
@@ -137,7 +137,13 @@ function Order({
               max="12"
               step="1"
               disabled={paymentType === 'Cash'}
-              {...register('expiryMonth')}
+              {...register('expiryMonth', { valueAsNumber: true })}
+              onChange={(e) => {
+                let value = parseInt(e.target.value, 10);
+                if (isNaN(value)) value = 1;
+                value = Math.max(1, Math.min(12, value));
+                e.target.value = value.toString();
+              }}
             />
             {errors.expiryMonth && (
               <span className="text-red-500 text-sm">
@@ -152,10 +158,16 @@ function Order({
               placeholder="YY"
               className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
               disabled={paymentType === 'Cash'}
-              min="2025"
-              max="2035"
+              min="25"
+              max="35"
               step="1"
-              {...register('expiryYear')}
+              {...register('expiryYear', { valueAsNumber: true })}
+              onChange={(e) => {
+                let value = parseInt(e.target.value, 10);
+                if (isNaN(value)) value = 25;
+                value = Math.max(25, Math.min(35, value));
+                e.target.value = value.toString();
+              }}
             />
             {errors.expiryYear && (
               <span className="text-red-500 text-sm">
@@ -180,7 +192,7 @@ function Order({
             </span>
           )}
         </div>
-      </section> */}
+      </form>
       <section className="border bg-gray-100 rounded-xl p-6 flex flex-col justify-between">
         <h1 className="font-bold text-lg">Your Order</h1>
         <div className="flex justify-between mt-4">

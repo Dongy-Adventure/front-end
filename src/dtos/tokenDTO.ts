@@ -1,5 +1,5 @@
 import { Token } from '@/types/token';
-import { getExpireTime } from '@/utils/time';
+import { getExpireTime } from '@/utils/utils';
 
 export type TokenDTO = {
   accessToken: string;

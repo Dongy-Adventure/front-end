@@ -30,7 +30,7 @@ export const createProduct = async (
         productName: name,
         price: price,
         description: description,
-        image: image,
+        imageURL: image,
         tag: tag,
         color: color,
         createdAt: new Date().toISOString(),

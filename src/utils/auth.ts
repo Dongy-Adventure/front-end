@@ -9,7 +9,7 @@ import {
 } from '@/dtos/userDTO';
 import { convertTokenDTOToToken, TokenDTO } from '@/dtos/tokenDTO';
 import { Token } from '@/types/token';
-import { getExpireTime } from './time';
+import { getExpireTime } from './utils';
 
 export const refreshAccessToken = async (
   refToken: string

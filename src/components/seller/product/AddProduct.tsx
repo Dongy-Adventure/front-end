@@ -2,8 +2,11 @@ import { COLORS } from '@/constants/color';
 import { TAGS } from '@/constants/tags';
 import { useToast } from '@/context/ToastContext';
 import { createProduct } from '@/utils/product';
+import { uploadImage } from '@/utils/upload';
+import wristWatch from '@/../public/wrist-watch.png';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { StaticImageData } from 'next/image';
 
 interface ProductInfo {
   amount: number;
@@ -12,7 +15,8 @@ interface ProductInfo {
   productName: string;
   price: number;
   description: string;
-  productImage: string;
+  imageUrl: string;
+  productImage: File | null;
   color: string;
   tag: string[];
 }
@@ -20,6 +24,29 @@ interface ProductInfo {
 export default function AddProduct(props: { closing: () => void }) {
   const toast = useToast();
   const [selectedColor, setSelectedColor] = useState('');
+  const [imagePreview, setImagePreview] = useState<string | null>(null); // To display the selected image
+  const [imageFile, setImageFile] = useState<File | null>(null); // To store the file for submission
+
+  // Handle image change
+  const handleProductImageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+
+    if (file && file.type.startsWith('image/')) {
+      setImageFile(file);
+      console.log(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          setImagePreview(e.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Please select a valid image file.');
+    }
+  };
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -35,28 +62,11 @@ export default function AddProduct(props: { closing: () => void }) {
       productName: '',
       price: 0.0,
       description: '',
-      productImage: '',
+      productImage: null,
       color: '',
       tag: [] as string[],
     },
   });
-
-  const handleProductImageChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          setValue('productImage', e.target.result as string);
-        }
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert('Please select a valid image file.');
-    }
-  };
 
   const onSubmit = async (data: ProductInfo) => {
     const {
@@ -68,12 +78,17 @@ export default function AddProduct(props: { closing: () => void }) {
       tag,
       amount,
     } = data;
-    console.log(data);
+
+    let imgUrl: string | StaticImageData = wristWatch;
+
+    if (imageFile) {
+      imgUrl = (await uploadImage(imageFile)) ?? wristWatch;
+    }
     const status = await createProduct(
       productName,
       Number(price),
       description,
-      productImage,
+      imgUrl as string,
       color,
       tag,
       Number(amount)
@@ -100,13 +115,31 @@ export default function AddProduct(props: { closing: () => void }) {
           <div className="mt-6">
             <p className="mb-2 text-sm font-medium">Insert product picture</p>
             <div className="border border-gray-300 w-full h-52 flex items-center justify-center text-gray-500">
-              description
+              {imagePreview ? (
+                <img
+                  src={imagePreview}
+                  alt="Product preview"
+                  className="h-full object-contain"
+                />
+              ) : (
+                <p>Preview will be shown here</p>
+              )}
             </div>
 
-            <div className="grid place-items-center">
-              <div className="mt-3 bg-gray-200 py-2 font-bold px-4 rounded  text-gray-600">
+            <div className="grid place-items-center mt-3">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleProductImageChange}
+                className="hidden"
+                id="productImageInput"
+              />
+              <label
+                htmlFor="productImageInput"
+                className="mt-3 bg-gray-200 py-2 font-bold px-4 rounded text-gray-600 cursor-pointer"
+              >
                 Upload Image
-              </div>
+              </label>
             </div>
           </div>
         </div>
@@ -121,6 +154,7 @@ export default function AddProduct(props: { closing: () => void }) {
               x
             </div>
           </div>
+
           <div className="mt-4">
             <div>
               <label className="block text-sm font-medium">

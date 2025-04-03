@@ -24,7 +24,7 @@ export default function SummaryCart() {
   const router = useRouter();
   const { user } = useAuth();
   const [products, setProducts] = useState<ItemCart[]>([]);
-  const [paymentType, setPaymentType] = useState<string>('Cash');
+  const [paymentType, setPaymentType] = useState<string>('Credit/Debit Card');
   const totalAmount = products
     .filter((c) =>
       JSON.parse(localStorage.getItem('selectedProduct') ?? '').includes(
@@ -37,17 +37,17 @@ export default function SummaryCart() {
       paymentType === 'Debit/Credit Card' ? zodResolver(cardSchema) : undefined,
   });
   const { token, error, loading, createToken } = useOmise();
-  // const cardData: CardData = {
-  //   number: '4242424242424242', // Test card number
-  //   name: 'Somchai Prasert', // Test cardholder name
-  //   expiryMonth: '10', // Test expiry month
-  //   expiryYear: '25', // Test expiry year
-  //   securityCode: '123', // Test security code
-  // };
+  const c: CardData = {
+    number: '4242424242424242', // Test card number
+    name: 'Somchai Prasert', // Test cardholder name
+    expiryMonth: '10', // Test expiry month
+    expiryYear: '25', // Test expiry year
+    securityCode: '123', // Test security code
+  };
 
   const waitForPaymentStatus = (chargeID: string) => {
     return new Promise<boolean>((resolve, reject) => {
-      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/payment/sse/${chargeID}`;
+      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}payment/sse/${chargeID}`;
 
       const eventSource = new EventSource(url);
 
@@ -74,12 +74,15 @@ export default function SummaryCart() {
 
   const handlePayment = async (cardData: CardData) => {
     try {
-      await createToken(cardData);
+      await createToken(cardData); // Wait for token
+      if (!token) {
+        return;
+      }
       const userId = localStorage.getItem('userId');
       const response = await apiClient.post(
         '/payment/',
         {
-          amount: totalAmount,
+          amount: totalAmount + 2000,
           buyerID: userId,
           paymentMethod: paymentType,
           createdAt: new Date(),
@@ -97,15 +100,11 @@ export default function SummaryCart() {
         toast?.setToast('error', 'Failed to send payment request.');
       }
     } catch (error: any) {
-      console.error('Error sending payment request:', error);
-      toast?.setToast(
-        'error',
-        `Error sending payment request: ${error.message}`
-      );
+      toast?.setToast('error', `Error sending payment request: ${error}`);
     }
   };
   const postOrder = async (products: Product[], cardData?: CardData) => {
-    if (paymentType === 'Debit/Credit Card') {
+    if (paymentType === 'Debit/Credit') {
       if (!cardData) {
         toast?.setToast('error', 'No card is provided.');
         return;

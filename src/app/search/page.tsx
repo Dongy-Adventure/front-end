@@ -37,6 +37,36 @@ export default function Search() {
   const [selectedColors, setSelectedColors] = useState<string[]>(
     color ? color.split(',') : []
   );
+  const [sortType, setSortType] = useState<'name' | 'price' | ''>('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+  const handleSort = (type: 'name' | 'price') => {
+    if (!filteredProducts) return;
+
+    let sortedProducts = [...filteredProducts];
+    let newSortOrder: 'asc' | 'desc' = 'asc';
+
+    if (sortType === type) {
+      // Toggle sort order if same type is clicked
+      newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    }
+
+    if (type === 'name') {
+      sortedProducts.sort((a, b) =>
+        newSortOrder === 'asc'
+          ? a.productName.localeCompare(b.productName)
+          : b.productName.localeCompare(a.productName)
+      );
+    } else if (type === 'price') {
+      sortedProducts.sort((a, b) =>
+        newSortOrder === 'asc' ? a.price - b.price : b.price - a.price
+      );
+    }
+
+    setFilteredProducts(sortedProducts);
+    setSortType(type);
+    setSortOrder(newSortOrder);
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -178,6 +208,24 @@ export default function Search() {
       <span className="text-xl font-semibold flex gap-1 pb-4">
         Search Results For <p className="text-project-primary">{q}</p>
       </span>
+      <div className="flex gap-4">
+        <button
+          onClick={() => handleSort('name')}
+          className={`px-4 py-2 rounded-lg ${
+            sortType === 'name' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+          }`}
+        >
+          Sort by Name
+        </button>
+        <button
+          onClick={() => handleSort('price')}
+          className={`px-4 py-2 rounded-lg ${
+            sortType === 'price' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+          }`}
+        >
+          Sort by Price
+        </button>
+      </div>
 
       <div className="flex pt-4 gap-16 text-black">
         <div className="flex flex-col max-w-96 h-auto bg-project-secondary rounded-xl py-12 px-8 gap-12">

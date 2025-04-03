@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+const currentYear = new Date().getFullYear() % 100; // Get last two digits of the year
+const maxYear = currentYear + 10;
+
 export const cardSchema = z.object({
   name: z.string().min(1, 'Name is required').max(50, 'Name is too long'),
 
@@ -18,14 +21,14 @@ export const cardSchema = z.object({
     }),
 
   expiryMonth: z
-    .string()
-    .length(2, 'Expiry month should be 2 digits')
-    .regex(/^(0[1-9]|1[0-2])$/, 'Invalid month format'),
+    .number()
+    .min(1, 'Month should be at least 1')
+    .max(12, 'Month should be at most 12'),
 
   expiryYear: z
-    .string()
-    .length(2, 'Expiry year should be 2 digits')
-    .regex(/^\d{2}$/, 'Invalid expiry year format'),
+    .number()
+    .min(currentYear, `Year should be at least ${currentYear}`)
+    .max(maxYear, `Year should be at most ${maxYear}`),
 
   securityCode: z
     .string()
