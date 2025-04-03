@@ -76,11 +76,15 @@ export default function ProductPanel({
       <div className="flex gap-12 w-full h-full flex-col lg:flex-row justify-center">
         <div className="flex lg:w-2/5 lg:max-w-2/5 items-center border-[1px] rounded-md p-4">
           <Image
-            src={temp}
+            src={
+              product.imageURL && product.imageURL !== ''
+                ? product.imageURL
+                : temp
+            }
             alt="product image"
             className="w-full h-auto rounded-md"
-            width={1000}
-            height={1000}
+            width={50}
+            height={50}
           />
         </div>
         <div className="flex flex-col lg:w-2/5 lg:max-w-2/5">
