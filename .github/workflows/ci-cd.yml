@@ -1,0 +1,66 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+      - name: Build the Docker image
+        run: docker build --no-cache -t d33102/se_frontend:latest .
+
+      - name: Push to DockerHub
+        run: docker push d33102/se_frontend:latest
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ensure Docker & Docker Compose are installed
+        run: |
+          if ! [ -x "$(command -v docker)" ]; then
+            echo "Error: Docker is not installed." >&2
+            exit 1
+          fi
+          if ! [ -x "$(command -v docker-compose)" ]; then
+            echo "Installing Docker Compose..."
+            sudo apt update && sudo apt install -y docker-compose
+          fi
+
+      - name: Login to DockerHub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+      - name: Pull latest Docker images
+        run: sudo docker-compose pull
+
+      - name: Stop and remove old containers
+        run: sudo docker-compose down -v || true
+
+      - name: Start new containers
+        run: sudo docker-compose up --build -d
+
+      - name: Verify Deployment
+        run: sudo docker ps -a
