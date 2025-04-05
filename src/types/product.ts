@@ -4,7 +4,7 @@ export type Product = {
   color: string;
   createdAt: string;
   description: string;
-  imageURL: string;
+  image: string;
   price: number;
   productID: string;
   productName: string;

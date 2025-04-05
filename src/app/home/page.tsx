@@ -48,7 +48,7 @@ export default function Home() {
                 productName={product.productName}
                 price={product.price}
                 discountedPrice={product.price * 0.9}
-                image={product.imageURL}
+                image={product.image}
               />
             ))}
           </div>

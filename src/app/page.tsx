@@ -11,6 +11,7 @@ import { authSchema, AuthSchema } from '@/lib/validations/auth';
 import { buyerAuth, sellerAuth } from '@/utils/auth';
 import { Buyer, Seller } from '@/types/user';
 import { useRouter } from 'next/navigation';
+import { Icon } from '@iconify/react';
 
 type Mode = 'Register' | 'Login';
 type UserMode = 'Buyer' | 'Seller';
@@ -22,8 +23,8 @@ function RegisterPage() {
   const [isUploading, setIsUpLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>('Register');
-
-  const [confirmPasswordFilled, setConfirmPasswordFilled] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const {
     register,
@@ -40,47 +41,83 @@ function RegisterPage() {
     setIsUpLoading(false);
   }, [mode]);
 
+  const handleProductImageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+
+    if (file && file.type.startsWith('image/')) {
+      setImageFile(file);
+      console.log(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          setImagePreview(e.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Please select a valid image file.');
+    }
+  };
+
   const onSubmit = async (data: AuthSchema) => {
     setIsUpLoading(true);
-    const { name, surname, username, password } = data;
+    const { profilePic, name, surname, username, password } = data;
 
     try {
       if (mode === 'Register') {
-        let result: boolean | null;
+        let result: boolean | null = null;
         if (userType === 'Buyer') {
-          result = await createBuyer(name, surname, password, username);
+          result = await createBuyer(
+            imageFile,
+            name,
+            surname,
+            password,
+            username
+          );
           if (result) await buyerAuth(username, password);
         } else {
-          result = await createSeller(name, surname, password, username);
+          result = await createSeller(
+            imageFile,
+            name,
+            surname,
+            password,
+            username
+          );
           if (result) await sellerAuth(username, password);
         }
+
         if (result) {
           toast?.setToast('success', 'Successfully Sign Up!');
           router.push('/profile/edit');
         } else {
           toast?.setToast(
             'error',
-            'There is an error occur! Please try again later'
+            'There was an error! Please try again later.'
           );
         }
       } else {
-        let user: Buyer | Seller | null;
+        // Sign In
+        let user: Buyer | Seller | null = null;
         if (userType === 'Buyer') {
           user = await buyerAuth(username, password);
         } else {
           user = await sellerAuth(username, password);
         }
+
+        // Handling user sign-in result
         if (user) {
           toast?.setToast('success', 'Successfully Sign In!');
           router.push('/profile');
-        } else toast?.setToast('error', 'Username or password is incorrect');
+        } else {
+          toast?.setToast('error', 'Username or password is incorrect');
+        }
       }
     } catch (error) {
+      // Handling unexpected errors
       setTimeout(() => {
-        toast?.setToast(
-          'error',
-          'There is an error occur! Please try again later!'
-        );
+        toast?.setToast('error', 'There is an error! Please try again later!');
       }, 1500);
     } finally {
       setIsUpLoading(false);
@@ -132,7 +169,36 @@ function RegisterPage() {
         >
           {mode === 'Register' && (
             <>
-              {' '}
+              <div className="mb-4 flex flex-col text-center justify-center items-center">
+                <div className="relative flex items-center flex-col">
+                  {imagePreview ? (
+                    <img
+                      src={imagePreview}
+                      alt="Product preview"
+                      className="w-20 h-20 rounded-full object-fit"
+                    />
+                  ) : (
+                    <Icon
+                      icon="mdi:account"
+                      className="h-16 w-16 text-gray-500"
+                    />
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple={false}
+                    {...register('profilePic')}
+                    onChange={handleProductImageChange}
+                    className="absolute inset-0 w-20 h-20 opacity-0 cursor-pointer"
+                  />
+                  <label
+                    htmlFor="productImageInput"
+                    className="text-black text-sm cursor-pointer"
+                  >
+                    Profile Picture
+                  </label>
+                </div>
+              </div>
               <p className="text-black text-left">
                 Name
                 <span className="text-black ml-1">*</span>

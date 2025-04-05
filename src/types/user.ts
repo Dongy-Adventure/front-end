@@ -13,6 +13,7 @@ export type Buyer = {
   username: string;
   cart: OrderCart[];
   userType: 'buyer';
+  profilePic: string;
 };
 
 export type Seller = {
@@ -29,4 +30,5 @@ export type Seller = {
   transaction: Transaction[];
   username: string;
   userType: 'seller';
+  profilePic: string;
 };

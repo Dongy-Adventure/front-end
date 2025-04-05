@@ -5,7 +5,7 @@ export type ProductDTO = {
     color: string;
     createdAt: string;
     description: string;
-    imageURL: string;
+    image: string;
     price: number;
     productID: string;
     productName: string;
@@ -22,7 +22,7 @@ export type ProductDataDTO = {
   color: string;
   createdAt: string;
   description: string;
-  imageURL: string;
+  image: string;
   price: number;
   productID: string;
   productName: string;

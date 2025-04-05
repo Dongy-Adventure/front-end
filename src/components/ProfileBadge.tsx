@@ -8,7 +8,7 @@ export default function ProfileBadge() {
   return (
     <div className="text-black px-4 md:px-12 flex h-28 w-full bg-project-secondary rounded-xl items-center justify-start gap-8">
       <Image
-        src={tempProfilePicture}
+        src={user?.profilePic || tempProfilePicture}
         alt="Profile Picture"
         width={90}
         height={90}
