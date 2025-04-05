@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['se2-backend.s3.ap-southeast-1.amazonaws.com'],
   },
+  compilerOptions: {
+    baseUrl: '.',
+    paths: {
+      '@/*': ['src/*'],
+    },
+  },
 };
 
 export default nextConfig;
