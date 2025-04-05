@@ -6,11 +6,9 @@ RUN npm install -g pnpm@10
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN pnpm install
+RUN pnpm install --no-lockfile
 
 COPY . .
-
-RUN pnpm build
 
 EXPOSE 3000
 
