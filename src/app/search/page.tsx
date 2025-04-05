@@ -345,7 +345,7 @@ export default function Search() {
                   productName={product.productName}
                   price={product.price}
                   discountedPrice={product.price * 1.0}
-                  image={product.imageURL}
+                  image={product.image}
                 />
               ))}
             </ul>

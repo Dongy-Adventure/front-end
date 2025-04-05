@@ -24,7 +24,6 @@ export const getOrder = async (): Promise<Order[] | null> => {
         },
       }
     );
-
     if (!res.data.status) {
       console.error(res.data.message);
       return null;
