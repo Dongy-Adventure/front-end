@@ -6,7 +6,7 @@ RUN npm install -g pnpm@10
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN pnpm install --no-lockfile
+RUN pnpm install
 
 COPY . .
 
