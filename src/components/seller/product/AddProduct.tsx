@@ -2,11 +2,8 @@ import { COLORS } from '@/constants/color';
 import { TAGS } from '@/constants/tags';
 import { useToast } from '@/context/ToastContext';
 import { createProduct } from '@/utils/product';
-import { uploadImage } from '@/utils/upload';
-import wristWatch from '@/../public/wrist-watch.png';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { StaticImageData } from 'next/image';
 
 interface ProductInfo {
   amount: number;
@@ -15,7 +12,7 @@ interface ProductInfo {
   productName: string;
   price: number;
   description: string;
-  imageUrl: string;
+  image: string;
   productImage: File | null;
   color: string;
   tag: string[];
@@ -24,8 +21,8 @@ interface ProductInfo {
 export default function AddProduct(props: { closing: () => void }) {
   const toast = useToast();
   const [selectedColor, setSelectedColor] = useState('');
-  const [imagePreview, setImagePreview] = useState<string | null>(null); // To display the selected image
-  const [imageFile, setImageFile] = useState<File | null>(null); // To store the file for submission
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   // Handle image change
   const handleProductImageChange = (
@@ -69,26 +66,13 @@ export default function AddProduct(props: { closing: () => void }) {
   });
 
   const onSubmit = async (data: ProductInfo) => {
-    const {
-      productName,
-      price,
-      description,
-      productImage,
-      color,
-      tag,
-      amount,
-    } = data;
+    const { productName, price, description, color, tag, amount } = data;
 
-    let imgUrl: string | StaticImageData = wristWatch;
-
-    if (imageFile) {
-      imgUrl = (await uploadImage(imageFile)) ?? wristWatch;
-    }
     const status = await createProduct(
       productName,
       Number(price),
       description,
-      imgUrl as string,
+      imageFile,
       color,
       tag,
       Number(amount)

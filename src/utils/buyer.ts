@@ -6,17 +6,27 @@ import { AxiosResponse } from 'axios';
 import { getUserId } from './user';
 
 export const createBuyer = async (
+  profilePic: File | null,
   name: string,
   surname: string,
   password: string,
   username: string
 ): Promise<boolean | null> => {
   try {
-    const res = await apiClient.post('/buyer/', {
-      name: name,
-      surname: surname,
-      password: password,
-      username: username,
+    const formData = new FormData();
+    if (profilePic) {
+      formData.append('profilePic', profilePic);
+    }
+    formData.append('name', name);
+    formData.append('surname', surname);
+    formData.append('password', password);
+    formData.append('username', username);
+
+    console.log([...formData.entries()]);
+    const res = await apiClient.post('/buyer/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
     if (!res.data.success) return false;
 

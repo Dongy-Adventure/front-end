@@ -101,8 +101,8 @@ export default function ProductOnDisplay() {
                       <td className="py-3 flex items-center space-x-3">
                         <Image
                           src={
-                            product.imageURL && product.imageURL !== ''
-                              ? product.imageURL
+                            product.image && product.image !== ''
+                              ? product.image
                               : wristWatch
                           }
                           alt={product.productName}

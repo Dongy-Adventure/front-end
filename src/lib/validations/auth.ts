@@ -2,6 +2,20 @@ import { z } from 'zod';
 
 export const authSchema = z
   .object({
+    profilePic: z
+      .any()
+      .refine(
+        (files) => {
+          if (!files) return;
+          const allowedExtensions = ['jpg', 'jpeg', 'png'];
+          const fileName = files[0].name.toLowerCase();
+          const ext = fileName.split('.').pop();
+          return ext && allowedExtensions.includes(ext);
+        },
+
+        'Invalid file type'
+      )
+      .optional(),
     name: z.string().nonempty('Name is required'),
     surname: z.string().nonempty('Surname is required'),
     username: z

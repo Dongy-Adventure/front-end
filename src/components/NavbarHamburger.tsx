@@ -62,7 +62,7 @@ export default function NavbarHamburger() {
           {menuItems.map((item, index) => (
             <p
               key={index}
-              className="hover:text-project-primary mb-4 w-fit"
+              className="hover:text-project-primary mb-4 w-fit cursor-pointer"
               onClick={() => {
                 router.push(item.path);
                 setIsOpen(false);

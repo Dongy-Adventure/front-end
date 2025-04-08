@@ -9,7 +9,7 @@ export const createProduct = async (
   name: string,
   price: number,
   description: string,
-  image: string,
+  image: File | null,
   color: string,
   tag: string[],
   amount: number
@@ -22,22 +22,30 @@ export const createProduct = async (
     return false;
   }
   try {
+    const formData = new FormData();
+    formData.append('productName', name);
+    formData.append('price', price.toString());
+    formData.append('description', description);
+    formData.append('amount', amount.toString());
+    formData.append('sellerID', userId);
+    if (tag)
+      tag.forEach((tagItem) => {
+        formData.append(`tag[]`, tagItem);
+      });
+    formData.append('color', color);
+    formData.append('createdAt', new Date().toISOString());
+
+    if (image) {
+      formData.append('image', image);
+    }
+    console.log([...formData.entries()]);
     const res: AxiosResponse<ProductDTO> = await apiClient.post(
       `/product/`,
-      {
-        amount: amount,
-        sellerID: userId,
-        productName: name,
-        price: price,
-        description: description,
-        imageURL: image,
-        tag: tag,
-        color: color,
-        createdAt: new Date().toISOString(),
-      },
+      formData,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data',
         },
       }
     );
@@ -93,6 +101,7 @@ export const getSellerProducts = async (): Promise<Product[] | null> => {
     const productData: ProductDataDTO[] = res.data.data;
 
     if (!productData) return [];
+    console.group(res.data);
     const products: Product[] = productData.map((p: ProductDataDTO) => {
       return {
         amount: p.amount,
@@ -100,7 +109,7 @@ export const getSellerProducts = async (): Promise<Product[] | null> => {
         color: p.color,
         createdAt: p.createdAt,
         description: p.description,
-        imageURL: p.imageURL,
+        image: p.image,
         price: p.price,
         productID: p.productID,
         productName: p.productName,
@@ -137,7 +146,7 @@ export const getAllProducts = async (): Promise<Product[] | null> => {
         color: p.color,
         createdAt: p.createdAt,
         description: p.description,
-        imageURL: p.imageURL,
+        image: p.image,
         price: p.price,
         productID: p.productID,
         productName: p.productName,
@@ -180,7 +189,7 @@ export const updateProduct = async (
         color: color,
         price: price,
         description: desc,
-        imageURL: '',
+        image: '',
         createdAt: new Date().toISOString(),
       },
       {
