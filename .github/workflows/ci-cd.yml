@@ -15,7 +15,7 @@ jobs:
 
       - name: Push to Vercel deployment
         run: |
-          git config --global user.name "D33102"
-          git config --global user.email "dalai2547@gmail.com"
-          git remote add secondary https://x-access-token:${{ secrets.SECONDARY_REPO_TOKEN }}@github.com/D33102/se2-frontend.git
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git remote add secondary https://D33102:${{ secrets.SECONDARY_REPO_TOKEN }}@github.com/D33102/se2-frontend.git
           git push -f secondary main
