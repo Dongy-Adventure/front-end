@@ -12,12 +12,17 @@ import { getSellerProducts } from '@/utils/product';
 import { Product } from '@/types/product';
 import wristWatch from '@/../public/wrist-watch.png';
 import { getSellerBalance, withdrawMoney } from '@/utils/seller';
+import { createAdvertisement } from '@/utils/advertisement';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   PaymentSchema,
   PaymentFormValues,
 } from '@/lib/validations/seller/withdraw';
+import {
+  AdvertisementSchema,
+  AdvertisementFormValues,
+} from '@/lib/validations/seller/advertisement';
 import { useToast } from '@/context/ToastContext';
 
 export default function Profile() {
@@ -31,7 +36,6 @@ export default function Profile() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  // Handle image change
   const handleProductImageChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -39,7 +43,6 @@ export default function Profile() {
 
     if (file && file.type.startsWith('image/')) {
       setImageFile(file);
-      console.log(file);
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target?.result) {
@@ -58,11 +61,23 @@ export default function Profile() {
   };
 
   const onSubmit = async (data: PaymentFormValues) => {
-    const res = await withdrawMoney(data.amount);
-    if (res) {
-      toast?.setToast('success', 'Withdraw Completed!');
-      window.location.href = '/seller/wallet';
-    } else [toast?.setToast('error', 'Error Withdraw')];
+    if (!selectedProduct || !imageFile) {
+      toast?.setToast('error', 'Product and image are required');
+      return;
+    }
+
+    const success = await createAdvertisement(
+      data.amount,
+      imageFile,
+      data.paymentMethod,
+      selectedProduct.productID
+    );
+    if (success) {
+      toast?.setToast('success', 'Advertisement created successfully!');
+      router.push('/seller/ads');
+    } else {
+      toast?.setToast('error', 'Failed to create advertisement.');
+    }
   };
 
   useEffect(() => {
@@ -105,14 +120,14 @@ export default function Profile() {
         >
           Home
         </Link>
-        <p className="text-gray-400">{'\u003E'}</p>
+        <p className="text-gray-400">{'>'}</p>
         <Link
           href="/profile"
           className="text-gray-400"
         >
           My Account
         </Link>
-        <p className="text-gray-400">{'\u003E'}</p>
+        <p className="text-gray-400">{'>'}</p>
         <p className="text-black font-semibold">Create Ads</p>
       </div>
       <ProfileBadge />
@@ -139,7 +154,6 @@ export default function Profile() {
                   <p>Click here to upload image</p>
                 )}
               </label>
-
               <input
                 type="file"
                 accept="image/*"
@@ -152,7 +166,6 @@ export default function Profile() {
               <span className="text-sm">
                 Choose product to advertise <u>*</u>
               </span>
-              {/* Selected Item */}
               <div
                 className="flex items-center justify-between p-2 border rounded cursor-pointer bg-white w-full"
                 onClick={() => setIsOpen(!isOpen)}
@@ -193,8 +206,6 @@ export default function Profile() {
                   )}
                 </span>
               </div>
-
-              {/* Dropdown Options */}
               {isOpen && (
                 <div className="z-10 w-full border rounded bg-white shadow max-w-80 py-2">
                   {products?.map((item) => (
@@ -238,7 +249,7 @@ export default function Profile() {
                 Please select the preferred payment method to use on this order.
               </p>
               <div className="flex flex-col gap-2">
-                {['Cash on Delivery', 'PromptPay'].map((method) => (
+                {['Wallet Balance', 'PromptPay'].map((method) => (
                   <label
                     key={method}
                     className="flex gap-2"
@@ -256,9 +267,7 @@ export default function Profile() {
               </div>
               {errors.paymentMethod && (
                 <p className="text-red-500 text-sm">
-                  {errors.paymentMethod.message
-                    ? 'Please select a payment method'
-                    : ''}
+                  {errors.paymentMethod.message}
                 </p>
               )}
               <span className="pt-20 flex gap-2">
@@ -285,11 +294,12 @@ export default function Profile() {
             </div>
             <div className="flex flex-col p-4 rounded-lg bg-gray-100 w-full md:w-fit leading-none">
               <p className="font-semibold pb-4">Withdrawal</p>
-              <p className="text-sm font-light">Enter withdrawal amount.</p>
+              <p className="text-sm font-light">
+                Enter your preferred advertisement fee.
+              </p>
               {errors.amount && (
                 <p className="text-red-500 text-sm">{errors.amount.message}</p>
               )}
-
               <div className="flex gap-2">
                 <input
                   type="number"
@@ -302,32 +312,15 @@ export default function Profile() {
                 />
                 <p className="self-center">THB</p>
               </div>
-
               <p className="text-sm font-light text-right">
                 Available balance:{' '}
                 {sellerBalance ? Number(sellerBalance).toFixed(2) : '0.00'} THB
               </p>
-
-              {selectedPayment === 'PromptPay' && (
-                <>
-                  <p className="text-sm font-light mt-3">Enter phone number.</p>
-                  <p className="text-red-500 text-sm">
-                    {errors.phoneNumber?.message}
-                  </p>
-                  <div className="flex gap-2">
-                    <input
-                      {...register('phoneNumber')}
-                      placeholder="Enter phone number"
-                      className="w-72 rounded-md bg-white border-[1px] p-2 mt-0.5"
-                    />
-                  </div>
-                </>
-              )}
               <button
                 type="submit"
                 className="w-full h-12 bg-project-primary rounded-xl mt-12 font-semibold text-white"
               >
-                Confirm Withdrawal
+                Create Ads
               </button>
             </div>
           </form>
