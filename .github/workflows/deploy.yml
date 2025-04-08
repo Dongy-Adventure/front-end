@@ -6,28 +6,16 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the source repository
-      - name: Checkout source repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Show the repository URL for debugging (without exposing the token)
-      - name: Debugging - Show repository URL
+      - name: Push to Vercel deployment
         run: |
-          echo "Pushing to repository https://github.com/D33102/se2-frontend.git"
-
-      # Step 3: Push to secondary repository using cpina's action
-      - name: Push to secondary repository
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.SECONDARY_REPO_TOKEN }}
-        with:
-          source-directory: .
-          destination-github-username: 'D33102'
-          destination-repository-name: 'se2-frontend'
-          user-email: dalai2547@gmail.com
-          target-branch: main
-          
+          git config --global user.name "D33102"
+          git config --global user.email "dalai2547@gmail.com"
+          git remote add secondary https://x-access-token:${{ secrets.SECONDARY_REPO_TOKEN }}@github.com/D33102/se2-frontend.git
+          git push -f secondary main
