@@ -1,0 +1,26 @@
+name: Deploy Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v4
+
+      - name: Push to secondary repository
+        uses: cpina/github-action-push-to-another-repository@v1.5.0
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.SECONDARY_REPO_TOKEN }}
+        with:
+          source-directory: .
+          destination-github-username: 'D33102'
+          destination-repository-name: 'se2-frontend'
+          user-email: dalai2547@gmail.com
+          commit-message: "Deploy from ${{ github.repository }}@${{ github.sha }}"
+          target-branch: main
