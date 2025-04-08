@@ -29,7 +29,8 @@ jobs:
           destination-github-username: 'D33102'
           destination-repository-name: 'se2-frontend'
           user-email: dalai2547@gmail.com
-          args: --branch=main
+          commit-message: 'from organization'
+          target-branch: main
 
       # Step 4: Force push to the destination repository (manual step for force push)
       - name: Force push to the destination repo
