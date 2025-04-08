@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
 import { getSellerProducts } from '@/utils/product';
+import { getSellerAdvertisements } from '@/utils/advertisement';
 import { Product } from '@/types/product';
 import wristWatch from '@/../public/wrist-watch.png';
 import { getSellerBalance, withdrawMoney } from '@/utils/seller';
@@ -24,6 +25,7 @@ import {
   AdvertisementFormValues,
 } from '@/lib/validations/seller/advertisement';
 import { useToast } from '@/context/ToastContext';
+import { Advertisement } from '@/types/advertisement';
 
 export default function Profile() {
   const router = useRouter();
@@ -31,6 +33,9 @@ export default function Profile() {
   const { user } = useAuth();
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
   const [products, setProducts] = useState<Product[] | null>();
+  const [advertisements, setAdvertisements] = useState<
+    Advertisement[] | null
+  >();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -65,6 +70,7 @@ export default function Profile() {
       toast?.setToast('error', 'Product and image are required');
       return;
     }
+    console.log('id', selectedProduct.productID);
 
     const success = await createAdvertisement(
       data.amount,
@@ -90,9 +96,15 @@ export default function Profile() {
         const balance = await getSellerBalance();
         setSellerBalance(balance ?? 0);
       };
+      const getAdvertisements = async () => {
+        const advertisements = await getSellerAdvertisements();
+        setAdvertisements(advertisements);
+        console.log(advertisements);
+      };
 
       getProducts();
       getBalance();
+      getAdvertisements();
     }
   }, []);
 
@@ -324,6 +336,34 @@ export default function Profile() {
               </button>
             </div>
           </form>
+          <h1 className="text-xl font-semibold pb-4 pt-12">
+            Advertisement History
+          </h1>
+          <div className="overflow-x-auto p-4">
+            <table className="table-fixed w-full">
+              <thead className="border-b border-gray-300 p-3 font-semibold text-left">
+                <tr>
+                  <th className="font-medium w-60">Date</th>
+                  <th className="font-medium w-80">Ads ID</th>
+                  <th className="font-medium w-60">Payment Method</th>
+                  <th className="font-medium w-40">Total</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-300">
+                {advertisements?.map((ad: Advertisement) => (
+                  <tr
+                    key={ad.advertisementID}
+                    className="hover:bg-gray-50"
+                  >
+                    <td className="py-3">{ad.createdAt}</td>
+                    <td className="py-3">{ad.advertisementID}</td>
+                    <td className="py-3">{ad.payment}</td>
+                    <td className="py-3">{ad.amount} THB</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

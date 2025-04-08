@@ -1,13 +1,17 @@
 import { Advertisement } from '@/types/advertisement';
 import { AxiosResponse } from 'axios';
-import { AdvertisementDTO } from '@/dtos/advertisementDTO';
+import {
+  AdvertisementDTO,
+  AdvertisementDataDTO,
+  AdvertisementsDTO,
+} from '@/dtos/advertisementDTO';
 import { getAccessToken } from './auth';
 import { apiClient } from './axios';
 import { getUserId } from './user';
 
 export const createAdvertisement = async (
   amount: number,
-  imageURL: string,
+  imageURL: File,
   payment: string,
   productID: string
 ): Promise<boolean> => {
@@ -26,9 +30,10 @@ export const createAdvertisement = async (
     formData.append('sellerID', userId);
     formData.append('createdAt', new Date().toISOString());
     if (imageURL) {
-      formData.append('imageURL', 'x');
+      formData.append('imageURL', imageURL);
     }
     console.log([...formData.entries()]);
+    console.log('productID: ', userId);
     const res: AxiosResponse<AdvertisementDTO> = await apiClient.post(
       `/advertisement/`,
       formData,
@@ -49,5 +54,52 @@ export const createAdvertisement = async (
   } catch (err) {
     console.error(err);
     return false;
+  }
+};
+
+export const getSellerAdvertisements = async (): Promise<
+  Advertisement[] | null
+> => {
+  const accessToken = await getAccessToken();
+  const userId = await getUserId();
+  console.log(userId);
+
+  try {
+    const res: AxiosResponse<AdvertisementsDTO> = await apiClient.get(
+      `/advertisement/seller/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return null;
+    }
+
+    const advertisementData: AdvertisementDataDTO[] = res.data.data;
+
+    if (!advertisementData) return [];
+    console.group(res.data);
+    const advertisements: Advertisement[] = advertisementData.map(
+      (ad: AdvertisementDataDTO) => {
+        return {
+          advertisementID: ad.advertisementID,
+          amount: ad.amount,
+          createdAt: ad.createdAt,
+          imageURL: ad.imageURL,
+          payment: ad.payment,
+          productID: ad.productID,
+          sellerID: ad.sellerID,
+        };
+      }
+    );
+
+    return advertisements;
+  } catch (err) {
+    console.error(err);
+    return null;
   }
 };
