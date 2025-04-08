@@ -22,5 +22,4 @@ jobs:
           destination-github-username: 'D33102'
           destination-repository-name: 'se2-frontend'
           user-email: dalai2547@gmail.com
-          commit-message: "Deploy from ${{ github.repository }}@${{ github.sha }}"
-          target-branch: main
+          args: --branch=main
