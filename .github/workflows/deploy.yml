@@ -21,7 +21,7 @@ jobs:
 
       # Step 3: Push to secondary repository using cpina's action
       - name: Push to secondary repository
-        uses: cpina/github-action-push-to-another-repository@v1
+        uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.SECONDARY_REPO_TOKEN }}
         with:
@@ -29,18 +29,5 @@ jobs:
           destination-github-username: 'D33102'
           destination-repository-name: 'se2-frontend'
           user-email: dalai2547@gmail.com
-          commit-message: 'from organization'
           target-branch: main
-
-      # Step 4: Force push to the destination repository (manual step for force push)
-      - name: Force push to the destination repo
-        run: |
-          git remote add secondary https://D33102:${{ secrets.SECONDARY_REPO_TOKEN }}@github.com/D33102/se2-frontend.git
-          echo "Pushing changes to https://github.com/D33102/se2-frontend.git"
-          git push -f secondary main
           
-      # Step 5: Verify authentication - Debugging step
-      - name: Debugging - Verify authentication
-        run: |
-          echo "Verifying if the token is valid..."
-          curl -H "Authorization: token ${{ secrets.SECONDARY_REPO_TOKEN }}" https://api.github.com/user
