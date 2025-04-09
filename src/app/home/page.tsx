@@ -18,7 +18,6 @@ export default function Home() {
         console.error('Failed to fetch products:', error);
       }
     };
-
     fetchProducts();
   }, []);
 

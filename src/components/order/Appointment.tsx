@@ -31,7 +31,6 @@ const statusColors: StatusColors = {
   2: 'border-project-brown',
   3: 'border-project-green',
 };
-
 const timeButtonBaseClasses =
   'w-[80px] h-[35px] flex text-[14px] font-semibold justify-center items-center rounded-lg';
 
