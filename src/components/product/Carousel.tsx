@@ -2,32 +2,49 @@
 
 import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import placeholder202 from '@/../public/placeholder202.jpg';
-import placeholder201 from '@/../public/placeholder201.webp';
-import placeholder203 from '@/../public/placeholder203.webp';
 import Image from 'next/image';
-
-const images = [placeholder201, placeholder202, placeholder203];
+import Link from 'next/link';
+import { getRandomAdvertisements } from '@/utils/advertisement';
+import { Advertisement } from '@/types/advertisement';
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [advertisements, setAdvertisements] = useState<
+    Advertisement[] | null
+  >();
 
   useEffect(() => {
+    const fetchAdvertisements = async () => {
+      const ads = await getRandomAdvertisements();
+      setAdvertisements(ads || null);
+    };
+
+    fetchAdvertisements();
+  }, []);
+
+  useEffect(() => {
+    if (!advertisements || advertisements.length === 0) return;
+
     const interval = setInterval(() => {
-      nextSlide();
+      setCurrentIndex((prevIndex) =>
+        prevIndex === advertisements.length - 1 ? 0 : prevIndex + 1
+      );
     }, 5000);
+
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [advertisements]);
 
   const prevSlide = () => {
+    if (!advertisements || advertisements.length === 0) return;
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+      prevIndex === 0 ? advertisements.length - 1 : prevIndex - 1
     );
   };
 
   const nextSlide = () => {
+    if (!advertisements || advertisements.length === 0) return;
     setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      prevIndex === advertisements.length - 1 ? 0 : prevIndex + 1
     );
   };
 
@@ -37,15 +54,22 @@ export default function Carousel() {
         className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
-        {images.map((src, index) => (
-          <Image
-            key={index}
-            src={src}
-            alt={`Slide ${index + 1}`}
-            className="w-full flex-shrink-0"
-            unoptimized
-          />
-        ))}
+        {advertisements &&
+          advertisements.map((ad, index) => (
+            <Link
+              key={index}
+              href={`/product/${ad.productID}`}
+              className="min-w-full flex-shrink-0 relative aspect-[3/1]"
+            >
+              <Image
+                src={ad.imageURL}
+                alt={`Slide ${index + 1}`}
+                className="object-cover"
+                fill
+                unoptimized
+              />
+            </Link>
+          ))}
       </div>
 
       <button
@@ -72,13 +96,14 @@ export default function Carousel() {
       </button>
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-3 mb-6">
-        {images.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 transition-all rotate-45 border-project-pink border-[1px] ${currentIndex === index ? 'bg-project-pink' : 'bg-white'}`}
-          />
-        ))}
+        {advertisements &&
+          advertisements.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-2 h-2 transition-all rotate-45 border-project-pink border-[1px] ${currentIndex === index ? 'bg-project-pink' : 'bg-white'}`}
+            />
+          ))}
       </div>
     </div>
   );

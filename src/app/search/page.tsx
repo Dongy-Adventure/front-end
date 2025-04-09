@@ -105,7 +105,7 @@ export default function Search() {
     );
 
     allProducts.forEach((product) => {
-      product.tag.forEach((tag) => {
+      product.tag?.forEach((tag) => {
         if (categoryMap[tag] !== undefined) {
           categoryMap[tag] += 1;
         }
