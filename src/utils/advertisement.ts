@@ -103,3 +103,50 @@ export const getSellerAdvertisements = async (): Promise<
     return null;
   }
 };
+
+export const getRandomAdvertisements = async (): Promise<
+  Advertisement[] | null
+> => {
+  const accessToken = await getAccessToken();
+  const userId = await getUserId();
+  console.log(userId);
+
+  try {
+    const res: AxiosResponse<AdvertisementsDTO> = await apiClient.get(
+      `/advertisement/random`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.data.success) {
+      console.error(res.data.message);
+      return null;
+    }
+
+    const advertisementData: AdvertisementDataDTO[] = res.data.data;
+
+    if (!advertisementData) return [];
+    console.group(res.data);
+    const advertisements: Advertisement[] = advertisementData.map(
+      (ad: AdvertisementDataDTO) => {
+        return {
+          advertisementID: ad.advertisementID,
+          amount: ad.amount,
+          createdAt: ad.createdAt,
+          imageURL: ad.imageURL,
+          payment: ad.payment,
+          productID: ad.productID,
+          sellerID: ad.sellerID,
+        };
+      }
+    );
+
+    return advertisements;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
