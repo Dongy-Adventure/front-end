@@ -152,6 +152,7 @@ export default function AddProduct(props: { closing: () => void }) {
                 <input
                   className="pt-0 w-full p-2 border rounded mt-1 border-b-[1px] bg-transparent text-base focus:outline-none focus:border-b-2 focus:border-project-blue text-project-blue"
                   placeholder=""
+                  data-testid="name"
                   {...field}
                 />
               )}
@@ -181,6 +182,7 @@ export default function AddProduct(props: { closing: () => void }) {
                 <input
                   className="w-full p-2 border rounded mt-1"
                   placeholder=""
+                  data-testid="amount"
                   {...field}
                   type="number"
                 />
@@ -196,6 +198,7 @@ export default function AddProduct(props: { closing: () => void }) {
                 <input
                   className="w-full p-2 border rounded mt-1"
                   placeholder=""
+                  data-testid="price"
                   {...field}
                   type="number"
                 />
@@ -218,6 +221,7 @@ export default function AddProduct(props: { closing: () => void }) {
                         className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
                           isSelected ? 'bg-project-secondary' : 'bg-gray-100'
                         }`}
+                        data-testid={`tag-${tag}`}
                         onClick={() => {
                           const newTags = isSelected
                             ? field.value.filter((t: string) => t !== tag)
@@ -247,6 +251,7 @@ export default function AddProduct(props: { closing: () => void }) {
                       key={color}
                       className={`w-6 h-6 rounded-full border ${color === selectedColor ? 'ring-2 ring-black' : ''}`}
                       style={{ backgroundColor: color }}
+                      data-testid={`color-${color}`}
                       onClick={() => {
                         setSelectedColor(color);
                         setValue('color', color);

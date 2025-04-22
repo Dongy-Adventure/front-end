@@ -94,6 +94,7 @@ function Order({
           <label className="text-sm font-medium">Cardholder Name</label>
           <input
             type="text"
+            data-testid="cardholder-name"
             placeholder="John Doe"
             className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
             disabled={paymentType === 'Cash'}
@@ -109,6 +110,7 @@ function Order({
           <input
             type="text"
             placeholder="1234 5678 9012 3456"
+            data-testid="card-number"
             className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
             disabled={paymentType === 'Cash'}
             {...register('number')}
@@ -132,6 +134,7 @@ function Order({
             <input
               type="number"
               placeholder="MM"
+              data-testid="expiry-month"
               className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
               min="1"
               max="12"
@@ -159,6 +162,7 @@ function Order({
               className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
               disabled={paymentType === 'Cash'}
               min="25"
+              data-testid="expiry-year"
               max="35"
               step="1"
               {...register('expiryYear', { valueAsNumber: true })}
@@ -182,6 +186,7 @@ function Order({
           <input
             type="password"
             placeholder="123"
+            data-testid="cvv"
             className="border rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
             disabled={paymentType === 'Cash'}
             {...register('securityCode')}

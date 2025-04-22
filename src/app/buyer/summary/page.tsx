@@ -74,7 +74,7 @@ export default function SummaryCart() {
 
   const handlePayment = async (cardData: CardData) => {
     try {
-      await createToken(cardData); // Wait for token
+      await createToken(cardData);
       if (!token) {
         return;
       }

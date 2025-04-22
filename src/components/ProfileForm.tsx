@@ -148,7 +148,8 @@ export default function ProfileForm({
             </div>
             <input
               {...register('name')}
-              className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
+              data-testid="name"
+              className="font-medium w-full bg-transparent border-[1px] border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
               placeholder=""
             />
           </div>
@@ -161,6 +162,7 @@ export default function ProfileForm({
             </div>
             <input
               {...register('surname')}
+              data-testid="surname"
               className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
               placeholder=""
             />
@@ -177,6 +179,7 @@ export default function ProfileForm({
           </div>
           <input
             {...register('phoneNumber')}
+            data-testid="phone"
             className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
             placeholder=""
           />
@@ -190,6 +193,7 @@ export default function ProfileForm({
           </div>
           <input
             {...register('address')}
+            data-testid="address"
             className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1.5 rounded-lg hover:border-project-primary"
             placeholder=""
           />
@@ -212,6 +216,7 @@ export default function ProfileForm({
               setValue('zip', '');
             }}
             className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1 rounded-lg hover:border-project-primary"
+            data-testid="province"
           >
             {provinces
               .slice()
@@ -247,6 +252,7 @@ export default function ProfileForm({
               );
             }}
             className="font-medium w-full bg-transparent border-[1px]  border-gray-300 p-1 rounded-lg hover:border-project-primary"
+            data-testid="district"
           >
             <option value=""></option>
             {filteredDistricts

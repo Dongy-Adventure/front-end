@@ -256,6 +256,7 @@ export default function AppointmentPage(prop: CardProps) {
                 <input
                   className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-sm font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
                   {...register('address', { required: true })}
+                  data-testid="address"
                 />
                 {errors.address && (
                   <span className="text-red-500 text-sm">
@@ -267,6 +268,7 @@ export default function AppointmentPage(prop: CardProps) {
                 <div className="flex text-sm font-normal">District*</div>
                 <input
                   className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-sm font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+                  data-testid="district"
                   {...register('district', { required: true })}
                 />
                 {errors.district && (
@@ -279,6 +281,7 @@ export default function AppointmentPage(prop: CardProps) {
                 <div className="flex text-sm font-normal">Province*</div>
                 <input
                   className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-sm font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+                  data-testid="province"
                   {...register('province', { required: true })}
                 />
                 {errors.province && (
@@ -291,6 +294,7 @@ export default function AppointmentPage(prop: CardProps) {
                 <div className="flex text-sm font-normal">Zipcode*</div>
                 <input
                   className="w-full h-[44px] rounded-lg border-[#D1D5DB] outline-none border-[1px] text-sm font-normal px-3 focus:border-[#808b96] focus:border-[1.5px]  focus:ring-0"
+                  data-testid="zip"
                   {...register('zip', { required: true })}
                 />
                 {errors.zip && (

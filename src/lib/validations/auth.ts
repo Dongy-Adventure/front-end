@@ -6,7 +6,7 @@ export const authSchema = z
       .any()
       .refine(
         (files) => {
-          if (!files) return;
+          if (!files || files.length === 0) return true;
           const allowedExtensions = ['jpg', 'jpeg', 'png'];
           const fileName = files[0].name.toLowerCase();
           const ext = fileName.split('.').pop();
@@ -24,7 +24,7 @@ export const authSchema = z
       .max(16, 'Username is too long'),
     password: z
       .string()
-      .min(8, 'Password must be at least 8 characters long')
+      .min(8, 'Password must be at last 8 characters long')
       .max(50, 'Password is too long')
       .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
       .regex(/[a-z]/, 'Password must contain at least one lowercase letter')

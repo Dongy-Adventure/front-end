@@ -103,13 +103,20 @@ export default function ProductPanel({
           <div className="flex pt-12 pb-12 gap-4">
             <div className="flex items-center justify-between w-28 h-10 border rounded-lg bg-gray-100">
               <button
+                data-testid="decrease-button"
                 className="w-1/3 h-full flex items-center justify-center text-xl text-gray-700 hover:bg-gray-200"
                 onClick={() => setCount((prev) => Math.max(1, prev - 1))}
               >
                 -
               </button>
-              <span className="w-1/3 text-center text-lg">{count}</span>
+              <span
+                data-testid="count-value"
+                className="w-1/3 text-center text-lg"
+              >
+                {count}
+              </span>
               <button
+                data-testid="increase-button"
                 className="w-1/3 h-full flex items-center justify-center text-xl text-gray-700 hover:bg-gray-200"
                 onClick={() =>
                   setCount((prev) => Math.min(prev + 1, product.amount))

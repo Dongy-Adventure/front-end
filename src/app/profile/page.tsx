@@ -84,20 +84,40 @@ export default function Profile() {
             <div className="grid grid-cols-2">
               <div className="flex flex-col gap-2">
                 <p className="text-sm">Name</p>
-                <p className="text-md font-semibold">{user?.name}</p>
+                <p
+                  className="text-md font-semibold"
+                  data-testid="name"
+                >
+                  {user?.name}
+                </p>
               </div>
               <div className="flex flex-col gap-2">
                 <p className="text-sm">Surname</p>
-                <p className="text-md font-semibold">{user?.surname}</p>
+                <p
+                  className="text-md font-semibold"
+                  data-testid="surname"
+                >
+                  {user?.surname}
+                </p>
               </div>
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-sm">Phone Number</p>
-              <p className="text-md font-semibold">{user?.phoneNumber}</p>
+              <p
+                className="text-md font-semibold"
+                data-testid="phone"
+              >
+                {user?.phoneNumber}
+              </p>
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-sm">Address</p>
-              <p className="text-md font-semibold">{user?.address}</p>
+              <p
+                className="text-md font-semibold"
+                data-testid="address"
+              >
+                {user?.address}
+              </p>
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-sm">District</p>

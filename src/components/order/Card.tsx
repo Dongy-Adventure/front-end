@@ -34,6 +34,7 @@ export default function Card(props: CardProps) {
           'absolute top-0 py-12 right-0 w-screen h-screen backdrop-blur-[3px] flex justify-center items-center',
           !hidden ? 'hidden' : 'z-40'
         )}
+        data-testid="visibility"
         onClick={() => {
           setHidden(false);
         }}

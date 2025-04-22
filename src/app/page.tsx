@@ -189,6 +189,7 @@ function RegisterPage() {
                     multiple={false}
                     {...register('profilePic')}
                     onChange={handleProductImageChange}
+                    data-testid="image"
                     className="absolute inset-0 w-20 h-20 opacity-0 cursor-pointer"
                   />
                   <label
@@ -207,6 +208,7 @@ function RegisterPage() {
                 type="text"
                 {...register('name')}
                 placeholder=""
+                data-testid="name"
                 className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
               />
               {errors.name && (
@@ -220,6 +222,7 @@ function RegisterPage() {
                 type="text"
                 {...register('surname')}
                 placeholder=""
+                data-testid="surname"
                 className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
               />
             </>
@@ -236,6 +239,7 @@ function RegisterPage() {
             type="text"
             {...register('username')}
             placeholder=""
+            data-testid="username"
             className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
           />
           {errors.username && (
@@ -250,6 +254,7 @@ function RegisterPage() {
             type="password"
             {...register('password')}
             placeholder=""
+            data-testid="password"
             className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
           />
           {errors.password && (
@@ -266,6 +271,7 @@ function RegisterPage() {
                 type="password"
                 {...register('confirmPassword')}
                 placeholder=""
+                data-testid="confirm-password"
                 className="bg-gray-100 w-full sm:w-72 p-2 mb-1 rounded outline-none text-sm text-black items-center"
               />
               {errors.confirmPassword && (

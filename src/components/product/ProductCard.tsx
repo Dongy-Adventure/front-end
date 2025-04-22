@@ -26,6 +26,7 @@ const ProductCard = ({
     <div
       onClick={() => router.push(`/product/${pid}`)}
       className="relative bg-white rounded-md flex flex-col items-center max-w-60 min-w-60 min-h-84 max-h-84 border-[1px] border-gray-200 cursor-pointer"
+      data-testid={`product-${productName}`}
     >
       <Image
         src={image && image !== '' ? image : tempProductImage}
