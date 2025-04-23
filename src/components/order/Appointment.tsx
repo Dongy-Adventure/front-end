@@ -205,7 +205,7 @@ export default function AppointmentPage(prop: CardProps) {
             : prop.order.status === 0
               ? status[prop.order.status]
               : prop.order.status === 2
-                ? `${appointmentPlace} \n ${appointmentTime}`
+                ? `${appointmentPlace}`
                 : 'Completed'}
         </div>
       </div>

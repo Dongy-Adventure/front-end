@@ -41,7 +41,7 @@ function CartCard(props: CartCardProps) {
       </td>
       <td className="py-3 flex flex-col justify-center">
         <Image
-          src={tempProductImage}
+          src={product.image}
           alt={product.productName}
           className="w-12 h-12 object-cover rounded-md"
         />
