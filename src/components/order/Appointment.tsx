@@ -37,6 +37,9 @@ const timeButtonBaseClasses =
 export default function AppointmentPage(prop: CardProps) {
   const toast = useToast();
   const [appointmentTime, setAppointmentTime] = useState<string | null>('-');
+  const [appointmentPlace, setAppointmentPlace] = useState<string | null>(
+    'To be determined!'
+  );
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const { user } = useAuth();
 
@@ -52,6 +55,13 @@ export default function AppointmentPage(prop: CardProps) {
     if (prop.order.status === 1) {
       setSelectedDate(new Date());
     }
+
+    const appointmentPlace = async () => {
+      const app = await getAppointmentByOrderID(prop.order.orderID);
+      setAppointmentPlace(`${app?.address} , ${app?.city} , ${app?.province}`);
+    };
+
+    appointmentPlace();
   }, [prop.order.status]);
 
   const timeAvilable = [

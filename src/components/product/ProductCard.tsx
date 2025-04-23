@@ -49,13 +49,7 @@ const ProductCard = ({
           </div>
         </div>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          router.push('/buyer/cart');
-        }}
-        className="z-10 absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full bg-project-secondary"
-      >
+      <button className="z-10 absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full bg-project-secondary">
         <Icon
           icon="lineicons:cart-2"
           width="15"
