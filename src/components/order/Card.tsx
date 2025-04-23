@@ -49,7 +49,7 @@ export default function Card(props: CardProps) {
         </div>
         <div className="flex justify-between font-bold text-md">
           <h4>{new Date(order.createdAt).toLocaleDateString('en-GB')}</h4>
-          <h4>${price}</h4>
+          <h4>฿{price}</h4>
         </div>
         <div className="flex justify-between font-bold text-md pt-1">
           <div className="grid grid-cols-3">
