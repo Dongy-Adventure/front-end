@@ -112,12 +112,12 @@ export default function SummaryCart() {
       const paymentResponse = await handlePayment(cardData);
       if (!paymentResponse) return;
 
-      const chargeID = paymentResponse.data.data.id;
-      const isPaymentSuccessful = await waitForPaymentStatus(chargeID);
-      if (!isPaymentSuccessful) {
-        toast?.setToast('error', 'Payment failed or timeout.');
-        return;
-      }
+      // const chargeID = paymentResponse.data.data.id;
+      // const isPaymentSuccessful = await waitForPaymentStatus(chargeID);
+      // if (!isPaymentSuccessful) {
+      //   toast?.setToast('error', 'Payment failed or timeout.');
+      //   return;
+      // }
     }
     const ordersBySeller = products.reduce(
       (acc, product) => {
