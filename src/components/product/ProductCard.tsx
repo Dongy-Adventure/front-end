@@ -44,7 +44,7 @@ const ProductCard = ({
               ฿{discountedPrice.toFixed(2)}
             </p> */}
             {discountedPrice < price && (
-              <p className="text-black">${price.toFixed(2)}</p>
+              <p className="text-black">฿{price.toFixed(2)}</p>
             )}
           </div>
         </div>

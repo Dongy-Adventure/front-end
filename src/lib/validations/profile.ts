@@ -9,7 +9,7 @@ export const profileSchema = z.object({
   phoneNumber: z
     .string()
     .min(10, 'Phone number must be at least 10 digits')
-    .max(15, 'Phone number is too long')
+    .max(10, 'Phone number is too long')
     .regex(/^\+?[0-9]+$/, 'Invalid phone number format'),
   address: z.string().min(5, 'Address is too short'),
   city: z.string().min(1, 'District is required'),
