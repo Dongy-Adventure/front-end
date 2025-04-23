@@ -49,7 +49,9 @@ export default function Wallet() {
     if (res) {
       toast?.setToast('success', 'Withdraw Completed!');
       window.location.href = '/seller/wallet';
-    } else [toast?.setToast('error', 'Error Withdraw')];
+    } else {
+      toast?.setToast('error', 'Error Withdraw');
+    }
   };
 
   return (
@@ -85,7 +87,7 @@ export default function Wallet() {
                 Please select the preferred payment method to use on this order.
               </p>
               <div className="flex flex-col gap-2">
-                {['Cash on Delivery', 'PromptPay'].map((method) => (
+                {['PromptPay'].map((method) => (
                   <label
                     key={method}
                     className="flex gap-2"

@@ -131,7 +131,7 @@ export const withdrawMoney = async (amount: number): Promise<boolean> => {
       `/seller/${userId}/withdraw`,
       {
         amount: amount,
-        payment: 'Cash',
+        payment: 'PromptPay',
       },
       {
         headers: {
