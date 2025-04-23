@@ -68,6 +68,14 @@ export default function Profile() {
     }
     console.log('id', selectedProduct.productID);
 
+    const withdrawRes = await withdrawMoney(data.amount);
+    if (!withdrawRes) {
+      toast?.setToast('error', 'Error during withdrawal');
+      return;
+    }
+
+    toast?.setToast('success', 'Withdraw Completed!');
+
     const success = await createAdvertisement(
       data.amount,
       imageFile,
@@ -257,7 +265,7 @@ export default function Profile() {
                 Please select the preferred payment method to use on this order.
               </p>
               <div className="flex flex-col gap-2">
-                {['Wallet Balance', 'PromptPay'].map((method) => (
+                {['Wallet Balance'].map((method) => (
                   <label
                     key={method}
                     className="flex gap-2"
