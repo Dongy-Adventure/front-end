@@ -114,7 +114,7 @@ export default function ProductOnDisplay() {
                       </td>
                       <td className="py-3 ">{product.productID}</td>
                       <td className="py-3">{product.amount}</td>
-                      <td className="py-3">${product.price}</td>
+                      <td className="py-3">฿{product.price}</td>
                       <td className="py-3 items-center">
                         <button
                           className="py-1 items-center"

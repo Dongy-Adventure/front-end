@@ -18,7 +18,7 @@ export default function ProfileBadge() {
         <p className="text-lg font-semibold">
           {user?.name} {user?.surname}
         </p>
-        <p className="text-sm">placeholder@gmail.com</p>
+        <p className="text-sm">{user?.phoneNumber}</p>
       </div>
     </div>
   );
