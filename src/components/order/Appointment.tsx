@@ -201,11 +201,11 @@ export default function AppointmentPage(prop: CardProps) {
         <div className="flex text-sm font-normal">Appointment Place</div>
         <div className="font-bold text-[24px]-">
           {prop.order.status === 1
-            ? 'To be determined'
+            ? appointmentPlace
             : prop.order.status === 0
               ? status[prop.order.status]
               : prop.order.status === 2
-                ? 'Waiting For Delivery'
+                ? `${appointmentPlace} \n ${appointmentTime}`
                 : 'Completed'}
         </div>
       </div>
