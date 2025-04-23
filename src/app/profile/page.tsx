@@ -9,18 +9,30 @@ import { Seller } from '@/types/user';
 import Sidebar from '@/components/Sidebar';
 import ProfileBadge from '@/components/ProfileBadge';
 import { getSellerProducts } from '@/utils/product';
+import { getReviews } from '@/utils/review';
 
 export default function Profile() {
   const router = useRouter();
   const { user } = useAuth();
   const [sellerBalance, setSellerBalance] = useState<number | null>(null);
   const [productCount, setProductCount] = useState<number>(0);
+  const [score, setScore] = useState<number>(0);
 
   useEffect(() => {
     if (user?.userType === 'seller') {
       const getBalance = async () => {
         const balance = await getSellerBalance();
         setSellerBalance(balance ?? 0);
+      };
+
+      const getReviewScore = async () => {
+        const reviews = await getReviews(user.sellerID, 'seller');
+
+        if (reviews && reviews.length > 0) {
+          const total = reviews.reduce((sum, r) => sum + r.score, 0);
+          const average = total / reviews.length;
+          setScore(average);
+        }
       };
 
       const getProductCount = async () => {
@@ -30,6 +42,7 @@ export default function Profile() {
 
       getBalance();
       getProductCount();
+      getReviewScore();
     }
   }, []);
 
@@ -64,9 +77,7 @@ export default function Profile() {
               </div>
               <div className="bg-black w-full min-w-72 max-w-72 h-full rounded-2xl px-8">
                 <p className="pt-10 font-semibold">Review Score</p>
-                <p className="font-semibold text-2xl">
-                  {Number((user as Seller)?.score).toFixed(2)}
-                </p>
+                <p className="font-semibold text-2xl">{score.toFixed(2)}</p>
               </div>
             </div>
           )}
