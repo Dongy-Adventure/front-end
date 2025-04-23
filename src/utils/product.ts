@@ -38,7 +38,6 @@ export const createProduct = async (
     if (image) {
       formData.append('image', image);
     }
-    console.log([...formData.entries()]);
     const res: AxiosResponse<ProductDTO> = await apiClient.post(
       `/product/`,
       formData,

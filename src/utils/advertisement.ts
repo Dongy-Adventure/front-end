@@ -32,8 +32,6 @@ export const createAdvertisement = async (
     if (imageURL) {
       formData.append('imageURL', imageURL);
     }
-    console.log([...formData.entries()]);
-    console.log('productID: ', userId);
     const res: AxiosResponse<AdvertisementDTO> = await apiClient.post(
       `/advertisement/`,
       formData,
@@ -62,7 +60,6 @@ export const getSellerAdvertisements = async (): Promise<
 > => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
-  console.log(userId);
 
   try {
     const res: AxiosResponse<AdvertisementsDTO> = await apiClient.get(
@@ -109,7 +106,6 @@ export const getRandomAdvertisements = async (): Promise<
 > => {
   const accessToken = await getAccessToken();
   const userId = await getUserId();
-  console.log(userId);
 
   try {
     const res: AxiosResponse<AdvertisementsDTO> = await apiClient.get(

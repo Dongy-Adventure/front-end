@@ -23,8 +23,6 @@ export const createSeller = async (
     formData.append('password', password);
     formData.append('username', username);
 
-    console.log([...formData.entries()]);
-
     const res = await apiClient.post('/seller/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

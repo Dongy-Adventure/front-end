@@ -17,7 +17,6 @@ export default function AppointmentComponent(prop: CardProps) {
         toast?.setToast('error', 'There is an error fetching the appointment!');
       } else {
         setAppointment(res);
-        console.log(res);
       }
     };
     getUserOrders();

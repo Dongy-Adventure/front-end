@@ -52,7 +52,6 @@ export default function SummaryCart() {
       const eventSource = new EventSource(url);
 
       eventSource.onmessage = (event) => {
-        console.log('SSE Message:', event);
         const paymentStatus = event.data;
 
         if (paymentStatus === 'successful') {

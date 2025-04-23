@@ -66,7 +66,6 @@ export default function Profile() {
       toast?.setToast('error', 'Product and image are required');
       return;
     }
-    console.log('id', selectedProduct.productID);
 
     const withdrawRes = await withdrawMoney(data.amount);
     if (!withdrawRes) {
@@ -103,7 +102,6 @@ export default function Profile() {
       const getAdvertisements = async () => {
         const advertisements = await getSellerAdvertisements();
         setAdvertisements(advertisements);
-        console.log(advertisements);
       };
 
       getProducts();

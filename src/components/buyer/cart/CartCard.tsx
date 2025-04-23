@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import tempProductImage from '@/../public/placeholder200.jpeg';
 import { Product } from '@/types/product';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';

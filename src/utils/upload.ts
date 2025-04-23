@@ -10,7 +10,6 @@ export const uploadImage = async (imageFile: File): Promise<string | null> => {
         'Content-Type': 'multipart/form-data',
       },
     });
-    console.log(res);
 
     if (!res.data.success) {
       console.error(res.data.message);

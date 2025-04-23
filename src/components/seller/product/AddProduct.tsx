@@ -32,7 +32,6 @@ export default function AddProduct(props: { closing: () => void }) {
 
     if (file && file.type.startsWith('image/')) {
       setImageFile(file);
-      console.log(file);
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target?.result) {
