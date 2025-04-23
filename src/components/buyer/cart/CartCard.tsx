@@ -48,7 +48,7 @@ function CartCard(props: CartCardProps) {
         <span className="pl-3">{product.productName}</span>
       </td>
 
-      <td className="py-3 items-center">${product.price}</td>
+      <td className="py-3 items-center">฿{product.price}</td>
       <td className="py-3 items-center">
         <div className="flex items-center justify-between w-16 h-6 border rounded-lg bg-gray-100">
           <button

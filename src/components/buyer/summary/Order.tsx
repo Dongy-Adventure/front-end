@@ -202,7 +202,7 @@ function Order({
         <h1 className="font-bold text-lg">Your Order</h1>
         <div className="flex justify-between mt-4">
           <h2 className="font-semibold">Total</h2>
-          <h2 className="font-semibold">${total.toFixed(2)}</h2>
+          <h2 className="font-semibold">฿{total.toFixed(2)}</h2>
         </div>
         <button
           className={`w-full rounded-lg h-10 text-white font-bold mt-4 ${
