@@ -72,6 +72,14 @@ export default function Profile() {
     }
     console.log('id', selectedProduct.productID);
 
+    const withdrawRes = await withdrawMoney(data.amount);
+    if (!withdrawRes) {
+      toast?.setToast('error', 'Error during withdrawal');
+      return;
+    }
+
+    toast?.setToast('success', 'Withdraw Completed!');
+
     const success = await createAdvertisement(
       data.amount,
       imageFile,
