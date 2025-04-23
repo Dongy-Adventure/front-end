@@ -218,6 +218,7 @@ export default function AppointmentPage(prop: CardProps) {
                 <DayPicker
                   classNames={dayPickerClassNames}
                   mode="single"
+                  disabled={{ before: new Date() }}
                   selected={selectedDate}
                   onSelect={setSelectedDate}
                   footer={

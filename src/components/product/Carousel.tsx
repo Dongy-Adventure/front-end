@@ -16,7 +16,7 @@ export default function Carousel() {
   useEffect(() => {
     const fetchAdvertisements = async () => {
       const ads = await getRandomAdvertisements();
-      setAdvertisements(ads || []);
+      setAdvertisements(ads);
     };
 
     fetchAdvertisements();

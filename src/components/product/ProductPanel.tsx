@@ -89,9 +89,6 @@ export default function ProductPanel({
           </p>
           <div className="flex gap-2 align-text-bottom pb-4">
             <p className="text-xl font-medium">฿{product.price}</p>
-            <p className="text-project-green font-light translate-y-0.5">
-              -78%
-            </p>
           </div>
           <p className="leading-tight font-light text-sm pb-8">
             {product.description}
@@ -154,7 +151,7 @@ export default function ProductPanel({
                 productName={product.productName}
                 price={product.price}
                 discountedPrice={product.price * 0.8}
-                image=""
+                image={product.image}
               />
             ))}
         </div>

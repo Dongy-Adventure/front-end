@@ -14,6 +14,7 @@ const tempSeller: Seller = {
   address: '',
   phoneNumber: '',
   score: 10,
+  profilePic: '',
   province: 'y',
   city: '',
   zip: '',

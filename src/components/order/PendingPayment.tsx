@@ -41,7 +41,7 @@ export default function PendingPayment(props: PendingPaymentProps) {
   };
 
   return (
-    <div className="sticky top-0 left-0 -translate-x-20 w-screen h-screen grid place-items-center z-50 bg-black/30 backdrop-blur-sm">
+    <div className="sticky top-0 left-0 -translate-x-20 w-screen h-screen grid place-items-center z-40 bg-black/30 backdrop-blur-sm">
       <main className="max-w-lg h-[450px] overflow-scroll mx-auto p-6 border rounded-lg shadow-md bg-white">
         <div className="p-4 bg-project-lightpink gap-2 rounded-md flex justify-between items-center">
           <h1 className="text-lg font-bold">
