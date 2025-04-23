@@ -20,10 +20,6 @@ import {
   PaymentSchema,
   PaymentFormValues,
 } from '@/lib/validations/seller/withdraw';
-import {
-  AdvertisementSchema,
-  AdvertisementFormValues,
-} from '@/lib/validations/seller/advertisement';
 import { useToast } from '@/context/ToastContext';
 import { Advertisement } from '@/types/advertisement';
 

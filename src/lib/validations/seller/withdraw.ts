@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const thaiPhoneRegex = /^(0[689]{1})\d{8}$/;
+
 export const PaymentSchema = (sellerBalance: number) =>
   z.object({
     paymentMethod: z.string().min(1, 'Please select a payment method'),
@@ -15,8 +17,7 @@ export const PaymentSchema = (sellerBalance: number) =>
         sellerBalance,
         `Amount cannot exceed ${sellerBalance.toFixed(2)} THB`
       ),
-    phoneNumber: z.string(),
-    // .regex(/^\d{10,15}$/, "Phone number must be 10-15 digits"),
+    phoneNumber: z.string().regex(thaiPhoneRegex, 'Invalid phone number'),
   });
 
 export type PaymentFormValues = z.infer<ReturnType<typeof PaymentSchema>>;
