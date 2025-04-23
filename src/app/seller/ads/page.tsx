@@ -261,7 +261,7 @@ export default function Profile() {
                 Please select the preferred payment method to use on this order.
               </p>
               <div className="flex flex-col gap-2">
-                {['Wallet Balance', 'PromptPay'].map((method) => (
+                {['Wallet Balance'].map((method) => (
                   <label
                     key={method}
                     className="flex gap-2"
