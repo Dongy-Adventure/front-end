@@ -33,18 +33,18 @@ const ProductCard = ({
         alt={productName}
         width={200}
         height={200}
-        className="rounded-lg object-cover p-6 w-full"
+        className="w-[200px] h-[200px] object-cover object-center rounded-lg"
       />
       <div className="text-left w-full border-t-[1px] border-gray-200">
         <div className="px-4 py-4 flex flex-col">
           <p className="text-sm text-gray-500 font-light">{category}</p>
           <h2 className="text-md text-black font-semibold">{productName}</h2>
           <div className="flex gap-2 pt-2">
-            <p className="font-bold text-purple-600">
+            {/* <p className="font-bold text-purple-600">
               ฿{discountedPrice.toFixed(2)}
-            </p>
+            </p> */}
             {discountedPrice < price && (
-              <p className="text-gray-400 line-through">${price.toFixed(2)}</p>
+              <p className="text-black">${price.toFixed(2)}</p>
             )}
           </div>
         </div>
