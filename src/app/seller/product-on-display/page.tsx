@@ -106,8 +106,8 @@ export default function ProductOnDisplay() {
                               : wristWatch
                           }
                           alt={product.productName}
-                          width={20}
-                          height={20}
+                          width={120}
+                          height={120}
                           className="w-12 h-12 object-cover rounded-md"
                         />
                         <span>{product.productName}</span>
