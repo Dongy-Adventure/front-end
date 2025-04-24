@@ -333,21 +333,23 @@ export default function Search() {
             <p>No matching results found.</p>
           ) : (
             <ul className="flex gap-y-8 gap-x-6 flex-wrap">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.productID}
-                  pid={product.productID}
-                  category={
-                    product.tag?.length
-                      ? product.tag.join(', ')
-                      : 'Not Categorized'
-                  }
-                  productName={product.productName}
-                  price={product.price}
-                  discountedPrice={product.price * 1.0}
-                  image={product.image}
-                />
-              ))}
+              {filteredProducts
+                .filter((p) => p.amount > 0)
+                .map((product) => (
+                  <ProductCard
+                    key={product.productID}
+                    pid={product.productID}
+                    category={
+                      product.tag?.length
+                        ? product.tag.join(', ')
+                        : 'Not Categorized'
+                    }
+                    productName={product.productName}
+                    price={product.price}
+                    discountedPrice={product.price * 1.0}
+                    image={product.image}
+                  />
+                ))}
             </ul>
           )}
         </div>
