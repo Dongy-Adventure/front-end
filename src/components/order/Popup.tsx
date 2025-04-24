@@ -111,27 +111,33 @@ export default function Popup(prop: CardProps) {
             <div className="ml-auto mr-4">Quantity</div>
           </div>
           <div className="flex flex-col w-full overflow-y-scroll h-[350px] gap-3">
-            {products.map((product: Product) => (
-              <div
-                className="flex relative items-center min-h-[85px] w-full gap-3 shadow-md border rounded-xl"
-                key={product.productID}
-              >
-                <Image
-                  src={product.image}
-                  width={50}
-                  height={50}
-                  sizes="m"
-                  alt="Dummy"
-                  className="absolute w-12 h-12"
-                />
-                <div className="text-[14px] absolute mt-auto mr-auto left-[80px] font-normal">
-                  {product.productName}
+            {products.map((product: Product) => {
+              const tmp = prop.products.find(
+                (po) => po.productID === product.productID
+              );
+
+              return (
+                <div
+                  className="flex relative items-center min-h-[85px] w-full gap-3 shadow-md border rounded-xl"
+                  key={product.productID}
+                >
+                  <Image
+                    src={product.image}
+                    width={50}
+                    height={50}
+                    sizes="m"
+                    alt="Dummy"
+                    className="absolute w-12 h-12"
+                  />
+                  <div className="text-[14px] absolute mt-auto mr-auto left-[80px] font-normal">
+                    {product.productName}
+                  </div>
+                  <div className="ml-auto mr-12 text-[14px]">
+                    {tmp?.amount ?? 1}
+                  </div>
                 </div>
-                <div className="ml-auto mr-12 text-[14px]">
-                  {product.amount}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
