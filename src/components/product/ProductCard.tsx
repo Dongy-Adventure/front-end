@@ -40,9 +40,9 @@ const ProductCard = ({
           <p className="text-sm text-gray-500 font-light">{category}</p>
           <h2 className="text-md text-black font-semibold">{productName}</h2>
           <div className="flex gap-2 pt-2">
-            {/* <p className="font-bold text-purple-600">
+            <p className="font-bold text-purple-600">
               ฿{discountedPrice.toFixed(2)}
-            </p> */}
+            </p>
             {discountedPrice < price && (
               <p className="text-black">฿{price.toFixed(2)}</p>
             )}
