@@ -31,6 +31,8 @@ export default function Card(props: CardProps) {
       }
       setProds(prodArr);
     };
+
+    fetchAllProds();
   }, []);
 
   return (
