@@ -97,38 +97,43 @@ export default function ProductPanel({
             seller={seller}
             reviews={reviews}
           />
-          <div className="flex pt-12 pb-12 gap-4">
-            <div className="flex items-center justify-between w-28 h-10 border rounded-lg bg-gray-100">
+          {product.amount === 0 ? (
+            <p className="text-red-500 pt-12">Out of stock.</p>
+          ) : (
+            <div className="flex pt-12 pb-12 gap-4">
+              <div className="flex items-center justify-between w-28 h-10 border rounded-lg bg-gray-100">
+                <button
+                  data-testid="decrease-button"
+                  className="w-1/3 h-full flex items-center justify-center text-xl text-gray-700 hover:bg-gray-200"
+                  onClick={() => setCount((prev) => Math.max(1, prev - 1))}
+                >
+                  -
+                </button>
+                <span
+                  data-testid="count-value"
+                  className="w-1/3 text-center text-lg"
+                >
+                  {count}
+                </span>
+                <button
+                  data-testid="increase-button"
+                  className="w-1/3 h-full flex items-center justify-center text-xl text-gray-700 hover:bg-gray-200"
+                  onClick={() =>
+                    setCount((prev) => Math.min(prev + 1, product.amount))
+                  }
+                >
+                  +
+                </button>
+              </div>
+
               <button
-                data-testid="decrease-button"
-                className="w-1/3 h-full flex items-center justify-center text-xl text-gray-700 hover:bg-gray-200"
-                onClick={() => setCount((prev) => Math.max(1, prev - 1))}
+                onClick={handleAddToCart}
+                className="w-36 h-10 bg-project-primary rounded-lg font-semibold text-white"
               >
-                -
-              </button>
-              <span
-                data-testid="count-value"
-                className="w-1/3 text-center text-lg"
-              >
-                {count}
-              </span>
-              <button
-                data-testid="increase-button"
-                className="w-1/3 h-full flex items-center justify-center text-xl text-gray-700 hover:bg-gray-200"
-                onClick={() =>
-                  setCount((prev) => Math.min(prev + 1, product.amount))
-                }
-              >
-                +
+                ADD TO CART
               </button>
             </div>
-            <button
-              onClick={handleAddToCart}
-              className="w-36 h-10 bg-project-primary rounded-lg font-semibold text-white"
-            >
-              ADD TO CART
-            </button>
-          </div>
+          )}
         </div>
       </div>
       <div className="flex font-semibold text-xl gap-2 pt-16 justify-center w-full">
