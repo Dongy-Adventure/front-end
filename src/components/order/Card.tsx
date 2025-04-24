@@ -2,8 +2,10 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import WristWatch from '@/../public/wrist-watch.png';
 import Popup from './Popup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Order, OrderCart } from '@/types/order';
+import { getProductById } from '@/utils/product';
+import { Product } from '@/types/product';
 
 export interface CardProps {
   order: Order;
@@ -15,6 +17,21 @@ export interface CardProps {
 export default function Card(props: CardProps) {
   const { order, price, products } = props;
   const [hidden, setHidden] = useState(false);
+  const [prods, setProds] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchAllProds = async () => {
+      let prodArr: Product[] = [];
+
+      for (let p of products) {
+        const prod = await getProductById(p.productID);
+        if (prod) {
+          prodArr.push(prod);
+        }
+      }
+      setProds(prodArr);
+    };
+  }, []);
 
   return (
     <div
@@ -54,10 +71,14 @@ export default function Card(props: CardProps) {
         <div className="flex justify-between font-bold text-md pt-1">
           <div className="grid grid-cols-3">
             {products.map((p: OrderCart) => {
+              const pp = prods.find((pd) => pd.productID === p.productID);
               return (
                 <Image
                   key={p.productID}
-                  src={WristWatch}
+                  src={pp?.image ?? WristWatch}
+                  width={50}
+                  height={50}
+                  sizes="m"
                   alt={order.orderID}
                   className="w-12 h-12 object-cover rounded-md"
                 />

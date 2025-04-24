@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import WristWatch from '@/../public/wrist-watch.png';
 import { Product } from '@/types/product';
 import { changeOrderStatus } from '@/utils/order';
 import { useToast } from '@/context/ToastContext';
@@ -89,7 +88,10 @@ export default function PendingPayment(props: PendingPaymentProps) {
             >
               <div className="flex items-center">
                 <Image
-                  src={WristWatch}
+                  src={product.image}
+                  width={50}
+                  height={50}
+                  sizes="m"
                   alt={product.productName}
                   className="w-12 h-12 mr-2"
                 />

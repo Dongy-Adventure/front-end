@@ -109,14 +109,10 @@ export default function SummaryCart() {
         return;
       }
       const paymentResponse = await handlePayment(cardData);
-      if (!paymentResponse) return;
-
-      // const chargeID = paymentResponse.data.data.id;
-      // const isPaymentSuccessful = await waitForPaymentStatus(chargeID);
-      // if (!isPaymentSuccessful) {
-      //   toast?.setToast('error', 'Payment failed or timeout.');
-      //   return;
-      // }
+      if (!paymentResponse) {
+        toast?.setToast('error', 'Payment error!');
+        return;
+      }
     }
     const ordersBySeller = products.reduce(
       (acc, product) => {

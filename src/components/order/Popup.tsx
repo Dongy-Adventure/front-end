@@ -117,7 +117,10 @@ export default function Popup(prop: CardProps) {
                 key={product.productID}
               >
                 <Image
-                  src={WristWatch}
+                  src={product.image}
+                  width={50}
+                  height={50}
+                  sizes="m"
                   alt="Dummy"
                   className="absolute w-12 h-12"
                 />

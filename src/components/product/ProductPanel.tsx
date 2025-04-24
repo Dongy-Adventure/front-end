@@ -81,6 +81,7 @@ export default function ProductPanel({
             className="w-full h-auto rounded-md"
             width={50}
             height={50}
+            sizes="lg"
           />
         </div>
         <div className="flex flex-col lg:w-2/5 lg:max-w-2/5">

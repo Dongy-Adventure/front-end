@@ -14,7 +14,10 @@ export default function ProductSellerCard({
   return (
     <div className="flex gap-4">
       <Image
-        src={placeholder}
+        src={seller.profilePic}
+        width={40}
+        height={40}
+        sizes="m"
         alt="profile image"
         className="w-12 h-12 rounded-full"
       />
