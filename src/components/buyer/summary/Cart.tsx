@@ -25,7 +25,10 @@ function Card(props: CardProps) {
     >
       <td className="py-3 flex flex-col justify-center">
         <Image
-          src={tempProductImage}
+          src={product.image}
+          width={40}
+          height={40}
+          sizes="m"
           alt={product.productName}
           className="object-cover rounded-md aspect-square max-h-16 max-w-16"
         />
