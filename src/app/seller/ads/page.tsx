@@ -19,6 +19,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   PaymentSchema,
   PaymentFormValues,
+  CreateAdsFormValues,
+  CreateAdsSchema,
 } from '@/lib/validations/seller/withdraw';
 import { useToast } from '@/context/ToastContext';
 import { Advertisement } from '@/types/advertisement';
@@ -61,7 +63,7 @@ export default function Profile() {
     setIsOpen(false);
   };
 
-  const onSubmit = async (data: PaymentFormValues) => {
+  const onSubmit = async (data: CreateAdsFormValues) => {
     if (!selectedProduct || !imageFile) {
       toast?.setToast('error', 'Product and image are required');
       return;
@@ -116,15 +118,10 @@ export default function Profile() {
     setValue,
     watch,
     formState: { errors },
-  } = useForm<PaymentFormValues>({
-    resolver: zodResolver(PaymentSchema(sellerBalance ?? 0)),
-    defaultValues: {
-      phoneNumber: user?.phoneNumber,
-    },
+  } = useForm<CreateAdsFormValues>({
+    resolver: zodResolver(CreateAdsSchema(sellerBalance ?? 0)),
+    defaultValues: {},
   });
-
-  const selectedPayment = watch('paymentMethod');
-
   return (
     <div className="p-12 md:px-20 md:pt-16 flex flex-col">
       <div className="flex gap-2 pb-12">
