@@ -109,10 +109,10 @@ export default function SummaryCart() {
         return;
       }
       const paymentResponse = await handlePayment(cardData);
-      if (!paymentResponse) {
-        toast?.setToast('error', 'Payment error!');
-        return;
-      }
+      // if (!paymentResponse) {
+      //   toast?.setToast('error', 'Payment error!');
+      //   return;
+      // }
     }
     const ordersBySeller = products.reduce(
       (acc, product) => {
